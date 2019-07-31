@@ -1,0 +1,12 @@
+C:\GitHub\MetalArchivesLibrary\MetalArchivesLibrary\bin\Debug\MetalArchivesLibrary.exe.config
+C:\GitHub\MetalArchivesLibrary\MetalArchivesLibrary\bin\Debug\MetalArchivesLibrary.exe
+C:\GitHub\MetalArchivesLibrary\MetalArchivesLibrary\bin\Debug\MetalArchivesLibrary.pdb
+C:\GitHub\MetalArchivesLibrary\MetalArchivesLibrary\obj\Debug\MetalArchivesLibrary.exe
+C:\GitHub\MetalArchivesLibrary\MetalArchivesLibrary\obj\Debug\MetalArchivesLibrary.pdb
+C:\GitHub\MetalArchivesLibrary\MetalArchivesLibrary\obj\Debug\MetalArchivesLibrary.csprojResolveAssemblyReference.cache
+D:\Programming\MetalArchivesLibrary\MetalArchivesLibrary\obj\Debug\MetalArchivesLibrary.csproj.CoreCompileInputs.cache
+D:\Programming\MetalArchivesLibrary\MetalArchivesLibrary\bin\Debug\MetalArchivesLibrary.exe.config
+D:\Programming\MetalArchivesLibrary\MetalArchivesLibrary\bin\Debug\MetalArchivesLibrary.exe
+D:\Programming\MetalArchivesLibrary\MetalArchivesLibrary\bin\Debug\MetalArchivesLibrary.pdb
+D:\Programming\MetalArchivesLibrary\MetalArchivesLibrary\obj\Debug\MetalArchivesLibrary.exe
+D:\Programming\MetalArchivesLibrary\MetalArchivesLibrary\obj\Debug\MetalArchivesLibrary.pdb
