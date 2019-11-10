@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="ArtistReleaseData.cs" />
     <Compile Include="MetalArchivesHttpClient.cs" />
+    <Compile Include="MetalArchivesHttpResponse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
