@@ -56,7 +56,7 @@ namespace MetalArchivesLibrary
 
                 var alreadyInCollection = FindKnownArtistReleaseData();
 
-                var artistsInCollection = alreadyInCollection.Select(x => x.ArtistName).Distinct();
+                var artistsInCollection = alreadyInCollection.OrderBy(x => x.ArtistName).Select(x => x.ArtistName).Distinct();
 
                 foreach (string artistName in artistsInCollection)
                 {
@@ -70,10 +70,14 @@ namespace MetalArchivesLibrary
 
                     MissingAlbums.AddRange(GetMissingAlbums(alreadyInCollection, allAlbumsReleasedByArtist, artistName));
                 }
+
+                string saveLocation = Path.Combine(_libraryLocation.FullName, "MissingAlbums.txt");
+
+                File.WriteAllLines(saveLocation, MissingAlbums.Select(ard => ard.ArtistName + " - " + ard.ReleaseName).ToArray());
             }
             catch (Exception exc)
             {
-
+                Console.WriteLine("Exception: " + exc.Message);
             }
         }
 

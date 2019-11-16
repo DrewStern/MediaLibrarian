@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
+using System.Web;
 using System.Web.Script.Serialization;
 
 namespace MetalArchivesLibrary
@@ -13,21 +14,22 @@ namespace MetalArchivesLibrary
     {
         #region Fields
 
+        private static int _retryLimit = 5;
+        private static int _retryCount = 0;
+
         /// <summary>
         /// Represents the most generic possible query to the Metal Archives database. 
         /// Currently we are only interested in querying based on artists, but the other parameters can be specified at a later time.
         /// </summary>
         /*
         private static string _albumQuery =
-            "https://www.metal-archives.com/search/ajax-advanced/searching/albums?" +
-            "artistName={0}&releaseTitle=&releaseYearFrom=&releaseMonthFrom=&releaseYearTo=&releaseMonthTo=&country=&location=&" +
-            "releaseLabelName=&releaseCatalogNumber=&releaseIdentifiers=&releaseRecordingInfo=&releaseDescription=&releaseNotes=&genre=#albums";
-        */
-
-        private static string _albumQuery =
             "https://www.metal-archives.com/search/advanced/searching/albums?" +
             "bandName={0}&releaseTitle=&releaseYearFrom=&releaseMonthFrom=&releaseYearTo=&releaseMonthTo=&country=&location=&" +
             "releaseLabelName=&releaseCatalogNumber=&releaseIdentifiers=&releaseRecordingInfo=&releaseDescription=&releaseNotes=&genre=#albums";
+            */
+
+        private static string _albumQuery =
+            "https://www.metal-archives.com/search/ajax-advanced/searching/albums?bandName={0}";
 
         private static HttpClient _client;
 
@@ -65,6 +67,8 @@ namespace MetalArchivesLibrary
                 throw new ArgumentException($"{nameof(bandName)} may not be null or empty");
             }
 
+            _retryCount = 0;
+
             // we use these to determine the begin/end of the html wrapping the album name
             const string endOfOpenHtmlTag = "\">";
             const string startOfCloseHtmlTag = "</a>";
@@ -74,6 +78,7 @@ namespace MetalArchivesLibrary
 
             var albums = new List<string>();
 
+            Console.WriteLine("Querying for: " + cleanedBandName);
             var maHttpResponse = GetResponseAsync(new Uri(string.Format(_albumQuery, cleanedBandName)));
 
             if (maHttpResponse == null)
@@ -125,8 +130,10 @@ namespace MetalArchivesLibrary
             catch (Exception e)
             {
                 // sleep for a bit so that Metal Archives doesn't get mad that we're sending too many requests, then just retry
-                Thread.Sleep(1000);
-                return GetResponseAsync(request);
+                Console.WriteLine("Exception: " + e.Message + (e.InnerException != null ? e.InnerException.Message : String.Empty));
+                Thread.Sleep(5000);
+                _retryCount++;
+                return (_retryCount < _retryLimit ? GetResponseAsync(request) : null);
             }
         }
 
