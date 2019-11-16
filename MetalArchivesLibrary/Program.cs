@@ -77,7 +77,7 @@ namespace MetalArchivesLibrary
             }
             catch (Exception exc)
             {
-                Console.WriteLine("Exception: " + exc.Message);
+                Console.WriteLine($"Exception: {exc.Message}");
             }
         }
 

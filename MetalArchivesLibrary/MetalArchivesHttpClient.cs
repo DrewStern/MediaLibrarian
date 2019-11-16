@@ -23,7 +23,7 @@ namespace MetalArchivesLibrary
         /// </summary>
         /*
         private static string _albumQuery =
-            "https://www.metal-archives.com/search/advanced/searching/albums?" +
+            "https://www.metal-archives.com/search/ajax-advanced/searching/albums?" +
             "bandName={0}&releaseTitle=&releaseYearFrom=&releaseMonthFrom=&releaseYearTo=&releaseMonthTo=&country=&location=&" +
             "releaseLabelName=&releaseCatalogNumber=&releaseIdentifiers=&releaseRecordingInfo=&releaseDescription=&releaseNotes=&genre=#albums";
             */
@@ -69,16 +69,11 @@ namespace MetalArchivesLibrary
 
             _retryCount = 0;
 
-            // we use these to determine the begin/end of the html wrapping the album name
-            const string endOfOpenHtmlTag = "\">";
-            const string startOfCloseHtmlTag = "</a>";
-
             // facilitates bands which have spaces in their name
             string cleanedBandName = "\"" + bandName + "\"";
 
             var albums = new List<string>();
 
-            Console.WriteLine("Querying for: " + cleanedBandName);
             var maHttpResponse = GetResponseAsync(new Uri(string.Format(_albumQuery, cleanedBandName)));
 
             if (maHttpResponse == null)
@@ -92,14 +87,7 @@ namespace MetalArchivesLibrary
             // [2] == Full-length
             foreach (string[] entry in maHttpResponse.aaData)
             {
-                ArtistReleaseData data = new ArtistReleaseData(entry[0], entry[1], entry[2]);
-
-                // gather these indices so we can use substring below
-                int endOfOpenHtmlIndex = data.ReleaseName.IndexOf(endOfOpenHtmlTag);
-                int startOfCloseHtmlIndex = data.ReleaseName.IndexOf(startOfCloseHtmlTag);
-
-                // take the substring in between the html wrapping
-                string albumName = data.ReleaseName.Substring(endOfOpenHtmlIndex + endOfOpenHtmlTag.Length, startOfCloseHtmlIndex - endOfOpenHtmlIndex - endOfOpenHtmlTag.Length);
+                ArtistReleaseData data = new ArtistReleaseData(entry[0], CleanseHtmlFromAlbumName(entry[1]), entry[2]);
 
                 // only care about full-lengths for now
                 if (!data.ReleaseType.Equals("FULL-LENGTH", StringComparison.InvariantCultureIgnoreCase))
@@ -107,7 +95,7 @@ namespace MetalArchivesLibrary
                     continue;
                 }
 
-                albums.Add(albumName);
+                albums.Add(data.ReleaseName);
             }
 
             // returns the albums in alphabetical order
@@ -124,17 +112,29 @@ namespace MetalArchivesLibrary
             try
             {
                 var response = Client.GetStringAsync(request);
-
                 return new JavaScriptSerializer().Deserialize<MetalArchivesHttpResponse>(response.Result);
             }
             catch (Exception e)
             {
                 // sleep for a bit so that Metal Archives doesn't get mad that we're sending too many requests, then just retry
-                Console.WriteLine("Exception: " + e.Message + (e.InnerException != null ? e.InnerException.Message : String.Empty));
+                Console.WriteLine($"Exception: {e.Message + (e.InnerException != null ? e.InnerException.Message : String.Empty)}");
                 Thread.Sleep(5000);
-                _retryCount++;
-                return (_retryCount < _retryLimit ? GetResponseAsync(request) : null);
+                return (_retryCount++ < _retryLimit ? GetResponseAsync(request) : null);
             }
+        }
+
+        private static string CleanseHtmlFromAlbumName(string dirtyResponseContainingHtml)
+        {
+            // we use these to determine the begin/end of the html wrapping the album name
+            const string endOfOpenHtmlTag = "\">";
+            const string startOfCloseHtmlTag = "</a>";
+
+            // gather these indices so we can use substring below
+            int endOfOpenHtmlIndex = dirtyResponseContainingHtml.IndexOf(endOfOpenHtmlTag);
+            int startOfCloseHtmlIndex = dirtyResponseContainingHtml.IndexOf(startOfCloseHtmlTag);
+
+            // take the substring in between the html wrapping
+            return dirtyResponseContainingHtml.Substring(endOfOpenHtmlIndex + endOfOpenHtmlTag.Length, startOfCloseHtmlIndex - endOfOpenHtmlIndex - endOfOpenHtmlTag.Length);
         }
 
         #endregion
