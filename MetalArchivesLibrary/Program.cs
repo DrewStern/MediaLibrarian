@@ -12,8 +12,15 @@ namespace MetalArchivesLibrary
     class Program
     {
         private static DirectoryInfo _libraryLocation;
+        private static List<ArtistReleaseData> _entireCollection;
         private static List<ArtistReleaseData> _missingAlbums;
         private static List<string> _unrecognizedArtists;
+
+        private static List<ArtistReleaseData> EntireCollection
+        {
+            get { return _entireCollection ?? (_entireCollection = new List<ArtistReleaseData>()); }
+            set { _entireCollection = value; }
+        }
 
         private static List<ArtistReleaseData> MissingAlbums
         {
@@ -28,9 +35,9 @@ namespace MetalArchivesLibrary
         }
 
         /// <summary>
-        /// Accepts a single parameter of the form "in=C:\YourMusicCollectionHere", and produces two text files:
-        ///     1) Missing.txt which contains any releases missing from your collection.
-        ///     2) Unrecognized.txt which contains artists/releases not found in the database.
+        /// Accepts a single parameter of the form "in=C:\YourMusicCollectionHere", and writes two text files to that directory:
+        ///     1) MissingAlbums.txt which contains any releases missing from your collection.
+        ///     2) UnrecognizedArtists.txt which contains artists not found in the database.
         /// The music collection is expected to be organized in the form of "C:\YourMusicCollectionHere\ArtistName\AlbumName"
         /// </summary>
         /// <param name="args"></param>
@@ -38,25 +45,11 @@ namespace MetalArchivesLibrary
         {
             try
             {
-                foreach (string arg in args)
-                {
-                    var argKey = arg.Split('=')[0];
-                    var argValue = arg.Split('=')[1];
+                ParseArgs(args);
 
-                    switch (argKey.ToUpperInvariant())
-                    {
-                        case "IN":
-                        case "/IN":
-                            _libraryLocation = new DirectoryInfo(argValue);
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                EntireCollection = FindKnownArtistReleaseData();
 
-                var alreadyInCollection = FindKnownArtistReleaseData();
-
-                var artistsInCollection = alreadyInCollection.OrderBy(x => x.ArtistName).Select(x => x.ArtistName).Distinct();
+                var artistsInCollection = EntireCollection.OrderBy(x => x.ArtistName).Select(x => x.ArtistName).Distinct();
 
                 foreach (string artistName in artistsInCollection)
                 {
@@ -68,16 +61,35 @@ namespace MetalArchivesLibrary
                         continue;
                     }
 
-                    MissingAlbums.AddRange(GetMissingAlbums(alreadyInCollection, allAlbumsReleasedByArtist, artistName));
+                    MissingAlbums.AddRange(GetMissingAlbums(artistName, allAlbumsReleasedByArtist));
                 }
-
-                string saveLocation = Path.Combine(_libraryLocation.FullName, "MissingAlbums.txt");
-
-                File.WriteAllLines(saveLocation, MissingAlbums.Select(ard => ard.ArtistName + " - " + ard.ReleaseName).ToArray());
             }
             catch (Exception exc)
             {
                 Console.WriteLine($"Exception: {exc.Message}");
+            }
+            finally
+            {
+                WriteResults();
+            }
+        }
+
+        private static void ParseArgs(string[] args)
+        {
+            foreach (string arg in args)
+            {
+                var argKey = arg.Split('=')[0];
+                var argValue = arg.Split('=')[1];
+
+                switch (argKey.ToUpperInvariant())
+                {
+                    case "IN":
+                    case "/IN":
+                        _libraryLocation = new DirectoryInfo(argValue);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -85,13 +97,13 @@ namespace MetalArchivesLibrary
         /// 
         /// </summary>
         /// <returns></returns>
-        private static List<ArtistReleaseData> GetMissingAlbums(List<ArtistReleaseData> inCollection, List<string> allExisting, string artistName)
+        private static List<ArtistReleaseData> GetMissingAlbums(string artistName, List<string> allAlbumsByArtist)
         {
             var missingAlbums = new List<ArtistReleaseData>();
 
-            foreach (string album in allExisting)
+            foreach (string album in allAlbumsByArtist)
             {
-                if (!inCollection.Any(x => x.ArtistName.Equals(artistName) && x.ReleaseName.Equals(album)))
+                if (!EntireCollection.Any(x => x.ArtistName.Equals(artistName) && x.ReleaseName.Equals(album, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     missingAlbums.Add(new ArtistReleaseData(artistName, album));
                 }
@@ -117,6 +129,15 @@ namespace MetalArchivesLibrary
             }
 
             return knownReleases;
+        }
+
+        private static void WriteResults()
+        {
+            string missingAlbumsSaveLocation = Path.Combine(_libraryLocation.FullName, "MissingAlbums.txt");
+            File.WriteAllLines(missingAlbumsSaveLocation, MissingAlbums.Select(ard => ard.ArtistName + " - " + ard.ReleaseName).ToArray());
+
+            string unrecognizedArtistsSaveLocation = Path.Combine(_libraryLocation.FullName, "UnrecognizedArtists.txt");
+            File.WriteAllLines(unrecognizedArtistsSaveLocation, UnrecognizedArtists.ToArray());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MetalArchivesLibrary
+﻿using System;
+
+namespace MetalArchivesLibrary
 {
     /// <summary>
     /// Represents a release from an artist.
@@ -11,22 +13,31 @@
 
         public string ReleaseType { get; }
 
-        public ArtistReleaseData(string artistName, string releaseName)
-            : this(artistName, releaseName, "Full-Length")
-        {
+        public string Country { get; }
 
+        public ArtistReleaseData(string artistName, string releaseName)
+            : this(artistName, releaseName, String.Empty)
+        {
+            // intentionally empty
         }
 
-        public ArtistReleaseData(string artistName, string releaseName, string releaseType)
+        public ArtistReleaseData(string artistName, string releaseName, string country)
+            : this(artistName, releaseName, "Full-Length", country)
+        {
+            // intentionally empty
+        }
+
+        public ArtistReleaseData(string artistName, string releaseName, string releaseType, string country)
         {
             ArtistName = artistName;
             ReleaseName = releaseName;
             ReleaseType = releaseType;
+            Country = country;
         }
 
         public override string ToString()
         {
-            return $"{ArtistName} - {ReleaseName}";
+            return $"{ArtistName} ({Country}) - {ReleaseName}";
         }
     }
 }
