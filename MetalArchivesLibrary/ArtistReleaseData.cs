@@ -37,7 +37,7 @@ namespace MetalArchivesLibrary
 
         public override string ToString()
         {
-            return $"{ArtistName} ({Country}) - {ReleaseName}";
+            return $"{ArtistName} - {ReleaseName}";
         }
     }
 }

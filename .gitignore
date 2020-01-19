@@ -4,3 +4,11 @@
 */bin/*
 */obj/*
 .vs/
+*TemporaryGeneratedFile*
+*.cache
+*.ide-wal
+*.ide-shm
+*.ide
+*.lock
+*.suo
+*.user

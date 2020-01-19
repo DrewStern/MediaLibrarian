@@ -37,7 +37,7 @@ namespace MetalArchivesLibrary
 
         #region Methods
 
-        public static List<string> FindAlbums(string bandName)
+        public static List<ArtistReleaseData> FindReleases(string bandName)
         {
             _retryCount = 0;
 
@@ -49,14 +49,14 @@ namespace MetalArchivesLibrary
             // facilitates bands which have spaces in their name
             string cleanedBandName = "\"" + bandName + "\"";
 
-            var albums = new List<string>();
-
             var maHttpResponse = GetResponseAsync(new Uri(string.Format(_albumQuery, cleanedBandName)));
 
-            if (maHttpResponse == null)
-            {
-                return albums;
-            }
+            return maHttpResponse == null ? new List<ArtistReleaseData>() : Listify(maHttpResponse);
+        }
+
+        private static List<ArtistReleaseData> Listify(MetalArchivesHttpResponse maHttpResponse)
+        {
+            var albums = new List<ArtistReleaseData>();
 
             // Each entry has three components - the first represents the band name, the second the album name, and third the release type. Example:
             // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
@@ -77,10 +77,9 @@ namespace MetalArchivesLibrary
                     continue;
                 }
 
-                albums.Add(data.ReleaseName);
+                albums.Add(data);
             }
 
-            // returns the albums in alphabetical order
             return albums;
         }
 
@@ -94,7 +93,7 @@ namespace MetalArchivesLibrary
             catch (Exception e)
             {
                 // sleep for a bit so that Metal Archives doesn't get mad that we're sending too many requests, then just retry
-                Console.WriteLine($"Exception: {e.Message + (e.InnerException != null ? e.InnerException.Message : String.Empty)}");
+                Console.WriteLine($"Exception: {e.Message + (e.InnerException != null ? " " + e.InnerException.Message : String.Empty)}");
                 Thread.Sleep(5000);
                 return (_retryCount++ < _retryLimit ? GetResponseAsync(request) : null);
             }
@@ -102,7 +101,7 @@ namespace MetalArchivesLibrary
 
         /// <remarks>
         /// There might be two bands with the same name, but from different countries. 
-        /// This is used to differentiate in those cases
+        /// This is used to differentiate in those cases.
         /// </remarks>
         private static string ExtractArtistName(string dirtiedArtistName)
         {

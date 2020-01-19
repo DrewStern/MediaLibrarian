@@ -11,16 +11,13 @@ namespace MetalArchivesLibrary
     /// </summary>
     class Program
     {
-        private static DirectoryInfo _libraryLocation;
-        private static List<ArtistReleaseData> _entireCollection;
         private static List<ArtistReleaseData> _missingAlbums;
         private static List<string> _unrecognizedArtists;
 
-        private static List<ArtistReleaseData> EntireCollection
-        {
-            get { return _entireCollection ?? (_entireCollection = new List<ArtistReleaseData>()); }
-            set { _entireCollection = value; }
-        }
+        private static DirectoryInfo LibraryLocation { get; set; }
+        private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
+
+        private static LibraryData LibraryData { get; }
 
         private static List<ArtistReleaseData> MissingAlbums
         {
@@ -35,10 +32,10 @@ namespace MetalArchivesLibrary
         }
 
         /// <summary>
-        /// Accepts a single parameter of the form "in=C:\YourMusicCollectionHere", and writes two text files to that directory:
+        /// Accepts a single parameter of the form "in={PathToYourMusicCollection}", and writes two text files to that directory:
         ///     1) MissingAlbums.txt which contains any releases missing from your collection.
         ///     2) UnrecognizedArtists.txt which contains artists not found in the database.
-        /// The music collection is expected to be organized in the form of "C:\YourMusicCollectionHere\ArtistName\AlbumName"
+        /// The music collection is expected to be organized in the form of "{PathToYourMusicCollection}\ArtistName\AlbumName"
         /// </summary>
         /// <param name="args"></param>
         static void Main(string[] args)
@@ -47,21 +44,21 @@ namespace MetalArchivesLibrary
             {
                 ParseArgs(args);
 
-                EntireCollection = FindKnownArtistReleaseData();
+                LibraryData libraryData = new LibraryData(LibraryLocation);
 
-                var artistsInCollection = EntireCollection.OrderBy(x => x.ArtistName).Select(x => x.ArtistName).Distinct();
-
-                foreach (string artistName in artistsInCollection)
+                foreach (string artistName in libraryData.Artists)
                 {
-                    var allAlbumsReleasedByArtist = MetalArchivesHttpClient.FindAlbums(artistName);
+                    var allAlbumsByArtist = MetalArchivesHttpClient.FindReleases(artistName);
 
-                    if (!allAlbumsReleasedByArtist.Any())
+                    if (!allAlbumsByArtist.Any())
                     {
                         UnrecognizedArtists.Add(artistName);
                         continue;
                     }
 
-                    MissingAlbums.AddRange(GetMissingAlbums(artistName, allAlbumsReleasedByArtist));
+                    var missingAlbums = GetMissingAlbums(libraryData.EntireCollection.FindAll(x => x.ArtistName.Equals(artistName)), allAlbumsByArtist);
+
+                    MissingAlbums.AddRange(missingAlbums);
                 }
             }
             catch (Exception exc)
@@ -85,7 +82,11 @@ namespace MetalArchivesLibrary
                 {
                     case "IN":
                     case "/IN":
-                        _libraryLocation = new DirectoryInfo(argValue);
+                        LibraryLocation = new DirectoryInfo(argValue);
+                        break;
+                    case "OUT":
+                    case "/OUT":
+                        LibraryDiffOutputLocation = new DirectoryInfo(argValue);
                         break;
                     default:
                         break;
@@ -93,19 +94,22 @@ namespace MetalArchivesLibrary
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private static List<ArtistReleaseData> GetMissingAlbums(string artistName, List<string> allAlbumsByArtist)
+        private static List<ArtistReleaseData> GetMissingAlbums(List<ArtistReleaseData> albumsInCollection, List<ArtistReleaseData> allAlbumsByArtist)
         {
             var missingAlbums = new List<ArtistReleaseData>();
 
-            foreach (string album in allAlbumsByArtist)
+            string knownAlbumName = albumsInCollection.First().ReleaseName;
+
+            string country = allAlbumsByArtist.First(x => x.ReleaseName.Equals(knownAlbumName)).Country;
+
+            foreach (ArtistReleaseData ard in allAlbumsByArtist)
             {
-                if (!EntireCollection.Any(x => x.ArtistName.Equals(artistName) && x.ReleaseName.Equals(album, StringComparison.InvariantCultureIgnoreCase)))
+                if (!albumsInCollection.Any(x => 
+                    x.ArtistName.Equals(ard.ArtistName, StringComparison.InvariantCultureIgnoreCase) && 
+                    x.ReleaseName.Equals(ard.ReleaseName, StringComparison.InvariantCultureIgnoreCase)) &&
+                    country.Equals(ard.Country, StringComparison.InvariantCultureIgnoreCase))
                 {
-                    missingAlbums.Add(new ArtistReleaseData(artistName, album));
+                    missingAlbums.Add(ard);
                 }
             }
 
@@ -120,7 +124,7 @@ namespace MetalArchivesLibrary
         {
             var knownReleases = new List<ArtistReleaseData>();
 
-            foreach (DirectoryInfo artistLayer in _libraryLocation.GetDirectories())
+            foreach (DirectoryInfo artistLayer in LibraryLocation.GetDirectories())
             {
                 foreach (DirectoryInfo albumLayer in artistLayer.GetDirectories())
                 {
@@ -133,10 +137,10 @@ namespace MetalArchivesLibrary
 
         private static void WriteResults()
         {
-            string missingAlbumsSaveLocation = Path.Combine(_libraryLocation.FullName, "MissingAlbums.txt");
-            File.WriteAllLines(missingAlbumsSaveLocation, MissingAlbums.Select(ard => ard.ArtistName + " - " + ard.ReleaseName).ToArray());
+            string missingAlbumsSaveLocation = Path.Combine(LibraryLocation.FullName, "MissingAlbums.txt");
+            File.WriteAllLines(missingAlbumsSaveLocation, MissingAlbums.Select(x => x.ToString()).ToArray());
 
-            string unrecognizedArtistsSaveLocation = Path.Combine(_libraryLocation.FullName, "UnrecognizedArtists.txt");
+            string unrecognizedArtistsSaveLocation = Path.Combine(LibraryLocation.FullName, "UnrecognizedArtists.txt");
             File.WriteAllLines(unrecognizedArtistsSaveLocation, UnrecognizedArtists.ToArray());
         }
     }
