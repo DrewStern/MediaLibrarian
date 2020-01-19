@@ -3,23 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace MetalArchivesLibrary
+namespace MetalArchivesLibraryDiffTool
 {
     public class LibraryData
     {
-        private List<ArtistReleaseData> _entireCollection;
-
-        public List<ArtistReleaseData> EntireCollection
-        {
-            get { return _entireCollection ?? (_entireCollection = new List<ArtistReleaseData>()); }
-            set { _entireCollection = value; }
-        }
+        public List<ArtistReleaseData> EntireCollection { get; }
 
         public List<string> Artists
         {
-            get { return _entireCollection.OrderBy(x => x.ArtistName).Select(x => x.ArtistName).Distinct().ToList(); }
+            get { return EntireCollection.OrderBy(x => x.ArtistName).Select(x => x.ArtistName).Distinct().ToList(); }
         }
 
+        public List<string> Releases
+        {
+            get { return EntireCollection.OrderBy(x => x.ReleaseName).Select(x => x.ReleaseName).Distinct().ToList(); }
+        }
+
+        public LibraryData(List<ArtistReleaseData> libraryData)
+        {
+            EntireCollection = libraryData;
+        }
 
         public LibraryData(DirectoryInfo fromPath)
         {
@@ -27,6 +30,8 @@ namespace MetalArchivesLibrary
             {
                 throw new ArgumentException("The given path must exist on disk.");
             }
+
+            EntireCollection = new List<ArtistReleaseData>();
 
             foreach (DirectoryInfo artistLayer in fromPath.GetDirectories())
             {

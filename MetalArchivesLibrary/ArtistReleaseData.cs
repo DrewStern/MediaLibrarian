@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetalArchivesLibrary
+namespace MetalArchivesLibraryDiffTool
 {
     /// <summary>
     /// Represents a release from an artist.

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalArchivesLibrary", "MetalArchivesLibrary\MetalArchivesLibrary.csproj", "{F6351515-C63F-4DF8-97E8-B7D5E8FE949A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalArchivesLibraryDiffTool", "MetalArchivesLibrary\MetalArchivesLibraryDiffTool.csproj", "{F6351515-C63F-4DF8-97E8-B7D5E8FE949A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalArchivesLibraryDiffTests", "MetalArchivesLibraryDiffTests\MetalArchivesLibraryDiffTests.csproj", "{15C215FD-5D69-4E0B-86B5-6C517F2722AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalArchivesLibraryDiffToolTests", "MetalArchivesLibraryDiffTests\MetalArchivesLibraryDiffToolTests.csproj", "{15C215FD-5D69-4E0B-86B5-6C517F2722AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Web.Script.Serialization;
 
-namespace MetalArchivesLibrary
+namespace MetalArchivesLibraryDiffTool
 {
     public static partial class MetalArchivesHttpClient
     {
@@ -51,7 +51,7 @@ namespace MetalArchivesLibrary
 
             var maHttpResponse = GetResponseAsync(new Uri(string.Format(_albumQuery, cleanedBandName)));
 
-            return maHttpResponse == null ? new List<ArtistReleaseData>() : Listify(maHttpResponse);
+            return Listify(maHttpResponse);
         }
 
         private static List<ArtistReleaseData> Listify(MetalArchivesHttpResponse maHttpResponse)
@@ -62,7 +62,7 @@ namespace MetalArchivesLibrary
             // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
             // [1] == <a href="https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622">Democratic Solution</a> <!-- 7.792132 -->
             // [2] == Full-length
-            foreach (string[] entry in maHttpResponse.aaData)
+            foreach (string[] entry in maHttpResponse?.aaData)
             {
                 string artistName = ExtractArtistName(entry[0]);
                 string country = ExtractCountry(artistName);

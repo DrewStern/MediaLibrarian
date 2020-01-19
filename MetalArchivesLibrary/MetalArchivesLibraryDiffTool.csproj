@@ -63,6 +63,7 @@
     <Compile Include="LibraryData.cs" />
     <Compile Include="MetalArchivesHttpClient.cs" />
     <Compile Include="MetalArchivesHttpResponse.cs" />
+    <Compile Include="LibraryDiff.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace MetalArchivesLibrary
+namespace MetalArchivesLibraryDiffTool
 {
     /// <summary>
     /// The purpose of this application is to compare the content of a given library of metal music against a database of known metal releases.
@@ -11,30 +11,22 @@ namespace MetalArchivesLibrary
     /// </summary>
     class Program
     {
-        private static List<ArtistReleaseData> _missingAlbums;
-        private static List<string> _unrecognizedArtists;
-
         private static DirectoryInfo LibraryLocation { get; set; }
+
         private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
 
-        private static LibraryData LibraryData { get; }
+        private static LibraryData MyLibraryData { get; set; }
 
-        private static List<ArtistReleaseData> MissingAlbums
-        {
-            get { return _missingAlbums ?? (_missingAlbums = new List<ArtistReleaseData>()); }
-            set { _missingAlbums = value; }
-        }
+        private static LibraryData TheirLibraryData { get; set; }
 
-        private static List<string> UnrecognizedArtists
-        {
-            get { return _unrecognizedArtists ?? (_unrecognizedArtists = new List<string>()); }
-            set { _unrecognizedArtists = value; }
-        }
+        private static LibraryDiff LibraryDiff { get; set; }
 
         /// <summary>
-        /// Accepts a single parameter of the form "in={PathToYourMusicCollection}", and writes two text files to that directory:
-        ///     1) MissingAlbums.txt which contains any releases missing from your collection.
-        ///     2) UnrecognizedArtists.txt which contains artists not found in the database.
+        /// Accepts two parameters:
+        ///     "in={PathToYourMusicCollection}", 
+        ///     "out={PathToLibraryComparisonResult}"
+        /// then writes a text file to the location specified by the out param.
+        /// 
         /// The music collection is expected to be organized in the form of "{PathToYourMusicCollection}\ArtistName\AlbumName"
         /// </summary>
         /// <param name="args"></param>
@@ -44,21 +36,13 @@ namespace MetalArchivesLibrary
             {
                 ParseArgs(args);
 
-                LibraryData libraryData = new LibraryData(LibraryLocation);
+                MyLibraryData = new LibraryData(LibraryLocation);
 
-                foreach (string artistName in libraryData.Artists)
+                foreach (string artistName in MyLibraryData.Artists)
                 {
-                    var allAlbumsByArtist = MetalArchivesHttpClient.FindReleases(artistName);
+                    TheirLibraryData = new LibraryData(MetalArchivesHttpClient.FindReleases(artistName));
 
-                    if (!allAlbumsByArtist.Any())
-                    {
-                        UnrecognizedArtists.Add(artistName);
-                        continue;
-                    }
-
-                    var missingAlbums = GetMissingAlbums(libraryData.EntireCollection.FindAll(x => x.ArtistName.Equals(artistName)), allAlbumsByArtist);
-
-                    MissingAlbums.AddRange(missingAlbums);
+                    LibraryDiff = new LibraryDiff(MyLibraryData, TheirLibraryData);
                 }
             }
             catch (Exception exc)
@@ -94,54 +78,15 @@ namespace MetalArchivesLibrary
             }
         }
 
-        private static List<ArtistReleaseData> GetMissingAlbums(List<ArtistReleaseData> albumsInCollection, List<ArtistReleaseData> allAlbumsByArtist)
-        {
-            var missingAlbums = new List<ArtistReleaseData>();
-
-            string knownAlbumName = albumsInCollection.First().ReleaseName;
-
-            string country = allAlbumsByArtist.First(x => x.ReleaseName.Equals(knownAlbumName)).Country;
-
-            foreach (ArtistReleaseData ard in allAlbumsByArtist)
-            {
-                if (!albumsInCollection.Any(x => 
-                    x.ArtistName.Equals(ard.ArtistName, StringComparison.InvariantCultureIgnoreCase) && 
-                    x.ReleaseName.Equals(ard.ReleaseName, StringComparison.InvariantCultureIgnoreCase)) &&
-                    country.Equals(ard.Country, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    missingAlbums.Add(ard);
-                }
-            }
-
-            return missingAlbums;
-        }
-
-        /// <summary>
-        /// Searches the specified directory for known artist release data.
-        /// </summary>
-        /// <returns></returns>
-        private static List<ArtistReleaseData> FindKnownArtistReleaseData()
-        {
-            var knownReleases = new List<ArtistReleaseData>();
-
-            foreach (DirectoryInfo artistLayer in LibraryLocation.GetDirectories())
-            {
-                foreach (DirectoryInfo albumLayer in artistLayer.GetDirectories())
-                {
-                    knownReleases.Add(new ArtistReleaseData(artistLayer.Name, albumLayer.Name));
-                }
-            }
-
-            return knownReleases;
-        }
-
         private static void WriteResults()
-        {
-            string missingAlbumsSaveLocation = Path.Combine(LibraryLocation.FullName, "MissingAlbums.txt");
-            File.WriteAllLines(missingAlbumsSaveLocation, MissingAlbums.Select(x => x.ToString()).ToArray());
+        { 
+            string[] diffText2 = new string[4];
+            diffText2[0] = "----- Artists with no matching results -----";
+            diffText2[1] = String.Join(Environment.NewLine, LibraryDiff.GetUnrecognizedArtists());
+            diffText2[2] = "----- Releases missing from your collection -----";
+            diffText2[3] = String.Join(Environment.NewLine, LibraryDiff.GetMissingAlbums().Select(x => x.ToString()));
 
-            string unrecognizedArtistsSaveLocation = Path.Combine(LibraryLocation.FullName, "UnrecognizedArtists.txt");
-            File.WriteAllLines(unrecognizedArtistsSaveLocation, UnrecognizedArtists.ToArray());
+            File.WriteAllLines(LibraryDiffOutputLocation.FullName, diffText2);
         }
     }
 }

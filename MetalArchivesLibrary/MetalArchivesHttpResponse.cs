@@ -1,4 +1,4 @@
-﻿namespace MetalArchivesLibrary
+﻿namespace MetalArchivesLibraryDiffTool
 {
     public static partial class MetalArchivesHttpClient
     {
