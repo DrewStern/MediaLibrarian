@@ -38,14 +38,7 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void LibraryDoesntHaveDuplicateArtists()
         {
-            List<ArtistReleaseData> ardList = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist1", "release2"),
-            };
-
-            LibraryData l = new LibraryData(ardList);
-
+            LibraryData l = MetalArchivesLibraryTestData.OneArtistToManyReleasesLibrary;
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 2);
         }
@@ -53,14 +46,7 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void LibraryDoesntHaveDuplicateArtistReleases()
         {
-            List<ArtistReleaseData> ardList = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist1", "release1"),
-            };
-
-            LibraryData l = new LibraryData(ardList);
-
+            LibraryData l = MetalArchivesLibraryTestData.DuplicatedDataLibrary;
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 1);
         }
@@ -68,15 +54,7 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void LibraryHasArtists()
         {
-            List<ArtistReleaseData> ardList = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist2", "release2"),
-                new ArtistReleaseData("artist3", "release3")
-            };
-
-            LibraryData l = new LibraryData(ardList);
-
+            LibraryData l = MetalArchivesLibraryTestData.ManyArtistsToManyRelasesLibrary;
             Assert.AreEqual(l.Artists.Count, 3);
             Assert.AreEqual(l.Releases.Count, 3);
         }
@@ -84,69 +62,25 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void EmptyLibraryShouldHaveNoDiffs()
         {
-            List<ArtistReleaseData> ardList1 = new List<ArtistReleaseData>
-            {
-
-            };
-
-            LibraryData libraryData1 = new LibraryData(ardList1);
-
-            LibraryData libraryData2 = new LibraryData(ardList1);
-
-            LibraryDiff libraryDiff = new LibraryDiff(libraryData1, libraryData2);
-
+            LibraryDiff libraryDiff = new LibraryDiff(MetalArchivesLibraryTestData.EmptyLibrary, MetalArchivesLibraryTestData.EmptyLibrary);
+            Assert.AreEqual(libraryDiff.GetUnrecognizedArtists().Count, 0);
             Assert.AreEqual(libraryDiff.GetMissingAlbums().Count, 0);
         }
 
         [TestMethod]
         public void SameLibraryShouldHaveNoDiffs()
         {
-            List<ArtistReleaseData> ardList1 = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist2", "release2"),
-                new ArtistReleaseData("artist3", "release3")
-            };
-
-            List<ArtistReleaseData> ardList2 = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist2", "release2"),
-                new ArtistReleaseData("artist3", "release3")
-            };
-
-            LibraryData libraryData1 = new LibraryData(ardList1);
-
-            LibraryData libraryData2 = new LibraryData(ardList2);
-
-            LibraryDiff libraryDiff = new LibraryDiff(libraryData1, libraryData2);
-
+            LibraryDiff libraryDiff = new LibraryDiff(MetalArchivesLibraryTestData.ManyArtistsToManyRelasesLibrary, MetalArchivesLibraryTestData.ManyArtistsToManyRelasesLibrary);
+            Assert.AreEqual(libraryDiff.GetUnrecognizedArtists().Count, 0);
             Assert.AreEqual(libraryDiff.GetMissingAlbums().Count, 0);
         }
 
         [TestMethod]
         public void DifferentLibrariesShouldHaveDiffs()
         {
-            List<ArtistReleaseData> ardList1 = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist2", "release2"),
-                new ArtistReleaseData("artist3", "release3")
-            };
+            LibraryDiff libraryDiff = new LibraryDiff(MetalArchivesLibraryTestData.ManyArtistsToManyRelasesLibrary, MetalArchivesLibraryTestData.DisjointSimpleLibrary);
 
-            List<ArtistReleaseData> ardList2 = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist4", "release5"),
-                new ArtistReleaseData("artist5", "release6"),
-                new ArtistReleaseData("artist6", "release7")
-            };
-
-            LibraryData libraryData1 = new LibraryData(ardList1);
-
-            LibraryData libraryData2 = new LibraryData(ardList2);
-
-            LibraryDiff libraryDiff = new LibraryDiff(libraryData1, libraryData2);
-
+            Assert.AreEqual(libraryDiff.GetUnrecognizedArtists().Count, 3);
             Assert.AreEqual(libraryDiff.GetMissingAlbums().Count, 3);
         }
 
@@ -172,6 +106,8 @@ namespace MetalArchivesLibraryDiffTests
             LibraryData libraryData2 = new LibraryData(ardList2);
 
             LibraryDiff libraryDiff = new LibraryDiff(libraryData1, libraryData2);
+
+            Assert.AreEqual(libraryDiff.GetUnrecognizedArtists().Count, 0);
 
             var missingAlbums = libraryDiff.GetMissingAlbums();
             Assert.AreEqual(missingAlbums.Count, 2);

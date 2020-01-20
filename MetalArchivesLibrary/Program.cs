@@ -41,9 +41,9 @@ namespace MetalArchivesLibraryDiffTool
                 foreach (string artistName in MyLibraryData.Artists)
                 {
                     TheirLibraryData = new LibraryData(MetalArchivesHttpClient.FindReleases(artistName));
-
-                    LibraryDiff = new LibraryDiff(MyLibraryData, TheirLibraryData);
                 }
+
+                LibraryDiff = new LibraryDiff(MyLibraryData, TheirLibraryData);
             }
             catch (Exception exc)
             {
