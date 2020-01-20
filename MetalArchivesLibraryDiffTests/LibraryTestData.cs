@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MetalArchivesLibraryDiffTests
 {
-    public static class MetalArchivesLibraryTestData
+    public static class LibraryTestData
     {
         private static LibraryData _emptyLibrary;
         private static LibraryData _duplicatedDataLibrary;
@@ -68,7 +68,13 @@ namespace MetalArchivesLibraryDiffTests
                     _simpleLibrary = new LibraryData(new List<ArtistReleaseData>
                     {
                         new ArtistReleaseData("artist1", "release1"),
+                        new ArtistReleaseData("artist1", "release2"),
+                        new ArtistReleaseData("artist1", "release3"),
+                        new ArtistReleaseData("artist2", "release1"),
                         new ArtistReleaseData("artist2", "release2"),
+                        new ArtistReleaseData("artist2", "release3"),
+                        new ArtistReleaseData("artist3", "release1"),
+                        new ArtistReleaseData("artist3", "release2"),
                         new ArtistReleaseData("artist3", "release3")
                     });
                 }

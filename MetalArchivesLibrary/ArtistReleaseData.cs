@@ -35,6 +35,21 @@ namespace MetalArchivesLibraryDiffTool
             Country = country;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is ArtistReleaseData))
+            {
+                return false;
+            }
+
+            ArtistReleaseData other = (ArtistReleaseData)obj;
+
+            return 
+                this.ArtistName.Equals(other.ArtistName, StringComparison.InvariantCultureIgnoreCase) &&
+                this.ReleaseName.Equals(other.ReleaseName, StringComparison.InvariantCultureIgnoreCase) &&
+                this.Country.Equals(other.Country, StringComparison.InvariantCultureIgnoreCase);
+        }
+
         public override string ToString()
         {
             return $"{ArtistName} - {ReleaseName}";

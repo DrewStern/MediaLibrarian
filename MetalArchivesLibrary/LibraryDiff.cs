@@ -36,10 +36,7 @@ namespace MetalArchivesLibraryDiffTool
 
             foreach (ArtistReleaseData ard in _theirs.EntireCollection)
             {
-                if (!_mine.EntireCollection.Any(x =>
-                        x.ArtistName.Equals(ard.ArtistName, StringComparison.InvariantCultureIgnoreCase) &&
-                        x.ReleaseName.Equals(ard.ReleaseName, StringComparison.InvariantCultureIgnoreCase) &&
-                        x.Country.Equals(ard.Country, StringComparison.InvariantCultureIgnoreCase)))
+                if (!_mine.EntireCollection.Any(x => x.Equals(ard)))
                 {
                     missingAlbums.Add(ard);
                 }

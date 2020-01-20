@@ -52,8 +52,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MetalArchivesLibraryDiffTestData.cs" />
-    <Compile Include="MetalArchivesLibraryDiffTests.cs" />
+    <Compile Include="LibraryDataTests.cs" />
+    <Compile Include="LibraryTestData.cs" />
+    <Compile Include="LibraryDiffTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
