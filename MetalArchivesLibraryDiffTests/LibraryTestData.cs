@@ -10,6 +10,9 @@ namespace MetalArchivesLibraryDiffTests
         private static LibraryData _oneToManyLibrary;
         private static LibraryData _simpleLibrary;
         private static LibraryData _disjointLibrary;
+        private static LibraryData _randomLibraryOne;
+        private static LibraryData _randomLibraryTwo;
+        private static LibraryData _randomLibraryOneSubtractTwo;
 
         public static LibraryData EmptyLibrary
         {
@@ -98,6 +101,59 @@ namespace MetalArchivesLibraryDiffTests
                 }
 
                 return _disjointLibrary;
+            }
+        }
+
+        public static LibraryData RandomLibraryOne
+        {
+            get
+            {
+                if (_randomLibraryOne == null)
+                {
+                    _randomLibraryOne = new LibraryData(new List<ArtistReleaseData>
+                    {
+                        new ArtistReleaseData("artist1", "release1"),
+                        new ArtistReleaseData("artist2", "release2")
+                    });
+                }
+
+                return _randomLibraryOne;
+            }
+        }
+
+        public static LibraryData RandomLibraryTwo
+        {
+            get
+            {
+                if (_randomLibraryTwo == null)
+                {
+                    _randomLibraryTwo = new LibraryData(new List<ArtistReleaseData>
+                    {
+                        new ArtistReleaseData("artist1", "release1"),
+                        new ArtistReleaseData("artist1", "release2"),
+                        new ArtistReleaseData("artist2", "release1"),
+                        new ArtistReleaseData("artist2", "release2"),
+                    });
+                }
+
+                return _randomLibraryTwo;
+            }
+        }
+
+        public static LibraryData RandomLibraryOneSubtractTwo
+        {
+            get
+            {
+                if (_randomLibraryOneSubtractTwo == null)
+                {
+                    _randomLibraryOneSubtractTwo = new LibraryData(new List<ArtistReleaseData>
+                    {
+                        new ArtistReleaseData("artist1", "release2"),
+                        new ArtistReleaseData("artist2", "release1"),
+                    });
+                }
+
+                return _randomLibraryOneSubtractTwo;
             }
         }
     }

@@ -35,32 +35,21 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void WriteLibraryDiff()
         {
-            List<ArtistReleaseData> ardList1 = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist2", "release2"),
-            };
-
-            List<ArtistReleaseData> ardList2 = new List<ArtistReleaseData>
-            {
-                new ArtistReleaseData("artist1", "release1"),
-                new ArtistReleaseData("artist1", "release2"),
-                new ArtistReleaseData("artist2", "release1"),
-                new ArtistReleaseData("artist2", "release2"),
-            };
-
-            LibraryData libraryData1 = new LibraryData(ardList1);
-
-            LibraryData libraryData2 = new LibraryData(ardList2);
-
-            LibraryDiff libraryDiff = new LibraryDiff(libraryData1, libraryData2);
+            LibraryDiff libraryDiff = new LibraryDiff(LibraryTestData.RandomLibraryOne, LibraryTestData.RandomLibraryTwo);
 
             Assert.AreEqual(libraryDiff.GetUnrecognizedArtists().Count, 0);
 
             var missingAlbums = libraryDiff.GetMissingAlbums();
-            Assert.AreEqual(missingAlbums.Count, 2);
-            Assert.AreEqual(missingAlbums[0], new ArtistReleaseData("artist1", "release2"));
-            Assert.AreEqual(missingAlbums[1], new ArtistReleaseData("artist2", "release1"));
+            Assert.AreEqual(missingAlbums.Count, LibraryTestData.RandomLibraryOneSubtractTwo.EntireCollection.Count);
+
+
+
+            //Assert.AreEqual(missingAlbums[0], new ArtistReleaseData("artist1", "release2"));
+            //Assert.AreEqual(missingAlbums[1], new ArtistReleaseData("artist2", "release1"));
+
+            //Assert.AreEqual(missingAlbums, LibraryTestData.RandomLibraryOneSubtractTwo);
+
+            //Assert.AreEqual(missingAlbums, LibraryTestData.RandomLibraryOneSubtractTwo.EntireCollection);
         }
     }
 }

@@ -7,7 +7,7 @@
     <ProjectGuid>{F6351515-C63F-4DF8-97E8-B7D5E8FE949A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MetalArchivesLibrary</RootNamespace>
+    <RootNamespace>MetalArchivesLibraryDiffTool</RootNamespace>
     <AssemblyName>MetalArchivesLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -59,13 +59,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArtistData.cs" />
     <Compile Include="ArtistReleaseData.cs" />
+    <Compile Include="ArtistReleaseDataEqualityComparer.cs" />
     <Compile Include="LibraryData.cs" />
     <Compile Include="MetalArchivesHttpClient.cs" />
     <Compile Include="MetalArchivesHttpResponse.cs" />
     <Compile Include="LibraryDiff.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReleaseData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -7,21 +7,56 @@ namespace MetalArchivesLibraryDiffTool
 {
     public class LibraryData
     {
+        private ArtistReleaseDataEqualityComparer _comparer;
+
         public List<ArtistReleaseData> EntireCollection { get; }
 
         public List<string> Artists
         {
-            get { return EntireCollection.OrderBy(x => x.ArtistName).Select(x => x.ArtistName).Distinct().ToList(); }
+            get
+            {
+                return EntireCollection.
+                    OrderBy(x => x.ArtistData.ArtistName).
+                    Select(x => x.ArtistData.ArtistName).
+                    Distinct().
+                    ToList();
+            }
         }
 
         public List<string> Releases
         {
-            get { return EntireCollection.OrderBy(x => x.ReleaseName).Select(x => x.ReleaseName).Distinct().ToList(); }
+            get
+            {
+                return EntireCollection.
+                    OrderBy(x => x.ReleaseData.ReleaseName).
+                    Select(x => x.ReleaseData.ReleaseName).
+                    Distinct().
+                    ToList();
+            }
+        }
+
+        private ArtistReleaseDataEqualityComparer Comparer
+        {
+            get
+            {
+                if (_comparer == null)
+                {
+                    _comparer = new ArtistReleaseDataEqualityComparer();
+                }
+
+                return _comparer;
+            }
         }
 
         public LibraryData(List<ArtistReleaseData> libraryData)
         {
-            EntireCollection = libraryData;
+            // prevent the client from adding duplicate data to our set
+            // TODO: maybe OrderByDescending(x => x.ArtistReleaseData.ToString())
+            EntireCollection = libraryData.
+                Distinct(Comparer).
+                OrderByDescending(x => x.ArtistData.ArtistName).
+                OrderByDescending(x => x.ReleaseData.ReleaseName).
+                ToList();
         }
 
         public LibraryData(DirectoryInfo fromPath)

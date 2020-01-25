@@ -72,7 +72,7 @@ namespace MetalArchivesLibraryDiffTool
                 ArtistReleaseData data = new ArtistReleaseData(artistName, releaseName, releaseType, country);
 
                 // only care about full-lengths for now
-                if (!data.ReleaseType.Equals("FULL-LENGTH", StringComparison.InvariantCultureIgnoreCase))
+                if (!data.ReleaseData.IsFullLength)
                 {
                     continue;
                 }
