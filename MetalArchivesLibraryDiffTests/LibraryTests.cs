@@ -6,29 +6,31 @@ using System.IO;
 namespace MetalArchivesLibraryDiffTests
 {
     [TestClass]
-    public class LibraryDataTests
+    public class LibraryTests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CanOnlyLoadDataFromExistantDiskLocations()
         {
             // use a new directory on disk that has no content
-            DirectoryInfo libraryPath = new DirectoryInfo("C:\\todo");
+            DirectoryInfo libraryPath = new DirectoryInfo("C:\\iDontExist");
 
-            LibraryData l = new LibraryData(libraryPath);
+            Library l = new Library(libraryPath);
         }
 
         [TestMethod]
-        public void EmptyLibraryShouldHaveNoArtists()
+        public void EmptyLibraryShouldHaveNoArtistReleaseData()
         {
             // use a new directory on disk that has no content
-            DirectoryInfo libraryPath = new DirectoryInfo("C:\\todo");
+            DirectoryInfo libraryPath = new DirectoryInfo("C:\\iExistButAmEmpty");
 
             libraryPath.Create();
 
-            LibraryData l = new LibraryData(libraryPath);
+            Library l = new Library(libraryPath);
 
+            Assert.AreEqual(l.EntireCollection.Count, 0);
             Assert.AreEqual(l.Artists.Count, 0);
+            Assert.AreEqual(l.Releases.Count, 0);
 
             // TODO: I guess this could leave the folder on disk if the Assert above fails...
             libraryPath.Delete();
@@ -37,7 +39,8 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void LibraryDoesntHaveDuplicateArtists()
         {
-            LibraryData l = LibraryTestData.OneArtistToManyReleasesLibrary;
+            Library l = LibraryTestData.OneArtistToManyReleasesLibrary;
+            Assert.AreEqual(l.EntireCollection.Count, 2);
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 2);
         }
@@ -45,19 +48,10 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void LibraryDoesntHaveDuplicateArtistReleases()
         {
-            LibraryData l = LibraryTestData.DuplicatedDataLibrary;
+            Library l = LibraryTestData.DuplicatedDataLibrary;
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 1);
             Assert.AreEqual(l.EntireCollection.Count, 1);
-        }
-
-        [TestMethod]
-        public void LibraryHasArtists()
-        {
-            LibraryData l = LibraryTestData.ManyArtistsToManyRelasesLibrary;
-            Assert.AreEqual(l.Artists.Count, 3);
-            Assert.AreEqual(l.Releases.Count, 3);
-            Assert.AreEqual(l.EntireCollection.Count, 9);
         }
     }
 }

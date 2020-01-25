@@ -15,11 +15,11 @@ namespace MetalArchivesLibraryDiffTool
 
         private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
 
-        private static LibraryData MyLibraryData { get; set; }
+        private static Library MyLibraryData { get; set; }
 
-        private static LibraryData TheirLibraryData { get; set; }
+        private static Library TheirLibraryData { get; set; }
 
-        private static LibraryDiff LibraryDiff { get; set; }
+        private static LibraryDiffService LibraryDiffService { get; set; }
 
         /// <summary>
         /// Accepts two parameters:
@@ -36,14 +36,12 @@ namespace MetalArchivesLibraryDiffTool
             {
                 ParseArgs(args);
 
-                MyLibraryData = new LibraryData(LibraryLocation);
+                MyLibraryData = new Library(LibraryLocation);
 
-                foreach (string artistName in MyLibraryData.Artists)
+                foreach (ArtistData artist in MyLibraryData.Artists)
                 {
-                    TheirLibraryData = new LibraryData(MetalArchivesHttpClient.FindReleases(artistName));
+                    TheirLibraryData = new Library(MetalArchivesHttpClient.FindReleases(artist.ArtistName));
                 }
-
-                LibraryDiff = new LibraryDiff(MyLibraryData, TheirLibraryData);
             }
             catch (Exception exc)
             {
@@ -82,9 +80,9 @@ namespace MetalArchivesLibraryDiffTool
         { 
             string[] diffText2 = new string[4];
             diffText2[0] = "----- Artists with no matching results -----";
-            diffText2[1] = String.Join(Environment.NewLine, LibraryDiff.GetUnrecognizedArtists());
+            diffText2[1] = String.Join(Environment.NewLine, LibraryDiffService.GetArtistDiffs(MyLibraryData, TheirLibraryData));
             diffText2[2] = "----- Releases missing from your collection -----";
-            diffText2[3] = String.Join(Environment.NewLine, LibraryDiff.GetMissingAlbums().Select(x => x.ToString()));
+            diffText2[3] = String.Join(Environment.NewLine, LibraryDiffService.GetArtistReleaseDiffs(MyLibraryData, TheirLibraryData));
 
             File.WriteAllLines(LibraryDiffOutputLocation.FullName, diffText2);
         }

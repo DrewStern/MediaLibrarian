@@ -37,7 +37,7 @@ namespace MetalArchivesLibraryDiffTool
 
         #region Methods
 
-        public static List<ArtistReleaseData> FindReleases(string bandName)
+        public static List<LibraryItem> FindReleases(string bandName)
         {
             _retryCount = 0;
 
@@ -54,9 +54,9 @@ namespace MetalArchivesLibraryDiffTool
             return Listify(maHttpResponse);
         }
 
-        private static List<ArtistReleaseData> Listify(MetalArchivesHttpResponse maHttpResponse)
+        private static List<LibraryItem> Listify(MetalArchivesHttpResponse maHttpResponse)
         {
-            var albums = new List<ArtistReleaseData>();
+            var albums = new List<LibraryItem>();
 
             // Each entry has three components - the first represents the band name, the second the album name, and third the release type. Example:
             // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
@@ -69,7 +69,7 @@ namespace MetalArchivesLibraryDiffTool
                 string releaseName = ExtractReleaseName(entry[1]);
                 string releaseType = entry[2];
 
-                ArtistReleaseData data = new ArtistReleaseData(artistName, releaseName, releaseType, country);
+                LibraryItem data = new LibraryItem(artistName, releaseName, releaseType, country);
 
                 // only care about full-lengths for now
                 if (!data.ReleaseData.IsFullLength)

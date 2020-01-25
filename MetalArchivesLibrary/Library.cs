@@ -5,74 +5,70 @@ using System.Linq;
 
 namespace MetalArchivesLibraryDiffTool
 {
-    public class LibraryData
+    public class Library
     {
-        private ArtistReleaseDataEqualityComparer _comparer;
+        private LibraryItemEqualityComparer _comparer;
 
-        public List<ArtistReleaseData> EntireCollection { get; }
+        public List<LibraryItem> EntireCollection { get; }
 
-        public List<string> Artists
+        public List<ArtistData> Artists
         {
             get
             {
                 return EntireCollection.
-                    OrderBy(x => x.ArtistData.ArtistName).
-                    Select(x => x.ArtistData.ArtistName).
+                    Select(x => x.ArtistData).
                     Distinct().
                     ToList();
             }
         }
 
-        public List<string> Releases
+        public List<ReleaseData> Releases
         {
             get
             {
                 return EntireCollection.
-                    OrderBy(x => x.ReleaseData.ReleaseName).
-                    Select(x => x.ReleaseData.ReleaseName).
+                    Select(x => x.ReleaseData).
                     Distinct().
                     ToList();
             }
         }
 
-        private ArtistReleaseDataEqualityComparer Comparer
+        private LibraryItemEqualityComparer Comparer
         {
             get
             {
                 if (_comparer == null)
                 {
-                    _comparer = new ArtistReleaseDataEqualityComparer();
+                    _comparer = new LibraryItemEqualityComparer();
                 }
 
                 return _comparer;
             }
         }
 
-        public LibraryData(List<ArtistReleaseData> libraryData)
+        public Library(List<LibraryItem> libraryData)
         {
             // prevent the client from adding duplicate data to our set
-            // TODO: maybe OrderByDescending(x => x.ArtistReleaseData.ToString())
             EntireCollection = libraryData.
                 Distinct(Comparer).
-                OrderByDescending(x => x.ArtistData.ArtistName).
-                OrderByDescending(x => x.ReleaseData.ReleaseName).
+                OrderByDescending(x => x.ToString()).
                 ToList();
         }
 
-        public LibraryData(DirectoryInfo fromPath)
+        public Library(DirectoryInfo fromPath)
         {
             if (!fromPath.Exists)
             {
                 throw new ArgumentException("The given path must exist on disk.");
             }
 
-            EntireCollection = new List<ArtistReleaseData>();
+            EntireCollection = new List<LibraryItem>();
 
             foreach (DirectoryInfo artistLayer in fromPath.GetDirectories())
             {
                 foreach (DirectoryInfo albumLayer in artistLayer.GetDirectories())
                 {
-                    EntireCollection.Add(new ArtistReleaseData(artistLayer.Name, albumLayer.Name));
+                    EntireCollection.Add(new LibraryItem(artistLayer.Name, albumLayer.Name));
                 }
             }
         }

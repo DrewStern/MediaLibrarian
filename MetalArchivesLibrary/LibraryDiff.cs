@@ -6,43 +6,25 @@ namespace MetalArchivesLibraryDiffTool
 {
     public class LibraryDiff
     {
-        private LibraryData _mine;
-        private LibraryData _theirs;
+        private LibraryDiffService _libraryDiffService;
+        private Library _mine;
+        private Library _theirs;
 
-        public LibraryDiff(LibraryData mine, LibraryData theirs)
+        public LibraryDiff(Library mine, Library theirs, LibraryDiffService libraryDiffService)
         {
             _mine = mine;
             _theirs = theirs;
+            _libraryDiffService = libraryDiffService;
         }
 
         public List<string> GetUnrecognizedArtists()
         {
-            var unrecognizedArtists = new List<string>();
-
-            foreach (string artist in _mine.Artists)
-            {
-                if (!_theirs.Artists.Contains(artist))
-                {
-                    unrecognizedArtists.Add(artist);
-                }
-            }
-
-            return unrecognizedArtists;
+            return _libraryDiffService.GetArtistDiffs(_mine, _theirs).Select(x => x.ArtistName).ToList();
         }
 
-        public List<ArtistReleaseData> GetMissingAlbums()
+        public List<LibraryItem> GetMissingAlbums()
         {
-            var missingAlbums = new List<ArtistReleaseData>();
-
-            foreach (ArtistReleaseData ard in _theirs.EntireCollection)
-            {
-                if (!_mine.EntireCollection.Any(x => x.Equals(ard)))
-                {
-                    missingAlbums.Add(ard);
-                }
-            }
-
-            return missingAlbums;
+            return _libraryDiffService.GetArtistReleaseDiffs(_mine, _theirs).ToList();
         }
     }
 }

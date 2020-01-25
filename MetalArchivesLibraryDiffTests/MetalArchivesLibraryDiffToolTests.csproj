@@ -52,9 +52,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LibraryDataTests.cs" />
+    <Compile Include="LibraryTests.cs" />
     <Compile Include="LibraryTestData.cs" />
-    <Compile Include="LibraryDiffTests.cs" />
+    <Compile Include="LibraryDiffServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

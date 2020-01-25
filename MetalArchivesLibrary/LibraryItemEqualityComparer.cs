@@ -2,16 +2,16 @@
 
 namespace MetalArchivesLibraryDiffTool
 {
-    public class ArtistReleaseDataEqualityComparer : IEqualityComparer<ArtistReleaseData>
+    public class LibraryItemEqualityComparer : IEqualityComparer<LibraryItem>
     {
-        public bool Equals(ArtistReleaseData ard1, ArtistReleaseData ard2)
+        public bool Equals(LibraryItem ard1, LibraryItem ard2)
         {
             return
                 ard1.ArtistData.Equals(ard2.ArtistData) &&
                 ard1.ReleaseData.Equals(ard2.ReleaseData);
         }
 
-        public int GetHashCode(ArtistReleaseData ard)
+        public int GetHashCode(LibraryItem ard)
         {
             return base.GetHashCode();
         }

@@ -60,9 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtistData.cs" />
-    <Compile Include="ArtistReleaseData.cs" />
-    <Compile Include="ArtistReleaseDataEqualityComparer.cs" />
-    <Compile Include="LibraryData.cs" />
+    <Compile Include="LibraryItem.cs" />
+    <Compile Include="LibraryItemEqualityComparer.cs" />
+    <Compile Include="Library.cs" />
+    <Compile Include="LibraryDiffService.cs" />
     <Compile Include="MetalArchivesHttpClient.cs" />
     <Compile Include="MetalArchivesHttpResponse.cs" />
     <Compile Include="LibraryDiff.cs" />

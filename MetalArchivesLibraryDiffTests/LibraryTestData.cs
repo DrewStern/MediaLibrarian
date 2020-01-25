@@ -5,39 +5,39 @@ namespace MetalArchivesLibraryDiffTests
 {
     public static class LibraryTestData
     {
-        private static LibraryData _emptyLibrary;
-        private static LibraryData _duplicatedDataLibrary;
-        private static LibraryData _oneToManyLibrary;
-        private static LibraryData _simpleLibrary;
-        private static LibraryData _disjointLibrary;
-        private static LibraryData _randomLibraryOne;
-        private static LibraryData _randomLibraryTwo;
-        private static LibraryData _randomLibraryOneSubtractTwo;
+        private static Library _emptyLibrary;
+        private static Library _duplicatedDataLibrary;
+        private static Library _oneToManyLibrary;
+        private static Library _simpleLibrary;
+        private static Library _disjointLibrary;
+        private static Library _randomLibraryOne;
+        private static Library _randomLibraryTwo;
+        private static Library _randomLibraryOneSubtractTwo;
 
-        public static LibraryData EmptyLibrary
+        public static Library EmptyLibrary
         {
             get
             {
                 if (_emptyLibrary == null)
                 {
-                    List<ArtistReleaseData> ardList = new List<ArtistReleaseData> { };
-                    _emptyLibrary = new LibraryData(ardList);
+                    List<LibraryItem> ardList = new List<LibraryItem> { };
+                    _emptyLibrary = new Library(ardList);
                 }
 
                 return _emptyLibrary;
             }
         }
 
-        public static LibraryData DuplicatedDataLibrary
+        public static Library DuplicatedDataLibrary
         {
             get
             {
                 if (_duplicatedDataLibrary == null)
                 {
-                    _duplicatedDataLibrary = new LibraryData(new List<ArtistReleaseData>
+                    _duplicatedDataLibrary = new Library(new List<LibraryItem>
                     {
-                        new ArtistReleaseData("artist1", "release1"),
-                        new ArtistReleaseData("artist1", "release1"),
+                        new LibraryItem("artist1", "release1"),
+                        new LibraryItem("artist1", "release1"),
                     });
                 }
 
@@ -45,16 +45,16 @@ namespace MetalArchivesLibraryDiffTests
             }
         }
 
-        public static LibraryData OneArtistToManyReleasesLibrary
+        public static Library OneArtistToManyReleasesLibrary
         {
             get
             {
                 if (_oneToManyLibrary == null)
                 {
-                    _oneToManyLibrary = new LibraryData(new List<ArtistReleaseData>
+                    _oneToManyLibrary = new Library(new List<LibraryItem>
                     {
-                        new ArtistReleaseData("artist1", "release1"),
-                        new ArtistReleaseData("artist1", "release2"),
+                        new LibraryItem("artist1", "release1"),
+                        new LibraryItem("artist1", "release2"),
                     });
                 }
 
@@ -62,23 +62,23 @@ namespace MetalArchivesLibraryDiffTests
             }
         }
 
-        public static LibraryData ManyArtistsToManyRelasesLibrary
+        public static Library ManyArtistsToManyRelasesLibrary
         {
             get
             {
                 if (_simpleLibrary == null)
                 {
-                    _simpleLibrary = new LibraryData(new List<ArtistReleaseData>
+                    _simpleLibrary = new Library(new List<LibraryItem>
                     {
-                        new ArtistReleaseData("artist1", "release1"),
-                        new ArtistReleaseData("artist1", "release2"),
-                        new ArtistReleaseData("artist1", "release3"),
-                        new ArtistReleaseData("artist2", "release1"),
-                        new ArtistReleaseData("artist2", "release2"),
-                        new ArtistReleaseData("artist2", "release3"),
-                        new ArtistReleaseData("artist3", "release1"),
-                        new ArtistReleaseData("artist3", "release2"),
-                        new ArtistReleaseData("artist3", "release3")
+                        new LibraryItem("artist1", "release1"),
+                        new LibraryItem("artist1", "release2"),
+                        new LibraryItem("artist1", "release3"),
+                        new LibraryItem("artist2", "release1"),
+                        new LibraryItem("artist2", "release2"),
+                        new LibraryItem("artist2", "release3"),
+                        new LibraryItem("artist3", "release1"),
+                        new LibraryItem("artist3", "release2"),
+                        new LibraryItem("artist3", "release3")
                     });
                 }
 
@@ -86,17 +86,17 @@ namespace MetalArchivesLibraryDiffTests
             }
         }
 
-        public static LibraryData DisjointSimpleLibrary
+        public static Library DisjointSimpleLibrary
         {
             get
             {
                 if (_disjointLibrary == null)
                 {
-                    _disjointLibrary = new LibraryData(new List<ArtistReleaseData>
+                    _disjointLibrary = new Library(new List<LibraryItem>
                     {
-                        new ArtistReleaseData("artist4", "release4"),
-                        new ArtistReleaseData("artist5", "release5"),
-                        new ArtistReleaseData("artist6", "release6")
+                        new LibraryItem("artist4", "release4"),
+                        new LibraryItem("artist5", "release5"),
+                        new LibraryItem("artist6", "release6")
                     });
                 }
 
@@ -104,16 +104,16 @@ namespace MetalArchivesLibraryDiffTests
             }
         }
 
-        public static LibraryData RandomLibraryOne
+        public static Library RandomLibraryOne
         {
             get
             {
                 if (_randomLibraryOne == null)
                 {
-                    _randomLibraryOne = new LibraryData(new List<ArtistReleaseData>
+                    _randomLibraryOne = new Library(new List<LibraryItem>
                     {
-                        new ArtistReleaseData("artist1", "release1"),
-                        new ArtistReleaseData("artist2", "release2")
+                        new LibraryItem("artist1", "release1"),
+                        new LibraryItem("artist2", "release2")
                     });
                 }
 
@@ -121,18 +121,18 @@ namespace MetalArchivesLibraryDiffTests
             }
         }
 
-        public static LibraryData RandomLibraryTwo
+        public static Library RandomLibraryTwo
         {
             get
             {
                 if (_randomLibraryTwo == null)
                 {
-                    _randomLibraryTwo = new LibraryData(new List<ArtistReleaseData>
+                    _randomLibraryTwo = new Library(new List<LibraryItem>
                     {
-                        new ArtistReleaseData("artist1", "release1"),
-                        new ArtistReleaseData("artist1", "release2"),
-                        new ArtistReleaseData("artist2", "release1"),
-                        new ArtistReleaseData("artist2", "release2"),
+                        new LibraryItem("artist1", "release1"),
+                        new LibraryItem("artist1", "release2"),
+                        new LibraryItem("artist2", "release1"),
+                        new LibraryItem("artist2", "release2"),
                     });
                 }
 
@@ -140,16 +140,16 @@ namespace MetalArchivesLibraryDiffTests
             }
         }
 
-        public static LibraryData RandomLibraryOneSubtractTwo
+        public static Library RandomLibraryOneSubtractTwo
         {
             get
             {
                 if (_randomLibraryOneSubtractTwo == null)
                 {
-                    _randomLibraryOneSubtractTwo = new LibraryData(new List<ArtistReleaseData>
+                    _randomLibraryOneSubtractTwo = new Library(new List<LibraryItem>
                     {
-                        new ArtistReleaseData("artist1", "release2"),
-                        new ArtistReleaseData("artist2", "release1"),
+                        new LibraryItem("artist1", "release2"),
+                        new LibraryItem("artist2", "release1"),
                     });
                 }
 
