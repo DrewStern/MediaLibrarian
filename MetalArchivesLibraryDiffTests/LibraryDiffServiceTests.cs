@@ -50,8 +50,8 @@ namespace MetalArchivesLibraryDiffTests
             var artistDiffs = _libraryDiffService.GetArtistDiffs(LibraryTestData.RandomLibraryOne, LibraryTestData.RandomLibraryTwo);
             var artistReleaseDiffs = _libraryDiffService.GetArtistReleaseDiffs(LibraryTestData.RandomLibraryOne, LibraryTestData.RandomLibraryTwo);
 
-            Assert.AreEqual(LibraryTestData.RandomLibraryOneSubtractTwo.EntireCollection.Count, 3);
-            Assert.AreEqual(LibraryTestData.RandomLibraryOneSubtractTwo.EntireCollection.Count, 3);
+            Assert.AreEqual(artistDiffs.Count, 0);
+            Assert.AreEqual(artistReleaseDiffs.Count, LibraryTestData.RandomLibraryOneSubtractTwo.Releases.Count);
         }
     }
 }

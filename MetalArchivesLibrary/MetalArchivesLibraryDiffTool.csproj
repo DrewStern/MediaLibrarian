@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtistData.cs" />
+    <Compile Include="ArtistDataEqualityComparer.cs" />
     <Compile Include="LibraryItem.cs" />
     <Compile Include="LibraryItemEqualityComparer.cs" />
     <Compile Include="Library.cs" />

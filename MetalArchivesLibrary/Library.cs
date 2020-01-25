@@ -7,7 +7,8 @@ namespace MetalArchivesLibraryDiffTool
 {
     public class Library
     {
-        private LibraryItemEqualityComparer _comparer;
+        private LibraryItemEqualityComparer _libraryItemEqualityComparer;
+        private ArtistDataEqualityComparer _artistDataEqualityComparer;
 
         public List<LibraryItem> EntireCollection { get; }
 
@@ -17,7 +18,7 @@ namespace MetalArchivesLibraryDiffTool
             {
                 return EntireCollection.
                     Select(x => x.ArtistData).
-                    Distinct().
+                    Distinct(ArtistDataEqualityComparer).
                     ToList();
             }
         }
@@ -37,12 +38,25 @@ namespace MetalArchivesLibraryDiffTool
         {
             get
             {
-                if (_comparer == null)
+                if (_libraryItemEqualityComparer == null)
                 {
-                    _comparer = new LibraryItemEqualityComparer();
+                    _libraryItemEqualityComparer = new LibraryItemEqualityComparer();
                 }
 
-                return _comparer;
+                return _libraryItemEqualityComparer;
+            }
+        }
+
+        private ArtistDataEqualityComparer ArtistDataEqualityComparer
+        {
+            get
+            {
+                if (_artistDataEqualityComparer == null)
+                {
+                    _artistDataEqualityComparer = new ArtistDataEqualityComparer();
+                }
+
+                return _artistDataEqualityComparer;
             }
         }
 
