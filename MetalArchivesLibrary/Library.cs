@@ -92,6 +92,11 @@ namespace MetalArchivesLibraryDiffTool
             }
         }
 
+        public void AddToLibrary(Library other)
+        {
+            AddToLibrary(other.EntireCollection);
+        }
+
         public void AddToLibrary(List<LibraryItem> lli)
         {
             foreach (LibraryItem li in lli)

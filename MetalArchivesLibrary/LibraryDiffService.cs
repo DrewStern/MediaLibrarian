@@ -1,20 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MetalArchivesLibraryDiffTool
 {
     public class LibraryDiffService
     {
-        public List<ArtistData> GetArtistDiffs(Library ld1, Library ld2)
+        public LibraryDiffService()
+        {
+            // intentionally empty
+        }
+
+        public List<LibraryItem> GetDiffs(Library l1, Library l2)
+        {
+            var diffs = new List<LibraryItem>();
+
+            foreach (LibraryItem item in l1.EntireCollection)
+            {
+                if (!l2.EntireCollection.Contains(item))
+                {
+                    diffs.Add(item);
+                }
+            }
+
+            return diffs;
+        }
+
+        public List<ArtistData> GetArtistDiffs(Library l1, Library l2)
         {
             var artistDataDiff = new List<ArtistData>();
 
-            foreach (ArtistData artist in ld1.Artists)
+            foreach (ArtistData artist in l1.Artists)
             {
-                if (!ld2.Artists.Contains(artist))
+                if (!l2.Artists.Contains(artist))
                 {
                     artistDataDiff.Add(artist);
                 }
@@ -23,7 +40,7 @@ namespace MetalArchivesLibraryDiffTool
             return artistDataDiff;
         }
 
-        public List<LibraryItem> GetArtistReleaseDiffs(Library ld1, Library ld2)
+        public List<LibraryItem> GetReleaseDiffs(Library ld1, Library ld2)
         {
             var artistReleaseDiffs = new List<LibraryItem>();
 

@@ -11,19 +11,25 @@ namespace MetalArchivesLibraryDiffTool
 
         public ReleaseData ReleaseData { get; }
 
+        public LibraryItem(ArtistData ad, ReleaseData rd)
+        {
+            ArtistData = ad;
+            ReleaseData = rd;
+        }
+
         public LibraryItem(string artistName, string releaseName)
-            : this(artistName, releaseName, String.Empty)
+            : this(artistName, String.Empty, releaseName)
         {
             // intentionally empty
         }
 
-        public LibraryItem(string artistName, string releaseName, string country)
-            : this(artistName, releaseName, "Full-Length", country)
+        public LibraryItem(string artistName, string country, string releaseName)
+            : this(artistName, country, releaseName, "Full-Length")
         {
             // intentionally empty
         }
 
-        public LibraryItem(string artistName, string releaseName, string releaseType, string country)
+        public LibraryItem(string artistName, string country, string releaseName, string releaseType)
         {
             ArtistData = new ArtistData(artistName, country);
             ReleaseData = new ReleaseData(releaseName, releaseType);

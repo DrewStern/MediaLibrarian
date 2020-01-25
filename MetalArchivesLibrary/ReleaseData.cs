@@ -13,6 +13,12 @@ namespace MetalArchivesLibraryDiffTool
             get { return ReleaseType.ToUpperInvariant().Equals("FULL-LENGTH"); }
         }
 
+        public ReleaseData(string releaseName)
+            : this(releaseName, "Full-Length")
+        {
+            // intentionally empty
+        }
+
         public ReleaseData(string releaseName, string releaseType)
         {
             ReleaseName = releaseName;
@@ -31,6 +37,11 @@ namespace MetalArchivesLibraryDiffTool
             return
                 this.ReleaseName.Equals(other.ReleaseName, StringComparison.InvariantCultureIgnoreCase) &&
                 this.ReleaseType.Equals(other.ReleaseType, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

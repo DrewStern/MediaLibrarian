@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Web.Script.Serialization;
@@ -27,6 +26,7 @@ namespace MetalArchivesLibraryDiffTool
         #region Properties
 
         private static HttpClient Client { get; }
+        private static MetalArchivesHttpResponseParser Parser { get; }
 
         #endregion
 
@@ -35,56 +35,28 @@ namespace MetalArchivesLibraryDiffTool
         static MetalArchivesHttpClient()
         {
             Client = new HttpClient { BaseAddress = new Uri(_albumQuery) };
+            Parser = new MetalArchivesHttpResponseParser();
         }
 
         #endregion Constructors
 
         #region Methods
 
-        public List<LibraryItem> FindReleases(string bandName)
+        public Library FindByArtist(string artistName)
         {
             _retryCount = 0;
 
-            if (String.IsNullOrWhiteSpace(bandName))
+            if (String.IsNullOrWhiteSpace(artistName))
             {
-                throw new ArgumentException($"{nameof(bandName)} may not be null or empty");
+                throw new ArgumentException($"{nameof(artistName)} may not be null or empty");
             }
 
             // facilitates bands which have spaces in their name
-            string cleanedBandName = "\"" + bandName + "\"";
+            string cleanedBandName = "\"" + artistName + "\"";
 
             var maHttpResponse = GetResponseAsync(new Uri(string.Format(_albumQuery, cleanedBandName)));
 
-            return Listify(maHttpResponse);
-        }
-
-        private List<LibraryItem> Listify(MetalArchivesHttpResponse maHttpResponse)
-        {
-            var albums = new List<LibraryItem>();
-
-            // Each entry has three components - the first represents the band name, the second the album name, and third the release type. Example:
-            // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
-            // [1] == <a href="https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622">Democratic Solution</a> <!-- 7.792132 -->
-            // [2] == Full-length
-            foreach (string[] entry in maHttpResponse?.aaData)
-            {
-                string artistName = ExtractArtistName(entry[0]);
-                string country = ExtractCountry(artistName);
-                string releaseName = ExtractReleaseName(entry[1]);
-                string releaseType = entry[2];
-
-                LibraryItem data = new LibraryItem(artistName, releaseName, releaseType, country);
-
-                // only care about full-lengths for now
-                if (!data.ReleaseData.IsFullLength)
-                {
-                    continue;
-                }
-
-                albums.Add(data);
-            }
-
-            return albums;
+            return Parser.Parse(maHttpResponse);
         }
 
         private MetalArchivesHttpResponse GetResponseAsync(Uri request)
@@ -101,49 +73,6 @@ namespace MetalArchivesLibraryDiffTool
                 Thread.Sleep(5000);
                 return (_retryCount++ < _retryLimit ? GetResponseAsync(request) : null);
             }
-        }
-
-        /// <remarks>
-        /// There might be two bands with the same name, but from different countries. 
-        /// This is used to differentiate in those cases.
-        /// </remarks>
-        private string ExtractArtistName(string dirtiedArtistName)
-        {
-            const string startOfTitleAttribute = " title=\"";
-            const string endOfTitleAttribute = "\">";
-
-            int startOfTitleAttributeIndex = dirtiedArtistName.IndexOf(startOfTitleAttribute);
-            int endOfTitleAttributeIndex = dirtiedArtistName.IndexOf(endOfTitleAttribute);
-
-            return dirtiedArtistName.Substring(startOfTitleAttributeIndex + startOfTitleAttribute.Length, endOfTitleAttributeIndex - startOfTitleAttributeIndex - startOfTitleAttribute.Length);
-        }
-
-        /// <remarks>
-        /// The http response wraps the release name in html. This function strips the html away.
-        /// </remarks>
-        private string ExtractReleaseName(string dirtiedReleaseName)
-        {
-            // we use these to determine the begin/end of the html wrapping the album name
-            const string endOfOpenHtmlTag = "\">";
-            const string startOfCloseHtmlTag = "</a>";
-
-            // gather these indices so we can use substring below
-            int endOfOpenHtmlIndex = dirtiedReleaseName.IndexOf(endOfOpenHtmlTag);
-            int startOfCloseHtmlIndex = dirtiedReleaseName.IndexOf(startOfCloseHtmlTag);
-
-            // take the substring in between the html wrapping
-            return dirtiedReleaseName.Substring(endOfOpenHtmlIndex + endOfOpenHtmlTag.Length, startOfCloseHtmlIndex - endOfOpenHtmlIndex - endOfOpenHtmlTag.Length);
-        }
-
-        private string ExtractCountry(string artistNameWithCountry)
-        {
-            const string startOfCountryId = "(";
-            const string endOfCountryId = ")";
-
-            int startOfCountryIndex = artistNameWithCountry.IndexOf(startOfCountryId);
-            int endOfCountryIndex = artistNameWithCountry.IndexOf(endOfCountryId);
-
-            return artistNameWithCountry.Substring(startOfCountryIndex + startOfCountryId.Length, endOfCountryIndex - startOfCountryIndex - startOfCountryId.Length);
         }
 
         #endregion

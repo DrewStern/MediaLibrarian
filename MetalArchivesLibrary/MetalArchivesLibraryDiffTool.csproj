@@ -67,6 +67,7 @@
     <Compile Include="LibraryDiffService.cs" />
     <Compile Include="MetalArchivesHttpClient.cs" />
     <Compile Include="MetalArchivesHttpResponse.cs" />
+    <Compile Include="MetalArchivesHttpResponseParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseData.cs" />

@@ -27,5 +27,10 @@ namespace MetalArchivesLibraryDiffTool
                 this.ArtistName.Equals(other.ArtistName, StringComparison.InvariantCultureIgnoreCase) &&
                 this.Country.Equals(other.Country, StringComparison.InvariantCultureIgnoreCase);
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

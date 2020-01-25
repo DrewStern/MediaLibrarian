@@ -70,7 +70,7 @@ namespace MetalArchivesLibraryDiffTool
 
                 foreach (ArtistData artist in MyLibraryData.Artists)
                 {
-                    TheirLibraryData.AddToLibrary(MetalArchivesHttpClient.FindReleases(artist.ArtistName));
+                    TheirLibraryData.AddToLibrary(MetalArchivesHttpClient.FindByArtist(artist.ArtistName));
                     Console.WriteLine($"Added {artist.ArtistName} to library");
                     Thread.Sleep(3000);
                 }
@@ -114,7 +114,7 @@ namespace MetalArchivesLibraryDiffTool
             diffText2[0] = "----- Artists with no matching results -----";
             diffText2[1] = String.Join(Environment.NewLine, LibraryDiffService.GetArtistDiffs(MyLibraryData, TheirLibraryData));
             diffText2[2] = "----- Releases missing from your collection -----";
-            diffText2[3] = String.Join(Environment.NewLine, LibraryDiffService.GetArtistReleaseDiffs(MyLibraryData, TheirLibraryData));
+            diffText2[3] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyLibraryData, TheirLibraryData));
 
             File.WriteAllLines(LibraryDiffOutputLocation.FullName, diffText2);
         }
