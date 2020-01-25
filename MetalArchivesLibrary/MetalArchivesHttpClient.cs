@@ -6,7 +6,7 @@ using System.Web.Script.Serialization;
 
 namespace MetalArchivesLibraryDiffTool
 {
-    public static partial class MetalArchivesHttpClient
+    public partial class MetalArchivesHttpClient
     {
         #region Fields
 
@@ -22,22 +22,26 @@ namespace MetalArchivesLibraryDiffTool
             "bandName={0}&releaseTitle=&releaseYearFrom=&releaseMonthFrom=&releaseYearTo=&releaseMonthTo=&country=&location=&" +
             "releaseLabelName=&releaseCatalogNumber=&releaseIdentifiers=&releaseRecordingInfo=&releaseDescription=&releaseNotes=&genre=#albums";
 
-        private static HttpClient _client;
-
         #endregion
 
         #region Properties
 
-        private static HttpClient Client
-        {
-            get { return (_client ?? (_client = new HttpClient { BaseAddress = new Uri(_albumQuery)})); }
-        }
+        private static HttpClient Client { get; }
 
         #endregion
 
+        #region Constructors
+
+        static MetalArchivesHttpClient()
+        {
+            Client = new HttpClient { BaseAddress = new Uri(_albumQuery) };
+        }
+
+        #endregion Constructors
+
         #region Methods
 
-        public static List<LibraryItem> FindReleases(string bandName)
+        public List<LibraryItem> FindReleases(string bandName)
         {
             _retryCount = 0;
 
@@ -54,7 +58,7 @@ namespace MetalArchivesLibraryDiffTool
             return Listify(maHttpResponse);
         }
 
-        private static List<LibraryItem> Listify(MetalArchivesHttpResponse maHttpResponse)
+        private List<LibraryItem> Listify(MetalArchivesHttpResponse maHttpResponse)
         {
             var albums = new List<LibraryItem>();
 
@@ -83,7 +87,7 @@ namespace MetalArchivesLibraryDiffTool
             return albums;
         }
 
-        private static MetalArchivesHttpResponse GetResponseAsync(Uri request)
+        private MetalArchivesHttpResponse GetResponseAsync(Uri request)
         {
             try
             {
@@ -103,7 +107,7 @@ namespace MetalArchivesLibraryDiffTool
         /// There might be two bands with the same name, but from different countries. 
         /// This is used to differentiate in those cases.
         /// </remarks>
-        private static string ExtractArtistName(string dirtiedArtistName)
+        private string ExtractArtistName(string dirtiedArtistName)
         {
             const string startOfTitleAttribute = " title=\"";
             const string endOfTitleAttribute = "\">";
@@ -117,7 +121,7 @@ namespace MetalArchivesLibraryDiffTool
         /// <remarks>
         /// The http response wraps the release name in html. This function strips the html away.
         /// </remarks>
-        private static string ExtractReleaseName(string dirtiedReleaseName)
+        private string ExtractReleaseName(string dirtiedReleaseName)
         {
             // we use these to determine the begin/end of the html wrapping the album name
             const string endOfOpenHtmlTag = "\">";
@@ -131,7 +135,7 @@ namespace MetalArchivesLibraryDiffTool
             return dirtiedReleaseName.Substring(endOfOpenHtmlIndex + endOfOpenHtmlTag.Length, startOfCloseHtmlIndex - endOfOpenHtmlIndex - endOfOpenHtmlTag.Length);
         }
 
-        private static string ExtractCountry(string artistNameWithCountry)
+        private string ExtractCountry(string artistNameWithCountry)
         {
             const string startOfCountryId = "(";
             const string endOfCountryId = ")";

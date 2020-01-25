@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading;
 
 namespace MetalArchivesLibraryDiffTool
 {
@@ -11,6 +10,9 @@ namespace MetalArchivesLibraryDiffTool
     /// </summary>
     class Program
     {
+        private static LibraryDiffService _libraryDiffService;
+        private static MetalArchivesHttpClient _metalArchivesHttpClient;
+
         private static DirectoryInfo LibraryLocation { get; set; }
 
         private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
@@ -19,7 +21,31 @@ namespace MetalArchivesLibraryDiffTool
 
         private static Library TheirLibraryData { get; set; }
 
-        private static LibraryDiffService LibraryDiffService { get; set; }
+        private static LibraryDiffService LibraryDiffService
+        {
+            get
+            {
+                if (_libraryDiffService == null)
+                {
+                    _libraryDiffService = new LibraryDiffService();
+                }
+
+                return _libraryDiffService;
+            }
+        }
+
+        private static MetalArchivesHttpClient MetalArchivesHttpClient
+        {
+            get
+            {
+                if (_metalArchivesHttpClient == null)
+                {
+                    _metalArchivesHttpClient = new MetalArchivesHttpClient();
+                }
+
+                return _metalArchivesHttpClient;
+            }
+        }
 
         /// <summary>
         /// Accepts two parameters:
@@ -38,9 +64,15 @@ namespace MetalArchivesLibraryDiffTool
 
                 MyLibraryData = new Library(LibraryLocation);
 
+                Console.WriteLine($"Discovered {MyLibraryData.EntireCollection.Count} items on disk");
+
+                TheirLibraryData = new Library();
+
                 foreach (ArtistData artist in MyLibraryData.Artists)
                 {
-                    TheirLibraryData = new Library(MetalArchivesHttpClient.FindReleases(artist.ArtistName));
+                    TheirLibraryData.AddToLibrary(MetalArchivesHttpClient.FindReleases(artist.ArtistName));
+                    Console.WriteLine($"Added {artist.ArtistName} to library");
+                    Thread.Sleep(3000);
                 }
             }
             catch (Exception exc)

@@ -1,6 +1,6 @@
 ﻿namespace MetalArchivesLibraryDiffTool
 {
-    public static partial class MetalArchivesHttpClient
+    public partial class MetalArchivesHttpClient
     {
         /// <summary>
         /// Represents the full JSON object body received back from Metal Archives.

@@ -60,6 +60,11 @@ namespace MetalArchivesLibraryDiffTool
             }
         }
 
+        public Library()
+        {
+            EntireCollection = new List<LibraryItem>();
+        }
+
         public Library(List<LibraryItem> libraryData)
         {
             // prevent the client from adding duplicate data to our set
@@ -84,6 +89,22 @@ namespace MetalArchivesLibraryDiffTool
                 {
                     EntireCollection.Add(new LibraryItem(artistLayer.Name, albumLayer.Name));
                 }
+            }
+        }
+
+        public void AddToLibrary(List<LibraryItem> lli)
+        {
+            foreach (LibraryItem li in lli)
+            {
+                AddToLibrary(li);
+            }
+        }
+
+        public void AddToLibrary(LibraryItem li)
+        {
+            if (!EntireCollection.Contains(li))
+            {
+                EntireCollection.Add(li);
             }
         }
     }
