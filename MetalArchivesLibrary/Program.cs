@@ -64,13 +64,13 @@ namespace MetalArchivesLibraryDiffTool
 
                 MyLibraryData = new Library(LibraryLocation);
 
-                Console.WriteLine($"Discovered {MyLibraryData.EntireCollection.Count} items on disk");
+                Console.WriteLine($"Discovered {MyLibraryData.Collection.Count} items on disk");
 
                 TheirLibraryData = new Library();
 
                 foreach (ArtistData artist in MyLibraryData.Artists)
                 {
-                    TheirLibraryData.AddToLibrary(MetalArchivesHttpClient.FindByArtist(artist.ArtistName));
+                    TheirLibraryData.AddToCollection(MetalArchivesHttpClient.FindByArtist(artist.ArtistName));
                     Console.WriteLine($"Added {artist.ArtistName} to library");
                     Thread.Sleep(3000);
                 }

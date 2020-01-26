@@ -14,9 +14,9 @@ namespace MetalArchivesLibraryDiffTool
         {
             var diffs = new List<LibraryItem>();
 
-            foreach (LibraryItem item in l1.EntireCollection)
+            foreach (LibraryItem item in l1.Collection)
             {
-                if (!l2.EntireCollection.Contains(item))
+                if (!l2.Collection.Contains(item))
                 {
                     diffs.Add(item);
                 }
@@ -44,9 +44,9 @@ namespace MetalArchivesLibraryDiffTool
         {
             var artistReleaseDiffs = new List<LibraryItem>();
 
-            foreach (LibraryItem ard in ld2.EntireCollection)
+            foreach (LibraryItem ard in ld2.Collection)
             {
-                if (!ld1.EntireCollection.Any(x => x.Equals(ard)))
+                if (!ld1.Collection.Any(x => x.Equals(ard)))
                 {
                     artistReleaseDiffs.Add(ard);
                 }

@@ -7,16 +7,20 @@ namespace MetalArchivesLibraryDiffTool
 {
     public class Library
     {
+        private List<LibraryItem> _collection;
         private LibraryItemEqualityComparer _libraryItemEqualityComparer;
         private ArtistDataEqualityComparer _artistDataEqualityComparer;
 
-        public List<LibraryItem> EntireCollection { get; }
+        public List<LibraryItem> Collection
+        {
+            get { return _collection ?? (_collection = new List<LibraryItem>()); }
+        }
 
         public List<ArtistData> Artists
         {
             get
             {
-                return EntireCollection.
+                return Collection.
                     Select(x => x.ArtistData).
                     Distinct(ArtistDataEqualityComparer).
                     ToList();
@@ -27,14 +31,14 @@ namespace MetalArchivesLibraryDiffTool
         {
             get
             {
-                return EntireCollection.
+                return Collection.
                     Select(x => x.ReleaseData).
                     Distinct().
                     ToList();
             }
         }
 
-        private LibraryItemEqualityComparer Comparer
+        private LibraryItemEqualityComparer LibraryItemEqualityComparer
         {
             get
             {
@@ -62,16 +66,11 @@ namespace MetalArchivesLibraryDiffTool
 
         public Library()
         {
-            EntireCollection = new List<LibraryItem>();
         }
 
         public Library(List<LibraryItem> libraryData)
         {
-            // prevent the client from adding duplicate data to our set
-            EntireCollection = libraryData.
-                Distinct(Comparer).
-                OrderByDescending(x => x.ToString()).
-                ToList();
+            AddToCollection(libraryData);
         }
 
         public Library(DirectoryInfo fromPath)
@@ -81,35 +80,33 @@ namespace MetalArchivesLibraryDiffTool
                 throw new ArgumentException("The given path must exist on disk.");
             }
 
-            EntireCollection = new List<LibraryItem>();
-
             foreach (DirectoryInfo artistLayer in fromPath.GetDirectories())
             {
                 foreach (DirectoryInfo albumLayer in artistLayer.GetDirectories())
                 {
-                    EntireCollection.Add(new LibraryItem(artistLayer.Name, albumLayer.Name));
+                    Collection.Add(new LibraryItem(artistLayer.Name, albumLayer.Name));
                 }
             }
         }
 
-        public void AddToLibrary(Library other)
+        public void AddToCollection(Library other)
         {
-            AddToLibrary(other.EntireCollection);
+            AddToCollection(other.Collection);
         }
 
-        public void AddToLibrary(List<LibraryItem> lli)
+        public void AddToCollection(List<LibraryItem> lli)
         {
             foreach (LibraryItem li in lli)
             {
-                AddToLibrary(li);
+                AddToCollection(li);
             }
         }
 
-        public void AddToLibrary(LibraryItem li)
+        public void AddToCollection(LibraryItem li)
         {
-            if (!EntireCollection.Contains(li))
+            if (!Collection.Contains(li, LibraryItemEqualityComparer))
             {
-                EntireCollection.Add(li);
+                Collection.Add(li);
             }
         }
     }

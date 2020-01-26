@@ -16,7 +16,7 @@ namespace MetalArchivesLibraryDiffTool
         /// Represents the most generic possible query to the Metal Archives database. 
         /// Currently we are only interested in querying based on artists, but the other parameters can be specified at a later time.
         /// </summary>
-        private static string _albumQuery =
+        private static string _queryEndpoint =
             "https://www.metal-archives.com/search/ajax-advanced/searching/albums?" +
             "bandName={0}&releaseTitle=&releaseYearFrom=&releaseMonthFrom=&releaseYearTo=&releaseMonthTo=&country=&location=&" +
             "releaseLabelName=&releaseCatalogNumber=&releaseIdentifiers=&releaseRecordingInfo=&releaseDescription=&releaseNotes=&genre=#albums";
@@ -34,13 +34,27 @@ namespace MetalArchivesLibraryDiffTool
 
         static MetalArchivesHttpClient()
         {
-            Client = new HttpClient { BaseAddress = new Uri(_albumQuery) };
+            Client = new HttpClient { BaseAddress = new Uri(_queryEndpoint) };
             Parser = new MetalArchivesHttpResponseParser();
         }
 
         #endregion Constructors
 
         #region Methods
+
+        public Library Find(MetalArchivesHttpRequest request)
+        {
+            _retryCount = 0;
+
+            if (request.Equals(null))
+            {
+                throw new ArgumentNullException($"{nameof(request)} may not be null");
+            }
+
+            var maHttpResponse = GetResponseAsync(new Uri(string.Format(_queryEndpoint, request.ArtistName)));
+
+            return Parser.Parse(maHttpResponse);
+        }
 
         public Library FindByArtist(string artistName)
         {
@@ -54,7 +68,7 @@ namespace MetalArchivesLibraryDiffTool
             // facilitates bands which have spaces in their name
             string cleanedBandName = "\"" + artistName + "\"";
 
-            var maHttpResponse = GetResponseAsync(new Uri(string.Format(_albumQuery, cleanedBandName)));
+            var maHttpResponse = GetResponseAsync(new Uri(string.Format(_queryEndpoint, cleanedBandName)));
 
             return Parser.Parse(maHttpResponse);
         }

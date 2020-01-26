@@ -23,7 +23,7 @@
                     continue;
                 }
 
-                library.AddToLibrary(data);
+                library.AddToCollection(data);
             }
 
             return library;

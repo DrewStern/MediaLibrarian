@@ -28,7 +28,7 @@ namespace MetalArchivesLibraryDiffTests
 
             Library l = new Library(libraryPath);
 
-            Assert.AreEqual(l.EntireCollection.Count, 0);
+            Assert.AreEqual(l.Collection.Count, 0);
             Assert.AreEqual(l.Artists.Count, 0);
             Assert.AreEqual(l.Releases.Count, 0);
 
@@ -40,7 +40,7 @@ namespace MetalArchivesLibraryDiffTests
         public void LibraryDoesntHaveDuplicateArtists()
         {
             Library l = LibraryTestData.OneArtistToManyReleasesLibrary;
-            Assert.AreEqual(l.EntireCollection.Count, 2);
+            Assert.AreEqual(l.Collection.Count, 2);
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 2);
         }
@@ -49,9 +49,9 @@ namespace MetalArchivesLibraryDiffTests
         public void LibraryDoesntHaveDuplicateArtistReleases()
         {
             Library l = LibraryTestData.DuplicatedDataLibrary;
+            Assert.AreEqual(l.Collection.Count, 1);
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 1);
-            Assert.AreEqual(l.EntireCollection.Count, 1);
         }
     }
 }
