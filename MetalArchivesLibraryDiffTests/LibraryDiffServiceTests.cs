@@ -6,7 +6,7 @@ namespace MetalArchivesLibraryDiffTests
     [TestClass]
     public class LibraryDiffServiceTests
     {
-        private static LibraryDiffService _libraryDiffService;
+        private LibraryDiffService _libraryDiffService;
 
         [TestInitialize]
         public void LibraryDiffTestInitialize()

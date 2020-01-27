@@ -39,11 +39,6 @@ namespace MetalArchivesLibraryDiffTool
                 this.ReleaseType.Equals(other.ReleaseType, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
         public override string ToString()
         {
             string optionalReleaseType = IsFullLength ? String.Empty : $" ({ReleaseType})";

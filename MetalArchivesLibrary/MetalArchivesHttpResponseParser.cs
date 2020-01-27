@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MetalArchivesLibraryDiffTool
 {
@@ -6,13 +7,18 @@ namespace MetalArchivesLibraryDiffTool
     {
         public Library Parse(MetalArchivesHttpResponse maHttpResponse)
         {
+            if (maHttpResponse == null)
+            {
+                throw new ArgumentNullException($"{nameof(maHttpResponse)} may not be null");
+            }
+
             var libraryItems = new List<LibraryItem>();
 
             // Each entry has three components - the first represents the band name, the second the album name, and third the release type. Example:
             // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
             // [1] == <a href="https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622">Democratic Solution</a> <!-- 7.792132 -->
             // [2] == Full-length
-            foreach (string[] entry in maHttpResponse?.aaData)
+            foreach (string[] entry in maHttpResponse.aaData)
             {
                 ArtistData artistData = ExtractArtistData(entry[0]);
                 ReleaseData releaseData = ExtractReleaseData(entry[1], entry[2]);
@@ -38,19 +44,12 @@ namespace MetalArchivesLibraryDiffTool
             return new ArtistData(artistName, country);
         }
 
-        public ReleaseData ExtractReleaseData(string htmlReleaseName)
-        {
-            var artistName = ExtractReleaseName(htmlReleaseName);
-            return new ReleaseData(artistName);
-        }
-
         public ReleaseData ExtractReleaseData(string htmlReleaseName, string htmlReleaseType)
         {
             var artistName = ExtractReleaseName(htmlReleaseName);
-            //var releaseType = ExtractReleaseType(htmlArtistData); // TODO: doesn't exist, maybe don't need it
-            return new ReleaseData(artistName);
+            var releaseType = htmlReleaseType;
+            return new ReleaseData(artistName, releaseType);
         }
-
 
         /// <remarks>
         /// There might be two bands with the same name, but from different countries. 

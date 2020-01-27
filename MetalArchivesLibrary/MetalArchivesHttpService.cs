@@ -28,9 +28,7 @@ namespace MetalArchivesLibraryDiffTool
 
         public MetalArchivesHttpResponse Submit(MetalArchivesHttpRequest request)
         {
-            _retryCount = 0;
-
-            if (request.Equals(null))
+            if (request == null)
             {
                 throw new ArgumentNullException($"{nameof(request)} may not be null");
             }
@@ -41,6 +39,8 @@ namespace MetalArchivesLibraryDiffTool
 
         private MetalArchivesHttpResponse GetResponseAsync(Uri request)
         {
+            _retryCount = 0;
+
             try
             {
                 var response = _metalArchivesService.GetStringAsync(request);
@@ -51,7 +51,7 @@ namespace MetalArchivesLibraryDiffTool
                 // sleep for a bit so that Metal Archives doesn't get mad that we're sending too many requests, then just retry
                 Console.WriteLine($"Exception: {e.Message + (e.InnerException != null ? " " + e.InnerException.Message : String.Empty)}");
                 Thread.Sleep(5000);
-                return (_retryCount++ < _retryLimit ? GetResponseAsync(request) : null);
+                return _retryCount++ < _retryLimit ? GetResponseAsync(request) : null;
             }
         }
     }

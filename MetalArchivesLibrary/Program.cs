@@ -14,6 +14,8 @@ namespace MetalArchivesLibraryDiffTool
     {
         private static LibraryDiffService _libraryDiffService;
         private static MetalArchivesHttpClient _metalArchivesHttpClient;
+        private static MetalArchivesHttpService _metalArchivesHttpService;
+        private static MetalArchivesHttpResponseParser _metalArchivesHttpResponseParser;
 
         private static DirectoryInfo LibraryLocation { get; set; }
 
@@ -28,9 +30,19 @@ namespace MetalArchivesLibraryDiffTool
             get { return _libraryDiffService ?? (_libraryDiffService = new LibraryDiffService()); }
         }
 
+        private static MetalArchivesHttpService MetalArchivesHttpService
+        {
+            get { return _metalArchivesHttpService ?? (_metalArchivesHttpService = new MetalArchivesHttpService()); }
+        }
+
+        private static MetalArchivesHttpResponseParser MetalArchivesHttpResponseParser
+        {
+            get { return _metalArchivesHttpResponseParser ?? (_metalArchivesHttpResponseParser = new MetalArchivesHttpResponseParser()); }
+        }
+
         private static MetalArchivesHttpClient MetalArchivesHttpClient
         {
-            get { return _metalArchivesHttpClient ?? (_metalArchivesHttpClient = new MetalArchivesHttpClient()); }
+            get { return _metalArchivesHttpClient ?? (_metalArchivesHttpClient = new MetalArchivesHttpClient(MetalArchivesHttpService, MetalArchivesHttpResponseParser)); }
         }
 
         /// <summary>
@@ -96,13 +108,13 @@ namespace MetalArchivesLibraryDiffTool
 
         private static void WriteResults()
         { 
-            string[] diffText2 = new string[4];
-            diffText2[0] = "----- Artists with no matching results -----";
-            diffText2[1] = String.Join(Environment.NewLine, LibraryDiffService.GetArtistDiffs(MyLibraryData, TheirLibraryData));
-            diffText2[2] = "----- Releases missing from your collection -----";
-            diffText2[3] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyLibraryData, TheirLibraryData));
+            string[] text = new string[4];
+            text[0] = "----- Artists with no matching results -----";
+            text[1] = String.Join(Environment.NewLine, LibraryDiffService.GetArtistDiffs(MyLibraryData, TheirLibraryData));
+            text[2] = "----- Releases missing from your collection -----";
+            text[3] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyLibraryData, TheirLibraryData));
 
-            File.WriteAllLines(LibraryDiffOutputLocation.FullName, diffText2);
+            File.WriteAllLines(LibraryDiffOutputLocation.FullName, text);
         }
     }
 }

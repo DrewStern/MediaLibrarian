@@ -63,6 +63,7 @@ namespace MetalArchivesLibraryDiffTool
 
         public void AddToCollection(Library other)
         {
+            // TODO: may want to consider returning new Library here instead to be immutable
             AddToCollection(other.Collection);
         }
 

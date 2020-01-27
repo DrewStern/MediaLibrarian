@@ -1,5 +1,6 @@
 ﻿using MetalArchivesLibraryDiffTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace MetalArchivesLibraryDiffTests
 {
@@ -12,6 +13,13 @@ namespace MetalArchivesLibraryDiffTests
         public void MetalArchivesHttpResponseParserTestInitialize()
         {
             _parser = new MetalArchivesHttpResponseParser();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestUnableToParseNullResponse()
+        {
+            _parser.Parse(null);
         }
 
 
@@ -30,11 +38,42 @@ namespace MetalArchivesLibraryDiffTests
         public void TestReleaseDataHtmlParsing()
         {
             var releaseResponseHtml = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
+            var releaseTypeHtml = "Full-Length";
 
-            var expected = new ReleaseData("Democratic Solution");
-            var actual = _parser.ExtractReleaseData(releaseResponseHtml);
+            var expected = new ReleaseData("Democratic Solution", "Full-Length");
+            var actual = _parser.ExtractReleaseData(releaseResponseHtml, releaseTypeHtml);
 
             Assert.AreEqual(expected, actual);
         }
+
+        //[TestMethod]
+        //public void TestParse()
+        //{
+        //    var maHttpResponse = new MetalArchivesHttpResponse
+        //    {
+        //        aaData = new string[2, 2]
+        //        {
+        //            {
+        //                { "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>" },
+        //                { "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->"}
+        //            },
+        //            {
+        //                { "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>" },
+        //                { "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/iDontExist/384622\">iDontExist</a> <!-- 7.792132 -->" }
+        //            }
+        //        }
+        //    };
+        //}
+
+        //[TestMethod]
+        //public void TestIsFilteringOutNonFullLengthReleases()
+        //{
+        //    // TODO: construct a MetalArchivesHttpResponse to give to Parse
+
+        //    var expected = null; // TODO
+        //    var actual = _parser.Parse();
+
+        //    Assert.AreEqual(expected, actual);
+        //}
     }
 }

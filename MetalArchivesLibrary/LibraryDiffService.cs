@@ -10,21 +10,6 @@ namespace MetalArchivesLibraryDiffTool
             // intentionally empty
         }
 
-        public List<LibraryItem> GetDiffs(Library l1, Library l2)
-        {
-            var diffs = new List<LibraryItem>();
-
-            foreach (LibraryItem item in l1.Collection)
-            {
-                if (!l2.Collection.Contains(item))
-                {
-                    diffs.Add(item);
-                }
-            }
-
-            return diffs;
-        }
-
         public List<ArtistData> GetArtistDiffs(Library l1, Library l2)
         {
             var artistDataDiff = new List<ArtistData>();

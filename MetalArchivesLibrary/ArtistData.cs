@@ -33,11 +33,6 @@ namespace MetalArchivesLibraryDiffTool
                 this.Country.Equals(other.Country, StringComparison.InvariantCultureIgnoreCase);
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
         public override string ToString()
         {
             string optionalCountry = String.IsNullOrWhiteSpace(Country) ? String.Empty : $" ({Country})";

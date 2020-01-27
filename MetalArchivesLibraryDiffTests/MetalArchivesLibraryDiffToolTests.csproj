@@ -59,6 +59,7 @@
     <Compile Include="MetalArchivesHttpClientTests.cs" />
     <Compile Include="MetalArchivesHttpRequestTests.cs" />
     <Compile Include="MetalArchivesHttpResponseParserTests.cs" />
+    <Compile Include="MetalArchivesHttpServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

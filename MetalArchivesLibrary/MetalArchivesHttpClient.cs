@@ -10,10 +10,10 @@ namespace MetalArchivesLibraryDiffTool
 
         #region Constructors
 
-        public MetalArchivesHttpClient()
+        public MetalArchivesHttpClient(MetalArchivesHttpService service, MetalArchivesHttpResponseParser parser)
         {
-            Service = new MetalArchivesHttpService();
-            Parser = new MetalArchivesHttpResponseParser();
+            Service = service;
+            Parser = parser;
         }
 
         #endregion Constructors
@@ -29,6 +29,8 @@ namespace MetalArchivesLibraryDiffTool
 
             return Parser.Parse(Service.Submit(new MetalArchivesHttpRequest(new ArtistData(artistName))));
         }
+
+        // TODO: may want to implement FindByArtistAndCountry
 
         #endregion
     }
