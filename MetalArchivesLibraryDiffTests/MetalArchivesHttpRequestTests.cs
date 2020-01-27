@@ -7,12 +7,14 @@ namespace MetalArchivesLibraryDiffTests
     public class MetalArchivesHttpRequestTests
     {
         [TestMethod]
-        [Ignore("Test not finished")]
-        public void TestHttpRequest()
+        public void TestHttpRequestAccountsForSpacesInArtistName()
         {
-            var request = new MetalArchivesHttpRequest("!T.O.O.H.!");
+            var request = new MetalArchivesHttpRequest(new ArtistData("a test artist name"));
 
-            // TODO: make request - probably need to fake out the async call to the MetalArchivesService
+            var expected = "\"a test artist name\"";
+            var actual = request.ArtistName;
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }

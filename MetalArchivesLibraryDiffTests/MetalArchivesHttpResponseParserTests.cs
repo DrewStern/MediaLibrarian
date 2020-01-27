@@ -46,24 +46,22 @@ namespace MetalArchivesLibraryDiffTests
             Assert.AreEqual(expected, actual);
         }
 
-        //[TestMethod]
-        //public void TestParse()
-        //{
-        //    var maHttpResponse = new MetalArchivesHttpResponse
-        //    {
-        //        aaData = new string[2, 2]
-        //        {
-        //            {
-        //                { "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>" },
-        //                { "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->"}
-        //            },
-        //            {
-        //                { "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>" },
-        //                { "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/iDontExist/384622\">iDontExist</a> <!-- 7.792132 -->" }
-        //            }
-        //        }
-        //    };
-        //}
+        [TestMethod]
+        public void TestParse()
+        {
+            var htmlResponse = new string[3];
+            htmlResponse[0] = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
+            htmlResponse[1] = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
+            htmlResponse[2] = "Full-Length";
+
+            var maHttpResponse = new MetalArchivesHttpResponse();
+            maHttpResponse.aaData = new string[1][];
+            maHttpResponse.aaData[0] = htmlResponse;
+            Library l = _parser.Parse(maHttpResponse);
+            Assert.AreEqual(l.Collection.Count, 1);
+            Assert.AreEqual(l.Artists.Count, 1);
+            Assert.AreEqual(l.Releases.Count, 1);
+        }
 
         //[TestMethod]
         //public void TestIsFilteringOutNonFullLengthReleases()
