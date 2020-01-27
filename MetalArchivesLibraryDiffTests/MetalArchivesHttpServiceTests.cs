@@ -10,10 +10,9 @@ namespace MetalArchivesLibraryDiffTests
         private MetalArchivesHttpService _metalArchivesHttpService = new MetalArchivesHttpService();
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestRequestMayNotBeNull()
         {
-            _metalArchivesHttpService.Submit(null);
+            Assert.ThrowsException<ArgumentNullException>(() => _metalArchivesHttpService.Submit(null));
         }
     }
 }

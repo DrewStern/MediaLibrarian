@@ -7,17 +7,6 @@ namespace MetalArchivesLibraryDiffTests
     [TestClass]
     public class LibraryItemTests
     {
-        //[TestMethod]
-        //[ExpectedException(typeof())]
-        //public void TestCantNullInitialize()
-        //{
-        //    var libraryItem = new LibraryItem(
-        //        new ArtistData(null),
-        //        new ReleaseData(null));
-
-        //    libraryItem.ToString();
-        //}
-
         [TestMethod]
         public void TestEquality()
         {

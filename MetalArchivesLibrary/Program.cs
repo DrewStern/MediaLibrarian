@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
@@ -61,10 +62,9 @@ namespace MetalArchivesLibraryDiffTool
                 ParseArgs(args);
 
                 MyLibraryData = new Library(LibraryLocation);
+                TheirLibraryData = new Library(new List<LibraryItem>());
 
                 Console.WriteLine($"Discovered {MyLibraryData.Collection.Count} items on disk");
-
-                TheirLibraryData = new Library();
 
                 foreach (ArtistData artist in MyLibraryData.Artists)
                 {
@@ -110,7 +110,7 @@ namespace MetalArchivesLibraryDiffTool
         { 
             string[] text = new string[4];
             text[0] = "----- Artists with no matching results -----";
-            text[1] = String.Join(Environment.NewLine, LibraryDiffService.GetArtistDiffs(MyLibraryData, TheirLibraryData));
+            text[1] = String.Empty; //String.Join(Environment.NewLine, LibraryDiffService.GetArtistDiffs(MyLibraryData, TheirLibraryData));
             text[2] = "----- Releases missing from your collection -----";
             text[3] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyLibraryData, TheirLibraryData));
 

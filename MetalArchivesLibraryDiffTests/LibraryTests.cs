@@ -9,13 +9,12 @@ namespace MetalArchivesLibraryDiffTests
     public class LibraryTests
     {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void CanOnlyLoadDataFromExistantDiskLocations()
         {
             // use a new directory on disk that has no content
             DirectoryInfo libraryPath = new DirectoryInfo("C:\\iDontExist");
 
-            Library l = new Library(libraryPath);
+            Assert.ThrowsException<ArgumentException>(() => new Library(libraryPath));
         }
 
         [TestMethod]
@@ -91,7 +90,7 @@ namespace MetalArchivesLibraryDiffTests
         }
 
         [TestMethod]
-        public void TestLibraryPlusLibraryEqualsLibrary()
+        public void TestEmptyLibraryPlusNonEmptyLibraryEqualsNonEmptyLibrary()
         {
             Library empty = LibraryTestData.EmptyLibrary;
             empty.AddToCollection(LibraryTestData.OneArtistToManyReleasesLibrary);

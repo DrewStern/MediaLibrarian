@@ -16,10 +16,9 @@ namespace MetalArchivesLibraryDiffTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
         public void TestUnableToParseNullResponse()
         {
-            _parser.Parse(null);
+            Assert.ThrowsException<ArgumentNullException>(() => _parser.Parse(null));
         }
 
 
@@ -57,10 +56,31 @@ namespace MetalArchivesLibraryDiffTests
             var maHttpResponse = new MetalArchivesHttpResponse();
             maHttpResponse.aaData = new string[1][];
             maHttpResponse.aaData[0] = htmlResponse;
+
             Library l = _parser.Parse(maHttpResponse);
+
             Assert.AreEqual(l.Collection.Count, 1);
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 1);
+        }
+
+        [TestMethod]
+        public void TestParseMasksNonFullLengthReleases()
+        {
+            var htmlResponse = new string[3];
+            htmlResponse[0] = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
+            htmlResponse[1] = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
+            htmlResponse[2] = "demo";
+
+            var maHttpResponse = new MetalArchivesHttpResponse();
+            maHttpResponse.aaData = new string[1][];
+            maHttpResponse.aaData[0] = htmlResponse;
+
+            Library l = _parser.Parse(maHttpResponse);
+
+            Assert.AreEqual(l.Collection.Count, 0);
+            Assert.AreEqual(l.Artists.Count, 0);
+            Assert.AreEqual(l.Releases.Count, 0);
         }
 
         //[TestMethod]

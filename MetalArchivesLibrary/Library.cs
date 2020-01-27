@@ -36,13 +36,9 @@ namespace MetalArchivesLibraryDiffTool
             get { return _artistDataEqualityComparer ?? (_artistDataEqualityComparer = new ArtistDataEqualityComparer()); }
         }
 
-        public Library()
+        public Library(List<LibraryItem> items)
         {
-        }
-
-        public Library(List<LibraryItem> libraryData)
-        {
-            AddToCollection(libraryData);
+            Collection.AddRange(items.Distinct(LibraryItemEqualityComparer));
         }
 
         public Library(DirectoryInfo fromPath)
@@ -61,26 +57,19 @@ namespace MetalArchivesLibraryDiffTool
             }
         }
 
-        public void AddToCollection(Library other)
+        public void AddToCollection(Library l)
         {
-            // TODO: may want to consider returning new Library here instead to be immutable
-            AddToCollection(other.Collection);
+            AddToCollection(l.Collection);
         }
 
-        private void AddToCollection(List<LibraryItem> lli)
+        public void AddToCollection(List<LibraryItem> lli)
         {
-            foreach (LibraryItem li in lli)
-            {
-                AddToCollection(li);
-            }
+            lli.ForEach(x => AddToCollection(x));
         }
 
-        private void AddToCollection(LibraryItem li)
+        public void AddToCollection(LibraryItem li)
         {
-            if (!Collection.Contains(li, LibraryItemEqualityComparer))
-            {
-                Collection.Add(li);
-            }
+            Collection.Add(li);
         }
     }
 }
