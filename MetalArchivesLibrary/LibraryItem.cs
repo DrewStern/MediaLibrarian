@@ -35,10 +35,23 @@ namespace MetalArchivesLibraryDiffTool
             ReleaseData = new ReleaseData(releaseName, releaseType);
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is LibraryItem))
+            {
+                return false;
+            }
+
+            LibraryItem other = (LibraryItem)obj;
+
+            return
+                this.ArtistData.Equals(other.ArtistData) &&
+                this.ReleaseData.Equals(other.ReleaseData);
+        }
+
         public override string ToString()
         {
-            string optionalCountry = String.IsNullOrWhiteSpace(ArtistData.Country) ? String.Empty : "(ArtistData.Country)";
-            return $"{ArtistData.ArtistName} {optionalCountry} - {ReleaseData.ReleaseName}";
+            return ArtistData.ToString() + " - " + ReleaseData.ToString();
         }
     }
 }

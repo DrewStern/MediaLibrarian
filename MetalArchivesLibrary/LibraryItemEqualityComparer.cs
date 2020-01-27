@@ -4,11 +4,11 @@ namespace MetalArchivesLibraryDiffTool
 {
     public class LibraryItemEqualityComparer : IEqualityComparer<LibraryItem>
     {
-        public bool Equals(LibraryItem ard1, LibraryItem ard2)
+        public bool Equals(LibraryItem x, LibraryItem y)
         {
             return
-                ard1.ArtistData.Equals(ard2.ArtistData) &&
-                ard1.ReleaseData.Equals(ard2.ReleaseData);
+                x.ArtistData.Equals(y.ArtistData) &&
+                x.ReleaseData.Equals(y.ReleaseData);
         }
 
         public int GetHashCode(LibraryItem ard)

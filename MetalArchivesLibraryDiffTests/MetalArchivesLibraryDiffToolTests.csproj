@@ -52,10 +52,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LibraryItemTests.cs" />
     <Compile Include="LibraryTests.cs" />
     <Compile Include="LibraryTestData.cs" />
     <Compile Include="LibraryDiffServiceTests.cs" />
     <Compile Include="MetalArchivesHttpClientTests.cs" />
+    <Compile Include="MetalArchivesHttpRequestTests.cs" />
     <Compile Include="MetalArchivesHttpResponseParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

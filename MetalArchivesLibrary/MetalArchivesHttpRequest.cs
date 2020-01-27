@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MetalArchivesLibraryDiffTool
+﻿namespace MetalArchivesLibraryDiffTool
 {
     public class MetalArchivesHttpRequest
     {
@@ -12,17 +6,28 @@ namespace MetalArchivesLibraryDiffTool
 
         public string ArtistName
         {
-            get { return _artistName; }
-            private set
-            {
-                // facilitates bands which have spaces in their name
-                _artistName = "\"" + value + "\"";
-            }
+            // facilitates bands which have spaces in their name
+            get { return "\"" + _artistName + "\""; }
+        }
+
+        public ArtistData ArtistData { get; }
+
+        public ReleaseData ReleaseData { get; }
+
+        public MetalArchivesHttpRequest(ArtistData ad)
+            : this(ad, null)
+        {
+        }
+
+        public MetalArchivesHttpRequest(ArtistData ad, ReleaseData rd)
+        {
+            ArtistData = ad;
+            ReleaseData = rd;
         }
 
         public MetalArchivesHttpRequest(string artistName)
         {
-            ArtistName = artistName;
+            _artistName = artistName;
         }
     }
 }

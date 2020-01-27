@@ -43,5 +43,11 @@ namespace MetalArchivesLibraryDiffTool
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            string optionalReleaseType = IsFullLength ? String.Empty : $" ({ReleaseType})";
+            return $"{ReleaseName}{optionalReleaseType}";
+        }
     }
 }

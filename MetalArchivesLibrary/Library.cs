@@ -18,50 +18,22 @@ namespace MetalArchivesLibraryDiffTool
 
         public List<ArtistData> Artists
         {
-            get
-            {
-                return Collection.
-                    Select(x => x.ArtistData).
-                    Distinct(ArtistDataEqualityComparer).
-                    ToList();
-            }
+            get{ return Collection.Select(x => x.ArtistData).Distinct(ArtistDataEqualityComparer).ToList(); }
         }
 
         public List<ReleaseData> Releases
         {
-            get
-            {
-                return Collection.
-                    Select(x => x.ReleaseData).
-                    Distinct().
-                    ToList();
-            }
+            get { return Collection.Select(x => x.ReleaseData).Distinct(/*ReleaseDataEqualityComparer not necessary yet*/).ToList(); }
         }
 
         private LibraryItemEqualityComparer LibraryItemEqualityComparer
         {
-            get
-            {
-                if (_libraryItemEqualityComparer == null)
-                {
-                    _libraryItemEqualityComparer = new LibraryItemEqualityComparer();
-                }
-
-                return _libraryItemEqualityComparer;
-            }
+            get { return _libraryItemEqualityComparer ?? (_libraryItemEqualityComparer = new LibraryItemEqualityComparer()); }
         }
 
         private ArtistDataEqualityComparer ArtistDataEqualityComparer
         {
-            get
-            {
-                if (_artistDataEqualityComparer == null)
-                {
-                    _artistDataEqualityComparer = new ArtistDataEqualityComparer();
-                }
-
-                return _artistDataEqualityComparer;
-            }
+            get { return _artistDataEqualityComparer ?? (_artistDataEqualityComparer = new ArtistDataEqualityComparer()); }
         }
 
         public Library()
@@ -94,7 +66,7 @@ namespace MetalArchivesLibraryDiffTool
             AddToCollection(other.Collection);
         }
 
-        public void AddToCollection(List<LibraryItem> lli)
+        private void AddToCollection(List<LibraryItem> lli)
         {
             foreach (LibraryItem li in lli)
             {
@@ -102,7 +74,7 @@ namespace MetalArchivesLibraryDiffTool
             }
         }
 
-        public void AddToCollection(LibraryItem li)
+        private void AddToCollection(LibraryItem li)
         {
             if (!Collection.Contains(li, LibraryItemEqualityComparer))
             {

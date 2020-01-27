@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 
@@ -8,6 +9,7 @@ namespace MetalArchivesLibraryDiffTool
     /// The purpose of this application is to compare the content of a given library of metal music against a database of known metal releases.
     /// Primarily to help me find good things I might be missing in my collection. :)
     /// </summary>
+    [ExcludeFromCodeCoverage]
     class Program
     {
         private static LibraryDiffService _libraryDiffService;
@@ -23,28 +25,12 @@ namespace MetalArchivesLibraryDiffTool
 
         private static LibraryDiffService LibraryDiffService
         {
-            get
-            {
-                if (_libraryDiffService == null)
-                {
-                    _libraryDiffService = new LibraryDiffService();
-                }
-
-                return _libraryDiffService;
-            }
+            get { return _libraryDiffService ?? (_libraryDiffService = new LibraryDiffService()); }
         }
 
         private static MetalArchivesHttpClient MetalArchivesHttpClient
         {
-            get
-            {
-                if (_metalArchivesHttpClient == null)
-                {
-                    _metalArchivesHttpClient = new MetalArchivesHttpClient();
-                }
-
-                return _metalArchivesHttpClient;
-            }
+            get { return _metalArchivesHttpClient ?? (_metalArchivesHttpClient = new MetalArchivesHttpClient()); }
         }
 
         /// <summary>

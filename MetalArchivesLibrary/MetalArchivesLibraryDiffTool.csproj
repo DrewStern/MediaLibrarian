@@ -69,6 +69,7 @@
     <Compile Include="MetalArchivesHttpRequest.cs" />
     <Compile Include="MetalArchivesHttpResponse.cs" />
     <Compile Include="MetalArchivesHttpResponseParser.cs" />
+    <Compile Include="MetalArchivesHttpService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseData.cs" />

@@ -8,6 +8,11 @@ namespace MetalArchivesLibraryDiffTool
 
         public string Country { get; }
 
+        public ArtistData(string artistName)
+            : this(artistName, String.Empty)
+        {
+        }
+
         public ArtistData(string artistName, string country)
         {
             ArtistName = artistName;
@@ -31,6 +36,12 @@ namespace MetalArchivesLibraryDiffTool
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            string optionalCountry = String.IsNullOrWhiteSpace(Country) ? String.Empty : $" ({Country})";
+            return $"{ArtistName}{optionalCountry}";
         }
     }
 }

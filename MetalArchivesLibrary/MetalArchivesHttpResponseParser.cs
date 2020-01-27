@@ -1,10 +1,12 @@
-﻿namespace MetalArchivesLibraryDiffTool
+﻿using System.Collections.Generic;
+
+namespace MetalArchivesLibraryDiffTool
 {
     public class MetalArchivesHttpResponseParser
     {
         public Library Parse(MetalArchivesHttpResponse maHttpResponse)
         {
-            var library = new Library();
+            var libraryItems = new List<LibraryItem>();
 
             // Each entry has three components - the first represents the band name, the second the album name, and third the release type. Example:
             // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
@@ -23,10 +25,10 @@
                     continue;
                 }
 
-                library.AddToCollection(data);
+                libraryItems.Add(data);
             }
 
-            return library;
+            return new Library(libraryItems);
         }
 
         public ArtistData ExtractArtistData(string htmlArtistData)
