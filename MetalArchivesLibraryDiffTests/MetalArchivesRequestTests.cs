@@ -4,12 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MetalArchivesLibraryDiffTests
 {
     [TestClass]
-    public class MetalArchivesHttpRequestTests
+    public class MetalArchivesRequestTests
     {
         [TestMethod]
-        public void TestHttpRequestAccountsForSpacesInArtistName()
+        public void TestRequestAccountsForSpacesInArtistName()
         {
-            var request = new MetalArchivesHttpRequest(new ArtistData("a test artist name"));
+            var request = new MetalArchivesRequest(new ArtistData("a test artist name"));
 
             var expected = "\"a test artist name\"";
             var actual = request.ArtistName;

@@ -2,15 +2,15 @@
 
 namespace MetalArchivesLibraryDiffTool
 {
-    public class MetalArchivesHttpClient
+    public class MetalArchivesClient
     {
-        private MetalArchivesHttpService Service { get; }
+        private MetalArchivesService Service { get; }
 
-        private MetalArchivesHttpResponseParser Parser { get; }
+        private MetalArchivesResponseParser Parser { get; }
 
         #region Constructors
 
-        public MetalArchivesHttpClient(MetalArchivesHttpService service, MetalArchivesHttpResponseParser parser)
+        public MetalArchivesClient(MetalArchivesService service, MetalArchivesResponseParser parser)
         {
             Service = service;
             Parser = parser;
@@ -27,7 +27,7 @@ namespace MetalArchivesLibraryDiffTool
                 throw new ArgumentException($"{nameof(artistName)} may not be null or empty");
             }
 
-            return Parser.Parse(Service.Submit(new MetalArchivesHttpRequest(new ArtistData(artistName))));
+            return Parser.Parse(Service.Submit(new MetalArchivesRequest(new ArtistData(artistName))));
         }
 
         // TODO: may want to implement FindByArtistAndCountry

@@ -1,6 +1,6 @@
 ﻿namespace MetalArchivesLibraryDiffTool
 {
-    public class MetalArchivesHttpRequest
+    public class MetalArchivesRequest
     {
         public string ArtistName
         {
@@ -10,7 +10,7 @@
 
         public ArtistData ArtistData { get; }
 
-        public MetalArchivesHttpRequest(ArtistData ad)
+        public MetalArchivesRequest(ArtistData ad)
         {
             ArtistData = ad;
         }

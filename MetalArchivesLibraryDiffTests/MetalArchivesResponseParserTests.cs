@@ -5,14 +5,14 @@ using System;
 namespace MetalArchivesLibraryDiffTests
 {
     [TestClass]
-    public class MetalArchivesHttpResponseParserTests
+    public class MetalArchivesResponseParserTests
     {
-        private MetalArchivesHttpResponseParser _parser;
+        private MetalArchivesResponseParser _parser;
 
         [TestInitialize]
-        public void MetalArchivesHttpResponseParserTestInitialize()
+        public void MetalArchivesResponseParserTestInitialize()
         {
-            _parser = new MetalArchivesHttpResponseParser();
+            _parser = new MetalArchivesResponseParser();
         }
 
         [TestMethod]
@@ -53,15 +53,15 @@ namespace MetalArchivesLibraryDiffTests
             htmlResponse[1] = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
             htmlResponse[2] = "Full-Length";
 
-            var maHttpResponse = new MetalArchivesHttpResponse();
-            maHttpResponse.aaData = new string[1][];
-            maHttpResponse.aaData[0] = htmlResponse;
+            var maResponse = new MetalArchivesResponse();
+            maResponse.aaData = new string[1][];
+            maResponse.aaData[0] = htmlResponse;
 
-            Library l = _parser.Parse(maHttpResponse);
+            Library l = _parser.Parse(maResponse);
 
-            Assert.AreEqual(l.Collection.Count, 1);
-            Assert.AreEqual(l.Artists.Count, 1);
-            Assert.AreEqual(l.Releases.Count, 1);
+            Assert.AreEqual(1, l.Collection.Count);
+            Assert.AreEqual(1, l.Artists.Count);
+            Assert.AreEqual(1, l.Releases.Count);
         }
 
         [TestMethod]
@@ -72,26 +72,15 @@ namespace MetalArchivesLibraryDiffTests
             htmlResponse[1] = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
             htmlResponse[2] = "demo";
 
-            var maHttpResponse = new MetalArchivesHttpResponse();
+            var maHttpResponse = new MetalArchivesResponse();
             maHttpResponse.aaData = new string[1][];
             maHttpResponse.aaData[0] = htmlResponse;
 
             Library l = _parser.Parse(maHttpResponse);
 
-            Assert.AreEqual(l.Collection.Count, 0);
-            Assert.AreEqual(l.Artists.Count, 0);
-            Assert.AreEqual(l.Releases.Count, 0);
+            Assert.AreEqual(0, l.Collection.Count);
+            Assert.AreEqual(0, l.Artists.Count);
+            Assert.AreEqual(0, l.Releases.Count);
         }
-
-        //[TestMethod]
-        //public void TestIsFilteringOutNonFullLengthReleases()
-        //{
-        //    // TODO: construct a MetalArchivesHttpResponse to give to Parse
-
-        //    var expected = null; // TODO
-        //    var actual = _parser.Parse();
-
-        //    Assert.AreEqual(expected, actual);
-        //}
     }
 }

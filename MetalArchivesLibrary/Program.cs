@@ -14,9 +14,9 @@ namespace MetalArchivesLibraryDiffTool
     class Program
     {
         private static LibraryDiffService _libraryDiffService;
-        private static MetalArchivesHttpClient _metalArchivesHttpClient;
-        private static MetalArchivesHttpService _metalArchivesHttpService;
-        private static MetalArchivesHttpResponseParser _metalArchivesHttpResponseParser;
+        private static MetalArchivesClient _metalArchivesClient;
+        private static MetalArchivesService _metalArchivesService;
+        private static MetalArchivesResponseParser _metalArchivesResponseParser;
 
         private static DirectoryInfo LibraryLocation { get; set; }
 
@@ -31,19 +31,19 @@ namespace MetalArchivesLibraryDiffTool
             get { return _libraryDiffService ?? (_libraryDiffService = new LibraryDiffService()); }
         }
 
-        private static MetalArchivesHttpService MetalArchivesHttpService
+        private static MetalArchivesService MetalArchivesService
         {
-            get { return _metalArchivesHttpService ?? (_metalArchivesHttpService = new MetalArchivesHttpService()); }
+            get { return _metalArchivesService ?? (_metalArchivesService = new MetalArchivesService()); }
         }
 
-        private static MetalArchivesHttpResponseParser MetalArchivesHttpResponseParser
+        private static MetalArchivesResponseParser MetalArchivesResponseParser
         {
-            get { return _metalArchivesHttpResponseParser ?? (_metalArchivesHttpResponseParser = new MetalArchivesHttpResponseParser()); }
+            get { return _metalArchivesResponseParser ?? (_metalArchivesResponseParser = new MetalArchivesResponseParser()); }
         }
 
-        private static MetalArchivesHttpClient MetalArchivesHttpClient
+        private static MetalArchivesClient MetalArchivesClient
         {
-            get { return _metalArchivesHttpClient ?? (_metalArchivesHttpClient = new MetalArchivesHttpClient(MetalArchivesHttpService, MetalArchivesHttpResponseParser)); }
+            get { return _metalArchivesClient ?? (_metalArchivesClient = new MetalArchivesClient(MetalArchivesService, MetalArchivesResponseParser)); }
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace MetalArchivesLibraryDiffTool
 
                 foreach (ArtistData artist in MyLibraryData.Artists)
                 {
-                    TheirLibraryData.AddToCollection(MetalArchivesHttpClient.FindByArtist(artist.ArtistName));
+                    TheirLibraryData.AddToCollection(MetalArchivesClient.FindByArtist(artist.ArtistName));
                     Console.WriteLine($"Added {artist.ArtistName} to library");
                     Thread.Sleep(3000);
                 }
@@ -108,11 +108,8 @@ namespace MetalArchivesLibraryDiffTool
 
         private static void WriteResults()
         { 
-            string[] text = new string[4];
-            text[0] = "----- Artists with no matching results -----";
-            text[1] = String.Empty; //String.Join(Environment.NewLine, LibraryDiffService.GetArtistDiffs(MyLibraryData, TheirLibraryData));
-            text[2] = "----- Releases missing from your collection -----";
-            text[3] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyLibraryData, TheirLibraryData));
+            string[] text = new string[1];
+            text[0] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyLibraryData, TheirLibraryData));
 
             File.WriteAllLines(LibraryDiffOutputLocation.FullName, text);
         }

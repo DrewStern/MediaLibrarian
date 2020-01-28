@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the full JSON object body received back from Metal Archives.
     /// </summary>
-    public class MetalArchivesHttpResponse
+    public class MetalArchivesResponse
     {
         public string error { get; set; }
 
@@ -15,7 +15,7 @@
 
         public string[][] aaData { get; set; }
 
-        public MetalArchivesHttpResponse()
+        public MetalArchivesResponse()
         {
             // intentionally empty - used only for deserialization of http response
         }

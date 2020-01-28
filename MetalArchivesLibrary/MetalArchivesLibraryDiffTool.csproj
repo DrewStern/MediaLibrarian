@@ -65,11 +65,11 @@
     <Compile Include="LibraryItemEqualityComparer.cs" />
     <Compile Include="Library.cs" />
     <Compile Include="LibraryDiffService.cs" />
-    <Compile Include="MetalArchivesHttpClient.cs" />
-    <Compile Include="MetalArchivesHttpRequest.cs" />
-    <Compile Include="MetalArchivesHttpResponse.cs" />
-    <Compile Include="MetalArchivesHttpResponseParser.cs" />
-    <Compile Include="MetalArchivesHttpService.cs" />
+    <Compile Include="MetalArchivesClient.cs" />
+    <Compile Include="MetalArchivesRequest.cs" />
+    <Compile Include="MetalArchivesResponse.cs" />
+    <Compile Include="MetalArchivesResponseParser.cs" />
+    <Compile Include="MetalArchivesService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseData.cs" />

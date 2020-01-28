@@ -5,7 +5,7 @@ using System.Web.Script.Serialization;
 
 namespace MetalArchivesLibraryDiffTool
 {
-    public class MetalArchivesHttpService
+    public class MetalArchivesService
     {
         private static int _retryLimit = 5;
         private static int _retryCount = 0;
@@ -21,12 +21,12 @@ namespace MetalArchivesLibraryDiffTool
 
         private HttpClient _metalArchivesService { get; }
 
-        public MetalArchivesHttpService()
+        public MetalArchivesService()
         {
             _metalArchivesService = new HttpClient { BaseAddress = new Uri(_queryEndpoint) };
         }
 
-        public MetalArchivesHttpResponse Submit(MetalArchivesHttpRequest request)
+        public MetalArchivesResponse Submit(MetalArchivesRequest request)
         {
             if (request == null)
             {
@@ -37,14 +37,14 @@ namespace MetalArchivesLibraryDiffTool
             return GetResponseAsync(new Uri(string.Format(_queryEndpoint, request.ArtistName)));
         }
 
-        private MetalArchivesHttpResponse GetResponseAsync(Uri request)
+        private MetalArchivesResponse GetResponseAsync(Uri request)
         {
             _retryCount = 0;
 
             try
             {
                 var response = _metalArchivesService.GetStringAsync(request);
-                return new JavaScriptSerializer().Deserialize<MetalArchivesHttpResponse>(response.Result);
+                return new JavaScriptSerializer().Deserialize<MetalArchivesResponse>(response.Result);
             }
             catch (Exception e)
             {

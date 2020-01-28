@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace MetalArchivesLibraryDiffTool
 {
-    public class MetalArchivesHttpResponseParser
+    public class MetalArchivesResponseParser
     {
-        public Library Parse(MetalArchivesHttpResponse maHttpResponse)
+        public Library Parse(MetalArchivesResponse response)
         {
-            if (maHttpResponse == null)
+            if (response == null)
             {
-                throw new ArgumentNullException($"{nameof(maHttpResponse)} may not be null");
+                throw new ArgumentNullException($"{nameof(response)} may not be null");
             }
 
             var libraryItems = new List<LibraryItem>();
@@ -18,7 +18,7 @@ namespace MetalArchivesLibraryDiffTool
             // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
             // [1] == <a href="https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622">Democratic Solution</a> <!-- 7.792132 -->
             // [2] == Full-length
-            foreach (string[] entry in maHttpResponse.aaData)
+            foreach (string[] entry in response.aaData)
             {
                 ArtistData artistData = ExtractArtistData(entry[0]);
                 ReleaseData releaseData = ExtractReleaseData(entry[1], entry[2]);

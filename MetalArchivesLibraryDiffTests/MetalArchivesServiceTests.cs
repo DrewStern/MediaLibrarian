@@ -5,14 +5,14 @@ using System;
 namespace MetalArchivesLibraryDiffTests
 {
     [TestClass]
-    public class MetalArchivesHttpServiceTests
+    public class MetalArchivesServiceTests
     {
-        private MetalArchivesHttpService _metalArchivesHttpService = new MetalArchivesHttpService();
+        private MetalArchivesService _metalArchivesService = new MetalArchivesService();
 
         [TestMethod]
         public void TestRequestMayNotBeNull()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => _metalArchivesHttpService.Submit(null));
+            Assert.ThrowsException<ArgumentNullException>(() => _metalArchivesService.Submit(null));
         }
     }
 }
