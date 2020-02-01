@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace MetalArchivesLibraryDiffTool
 {
@@ -27,10 +28,17 @@ namespace MetalArchivesLibraryDiffTool
                 throw new ArgumentException($"{nameof(artistName)} may not be null or empty");
             }
 
-            return Parser.Parse(Service.Submit(new MetalArchivesRequest(new ArtistData(artistName))));
+            var request = new MetalArchivesRequest(new ArtistData(artistName));
+
+            var response = Service.Submit(request);
+
+            var parsedResponse = Parser.Parse(response);
+
+            // TODO: I don't like doing this filtration here.
+            return new Library(parsedResponse.Collection.Where(x => x.ArtistData.ArtistName.StartsWith(artistName)).ToList());
         }
 
-        // TODO: may want to implement FindByArtistAndCountry
+        // TODO: may want to implement FindByArtistAndCountry or FindBetweenReleaseDates
 
         #endregion
     }

@@ -29,11 +29,11 @@ namespace MetalArchivesLibraryDiffTool
         {
             var artistReleaseDiffs = new List<LibraryItem>();
 
-            foreach (LibraryItem ard in ld2.Collection)
+            foreach (LibraryItem li in ld2.Collection)
             {
-                if (!ld1.Collection.Any(x => x.Equals(ard)))
+                if (!ld1.Collection.Any(x => x.Equals(li)))
                 {
-                    artistReleaseDiffs.Add(ard);
+                    artistReleaseDiffs.Add(li);
                 }
             }
 

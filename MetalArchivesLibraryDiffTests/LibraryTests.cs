@@ -18,7 +18,7 @@ namespace MetalArchivesLibraryDiffTests
         }
 
         [TestMethod]
-        public void EmptyLibraryShouldHaveNoArtistReleaseData()
+        public void EmptyLibraryShouldHaveNothing()
         {
             // use a new directory on disk that has no content
             DirectoryInfo libraryPath = new DirectoryInfo("C:\\iExistButAmEmpty");
@@ -81,7 +81,7 @@ namespace MetalArchivesLibraryDiffTests
         }
 
         [TestMethod]
-        public void LibraryDoesntHaveDuplicateArtistReleases()
+        public void LibraryDoesntHaveDuplicateItems()
         {
             Library l = LibraryTestData.DuplicatedDataLibrary;
             Assert.AreEqual(l.Collection.Count, 1);
