@@ -35,7 +35,7 @@ namespace MetalArchivesLibraryDiffTool
             {
                 if (_leftOutersection == null)
                 {
-                    var libaryItems = new List<LibraryItem>();
+                    var libraryItems = new List<LibraryItem>();
 
                     for (var i = 0; i < Left.Collection.Count; i++)
                     {
@@ -43,11 +43,11 @@ namespace MetalArchivesLibraryDiffTool
 
                         if (!Right.Collection.Contains(itemFromLargerCollection))
                         {
-                            libaryItems.Add(itemFromLargerCollection);
+                            libraryItems.Add(itemFromLargerCollection);
                         }
                     }
 
-                    _leftOutersection = new Library(libaryItems);
+                    _leftOutersection = new Library(libraryItems);
                 }
 
                 return _leftOutersection;
@@ -60,7 +60,7 @@ namespace MetalArchivesLibraryDiffTool
             {
                 if (_rightOutersection == null)
                 {
-                    var libaryItems = new List<LibraryItem>();
+                    var libraryItems = new List<LibraryItem>();
 
                     for (var i = 0; i < Right.Collection.Count; i++)
                     {
@@ -68,11 +68,11 @@ namespace MetalArchivesLibraryDiffTool
 
                         if (!Left.Collection.Contains(itemFromLargerCollection))
                         {
-                            libaryItems.Add(itemFromLargerCollection);
+                            libraryItems.Add(itemFromLargerCollection);
                         }
                     }
 
-                    _rightOutersection = new Library(libaryItems);
+                    _rightOutersection = new Library(libraryItems);
                 }
 
                 return _rightOutersection;
@@ -85,36 +85,34 @@ namespace MetalArchivesLibraryDiffTool
             {
                 if (_fullOutersection == null)
                 {
-                    var libaryItems = new List<LibraryItem>();
+                    var libraryItems = new List<LibraryItem>();
 
                     // TODO: refactor this - need to avoid the case where the collections are the same size, but because the ternary
                     // below defaults to the Right.Collection, then we weren't including the outersection from the Left.Collection
                     var largerCollection = Left.Collection.Count > Right.Collection.Count ? Left.Collection : Right.Collection;
                     var smallerCollection = Left.Collection.Count > Right.Collection.Count ? Right.Collection : Left.Collection;
 
-                    for (var i = 0; i < largerCollection.Count; i++)
+                    foreach (LibraryItem li in largerCollection)
                     {
-                        var itemFromLargerCollection = largerCollection[i];
-
-                        if ((Left.Collection.Contains(itemFromLargerCollection) && !Right.Collection.Contains(itemFromLargerCollection)) ||
-                            (!Left.Collection.Contains(itemFromLargerCollection) && Right.Collection.Contains(itemFromLargerCollection)))
+                        if (smallerCollection.Contains(li))
                         {
-                            libaryItems.Add(itemFromLargerCollection);
+                            continue;
                         }
+
+                        libraryItems.Add(li);
                     }
 
-                    for (var i = 0; i < smallerCollection.Count; i++)
+                    foreach (LibraryItem li in smallerCollection)
                     {
-                        var itemFromSmallerCollection = smallerCollection[i];
-
-                        if ((Left.Collection.Contains(itemFromSmallerCollection) && !Right.Collection.Contains(itemFromSmallerCollection)) ||
-                            (!Left.Collection.Contains(itemFromSmallerCollection) && Right.Collection.Contains(itemFromSmallerCollection)))
+                        if (largerCollection.Contains(li))
                         {
-                            libaryItems.Add(itemFromSmallerCollection);
+                            continue;
                         }
+
+                        libraryItems.Add(li);
                     }
 
-                    _fullOutersection = new Library(libaryItems);
+                    _fullOutersection = new Library(libraryItems);
                 }
 
                 return _fullOutersection;

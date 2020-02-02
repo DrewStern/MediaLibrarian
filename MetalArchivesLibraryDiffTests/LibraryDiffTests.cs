@@ -145,18 +145,20 @@ namespace MetalArchivesLibraryDiffTests
             {
                 new LibraryItem("artistName1", "releaseName1"),
                 new LibraryItem("artistName2", "releaseName2"),
+                new LibraryItem("artistName3", "releaseName3"),
             });
             var l2 = new Library(new List<LibraryItem>
             {
-                new LibraryItem("artistName2", "releaseName2"),
-                new LibraryItem("artistName3", "releaseName3"),
+                new LibraryItem("artistName1", "releaseName1"),
+                new LibraryItem("artistName4", "releaseName4"),
             });
             var ld = new LibraryDiff(l1, l2);
 
             var expected = new Library(new List<LibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
+                new LibraryItem("artistName2", "releaseName2"),
                 new LibraryItem("artistName3", "releaseName3"),
+                new LibraryItem("artistName4", "releaseName4"),
             });
             var actual = ld.FullOutersection;
 
