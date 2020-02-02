@@ -10,6 +10,12 @@ namespace MetalArchivesLibraryDiffTool
             // intentionally empty
         }
 
+        /// <summary>
+        /// Represents l1 - l2 (i.e., anything in the intersection of l1 and l2 is not included in the return value).
+        /// </summary>
+        /// <param name="l1"></param>
+        /// <param name="l2"></param>
+        /// <returns></returns>
         public List<ArtistData> GetArtistDiffs(Library l1, Library l2)
         {
             var artistDataDiff = new List<ArtistData>();

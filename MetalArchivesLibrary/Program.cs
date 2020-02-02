@@ -9,6 +9,8 @@ namespace MetalArchivesLibraryDiffTool
     /// <summary>
     /// The purpose of this application is to compare the content of a given library of metal music against a database of known metal releases.
     /// Primarily to help me find good things I might be missing in my collection. :)
+    /// 
+    /// TODO: provide search results from youtube for missing albums from my list?
     /// </summary>
     [ExcludeFromCodeCoverage]
     class Program

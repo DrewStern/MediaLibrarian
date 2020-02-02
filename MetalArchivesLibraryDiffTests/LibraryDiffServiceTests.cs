@@ -6,31 +6,41 @@ namespace MetalArchivesLibraryDiffTests
     [TestClass]
     public class LibraryDiffServiceTests
     {
-        private LibraryDiffService _libraryDiffService;
+        private static TestContext _testContext;
+        private static LibraryDiffService _libraryDiffService;
 
-        [TestInitialize]
-        public void LibraryDiffTestInitialize()
+        [ClassInitialize]
+        public static void LibraryDiffServiceClassInitialize(TestContext testContext)
         {
+            _testContext = testContext;
             _libraryDiffService = new LibraryDiffService();
         }
 
         [TestMethod]
-        public void EmptyLibraryShouldHaveNoDiffs()
+        public void EmptyLibraryShouldHaveNoArtists()
         {
             var artistDiffs = _libraryDiffService.GetArtistDiffs(LibraryTestData.EmptyLibrary, LibraryTestData.EmptyLibrary);
-            var releaseDiffs = _libraryDiffService.GetReleaseDiffs(LibraryTestData.EmptyLibrary, LibraryTestData.EmptyLibrary);
-
             Assert.AreEqual(artistDiffs.Count, 0);
+        }
+
+        [TestMethod]
+        public void EmptyLibraryShouldHaveNoReleases()
+        {
+            var releaseDiffs = _libraryDiffService.GetReleaseDiffs(LibraryTestData.EmptyLibrary, LibraryTestData.EmptyLibrary);
             Assert.AreEqual(releaseDiffs.Count, 0);
         }
 
         [TestMethod]
-        public void SameLibraryShouldHaveNoDiffs()
+        public void SameLibraryShouldHaveNoDiffArtists()
         {
             var artistDiffs = _libraryDiffService.GetArtistDiffs(LibraryTestData.ManyArtistsToManyRelasesLibrary, LibraryTestData.ManyArtistsToManyRelasesLibrary);
-            var releaseDiffs = _libraryDiffService.GetReleaseDiffs(LibraryTestData.ManyArtistsToManyRelasesLibrary, LibraryTestData.ManyArtistsToManyRelasesLibrary);
-
             Assert.AreEqual(artistDiffs.Count, 0);
+        }
+
+        [TestMethod]
+        public void SameLibraryShouldHaveNoDiffReleases()
+        {
+            var releaseDiffs = _libraryDiffService.GetReleaseDiffs(LibraryTestData.ManyArtistsToManyRelasesLibrary, LibraryTestData.ManyArtistsToManyRelasesLibrary);
             Assert.AreEqual(releaseDiffs.Count, 0);
         }
 
@@ -42,6 +52,16 @@ namespace MetalArchivesLibraryDiffTests
 
             Assert.AreEqual(artistDiffs.Count, 3);
             Assert.AreEqual(releaseDiffs.Count, 3);
+        }
+
+        [TestMethod]
+        public void TwoArtistsWithSameNameDifferentCountryShouldDiff()
+        {
+            var artistDiffs1 = _libraryDiffService.GetArtistDiffs(LibraryTestData.MultipleArtistsWithSameNameDifferentCountry1Library, LibraryTestData.MultipleArtistsWithSameNameDifferentCountry2Library);
+            var artistDiffs2 = _libraryDiffService.GetArtistDiffs(LibraryTestData.MultipleArtistsWithSameNameDifferentCountry2Library, LibraryTestData.MultipleArtistsWithSameNameDifferentCountry1Library);
+
+            Assert.AreEqual(artistDiffs1.Count, 2);
+            Assert.AreEqual(artistDiffs2.Count, 2);
         }
 
         [TestMethod]

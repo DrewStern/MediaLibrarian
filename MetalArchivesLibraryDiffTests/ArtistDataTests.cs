@@ -16,13 +16,5 @@ namespace MetalArchivesLibraryDiffTests
             Assert.AreNotEqual(ad1, ad2);
             Assert.IsFalse(ad1.Equals(ad2));
         }
-
-        [TestMethod]
-        [Ignore]
-        public void TestArtists_IgnoresCountryFlag()
-        {
-            // NOTE: mutating ArtistData.Equals such that the Country property is not compared between the two does NOT cause any tests to fail. 
-            // not sure if that's what I want to do or not, or if masking the Country prop should instead happen in the ResponseParser
-        }
     }
 }

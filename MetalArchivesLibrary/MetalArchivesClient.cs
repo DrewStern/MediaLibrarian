@@ -5,16 +5,16 @@ namespace MetalArchivesLibraryDiffTool
 {
     public class MetalArchivesClient
     {
-        private MetalArchivesService Service { get; }
+        private MetalArchivesService _service { get; }
 
-        private MetalArchivesResponseParser Parser { get; }
+        private MetalArchivesResponseParser _parser { get; }
 
         #region Constructors
 
         public MetalArchivesClient(MetalArchivesService service, MetalArchivesResponseParser parser)
         {
-            Service = service;
-            Parser = parser;
+            _service = service;
+            _parser = parser;
         }
 
         #endregion Constructors
@@ -30,15 +30,15 @@ namespace MetalArchivesLibraryDiffTool
 
             var request = new MetalArchivesRequest(new ArtistData(artistName));
 
-            var response = Service.Submit(request);
+            var response = _service.Submit(request);
 
-            var parsedResponse = Parser.Parse(response);
+            var parsedResponse = _parser.Parse(response);
 
             // TODO: I don't like doing this filtration here.
             return new Library(parsedResponse.Collection.Where(x => x.ArtistData.ArtistName.StartsWith(artistName)).ToList());
         }
 
-        // TODO: may want to implement FindByArtistAndCountry or FindBetweenReleaseDates
+        // TODO: may want to implement FindByArtistAndCountry, FindBetweenReleaseDates, FindNewerThan, FindOlderThan
 
         #endregion
     }

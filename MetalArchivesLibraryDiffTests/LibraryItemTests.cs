@@ -1,6 +1,5 @@
 ﻿using MetalArchivesLibraryDiffTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace MetalArchivesLibraryDiffTests
 {
@@ -107,10 +106,10 @@ namespace MetalArchivesLibraryDiffTests
         public void TestLibraryItemToString_FullSpec()
         {
             var libraryItem = new LibraryItem(
-                new ArtistData("artistName", "unknownCountry"),
+                new ArtistData("artistName", "country"),
                 new ReleaseData("releaseName", "demo"));
 
-            var expected = "artistName (unknownCountry) - releaseName (demo)";
+            var expected = "artistName (country) - releaseName (demo)";
             var actual = libraryItem.ToString();
 
             Assert.AreEqual(expected, actual);
@@ -120,10 +119,10 @@ namespace MetalArchivesLibraryDiffTests
         public void TestLibraryItemToString_NoReleaseType()
         {
             var libraryItem = new LibraryItem(
-                new ArtistData("artistName", "unknownCountry"),
+                new ArtistData("artistName", "country"),
                 new ReleaseData("releaseName"));
 
-            var expected = "artistName (unknownCountry) - releaseName";
+            var expected = "artistName (country) - releaseName";
             var actual = libraryItem.ToString();
 
             Assert.AreEqual(expected, actual);

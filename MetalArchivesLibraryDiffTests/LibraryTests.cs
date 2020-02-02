@@ -1,6 +1,7 @@
 ﻿using MetalArchivesLibraryDiffTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace MetalArchivesLibraryDiffTests
@@ -69,6 +70,57 @@ namespace MetalArchivesLibraryDiffTests
             a1path.Delete();
             a2path.Delete();
             rootPath.Delete();
+        }
+
+        [TestMethod]
+        public void LibraryNotEqualWithNonLibrary()
+        {
+            Library l = new Library(new List<LibraryItem>());
+
+            var expected = false;
+            var actual = l.Equals(null);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestEmptyLibraryNotEqualWithNonEmptyLibrary()
+        {
+            Library l1 = LibraryTestData.EmptyLibrary;
+            Library l2 = LibraryTestData.OneArtistToManyReleasesLibrary;
+
+            var expected = false;
+            var actual = l1.Equals(l2);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /*
+         * This is the reverse of the test above. Perhaps they could be combined?
+         */
+        [TestMethod]
+        public void TestNonEmptyLibraryNotEqualWithEmptyLibrary()
+        {
+            Library l1 = LibraryTestData.OneArtistToManyReleasesLibrary;
+            Library l2 = LibraryTestData.EmptyLibrary;
+
+            var expected = false;
+            var actual = l1.Equals(l2);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestLibraryToString()
+        {
+            Library l = LibraryTestData.OneArtistToManyReleasesLibrary;
+
+            var expected =
+                "artist1 - release1" + Environment.NewLine +
+                "artist1 - release2";
+            var actual = l.ToString();
+
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]

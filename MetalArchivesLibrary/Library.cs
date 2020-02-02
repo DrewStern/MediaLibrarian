@@ -71,5 +71,34 @@ namespace MetalArchivesLibraryDiffTool
         {
             Collection.Add(li);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Library))
+            {
+                return false;
+            }
+
+            Library other = (Library)obj;
+
+            // loop over the larger collection to ensure that we can differentiate between it and any strict subsets of it
+            var largerCollection = this.Collection.Count > other.Collection.Count ? this.Collection : other.Collection;
+            var smallerCollection = this.Collection.Count > other.Collection.Count ? other.Collection : this.Collection;
+
+            foreach (LibraryItem li in largerCollection)
+            {
+                if (!smallerCollection.Contains(li))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public override string ToString()
+        {
+            return String.Join(Environment.NewLine, Collection);
+        }
     }
 }

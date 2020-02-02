@@ -13,6 +13,8 @@ namespace MetalArchivesLibraryDiffTests
         private static Library _randomLibraryOne;
         private static Library _randomLibraryTwo;
         private static Library _randomLibraryOneSubtractTwo;
+        private static Library _multipleArtistsWithSameNameDifferentCountry1Library;
+        private static Library _multipleArtistsWithSameNameDifferentCountry2Library;
 
         public static Library EmptyLibrary
         {
@@ -59,6 +61,44 @@ namespace MetalArchivesLibraryDiffTests
                 }
 
                 return _oneToManyLibrary;
+            }
+        }
+
+        public static Library MultipleArtistsWithSameNameDifferentCountry1Library
+        {
+            get
+            {
+                if (_multipleArtistsWithSameNameDifferentCountry1Library == null)
+                {
+                    _multipleArtistsWithSameNameDifferentCountry1Library = new Library(new List<LibraryItem>
+                    {
+                        new LibraryItem("artist1 (US)", "release1"),
+                        new LibraryItem("artist1 (AU)", "release1"),
+                        new LibraryItem("artist1 (BR)", "release1"),
+                        new LibraryItem("artist1 (RU)", "release1"),
+                    });
+                }
+
+                return _multipleArtistsWithSameNameDifferentCountry1Library;
+            }
+        }
+
+        public static Library MultipleArtistsWithSameNameDifferentCountry2Library
+        {
+            get
+            {
+                if (_multipleArtistsWithSameNameDifferentCountry2Library == null)
+                {
+                    _multipleArtistsWithSameNameDifferentCountry2Library = new Library(new List<LibraryItem>
+                    {
+                        new LibraryItem("artist1 (US)", "release1"),
+                        new LibraryItem("artist1 (JP)", "release1"),
+                        new LibraryItem("artist1 (FR)", "release1"),
+                        new LibraryItem("artist1 (RU)", "release1"),
+                    });
+                }
+
+                return _multipleArtistsWithSameNameDifferentCountry2Library;
             }
         }
 
