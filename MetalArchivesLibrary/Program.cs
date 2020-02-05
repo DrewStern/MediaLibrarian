@@ -11,6 +11,7 @@ namespace MetalArchivesLibraryDiffTool
     /// Primarily to help me find good things I might be missing in my collection. :)
     /// 
     /// TODO: provide search results from youtube for missing albums from my list?
+    /// TODO: or bandcamp
     /// </summary>
     [ExcludeFromCodeCoverage]
     class Program

@@ -1,5 +1,4 @@
-﻿using MetalArchivesLibraryDiffTool;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MetalArchivesLibraryDiffTool
 {
@@ -35,19 +34,7 @@ namespace MetalArchivesLibraryDiffTool
             {
                 if (_leftOutersection == null)
                 {
-                    var libraryItems = new List<LibraryItem>();
-
-                    for (var i = 0; i < Left.Collection.Count; i++)
-                    {
-                        var itemFromLargerCollection = Left.Collection[i];
-
-                        if (!Right.Collection.Contains(itemFromLargerCollection))
-                        {
-                            libraryItems.Add(itemFromLargerCollection);
-                        }
-                    }
-
-                    _leftOutersection = new Library(libraryItems);
+                    _leftOutersection = new Library(Left.Collection.FindAll(x => !Right.Collection.Contains(x)));
                 }
 
                 return _leftOutersection;
@@ -60,19 +47,7 @@ namespace MetalArchivesLibraryDiffTool
             {
                 if (_rightOutersection == null)
                 {
-                    var libraryItems = new List<LibraryItem>();
-
-                    for (var i = 0; i < Right.Collection.Count; i++)
-                    {
-                        var itemFromLargerCollection = Right.Collection[i];
-
-                        if (!Left.Collection.Contains(itemFromLargerCollection))
-                        {
-                            libraryItems.Add(itemFromLargerCollection);
-                        }
-                    }
-
-                    _rightOutersection = new Library(libraryItems);
+                    _rightOutersection = new Library(Right.Collection.FindAll(x => !Left.Collection.Contains(x)));
                 }
 
                 return _rightOutersection;
@@ -87,30 +62,12 @@ namespace MetalArchivesLibraryDiffTool
                 {
                     var libraryItems = new List<LibraryItem>();
 
-                    // TODO: refactor this - need to avoid the case where the collections are the same size, but because the ternary
-                    // below defaults to the Right.Collection, then we weren't including the outersection from the Left.Collection
                     var largerCollection = Left.Collection.Count > Right.Collection.Count ? Left.Collection : Right.Collection;
                     var smallerCollection = Left.Collection.Count > Right.Collection.Count ? Right.Collection : Left.Collection;
 
-                    foreach (LibraryItem li in largerCollection)
-                    {
-                        if (smallerCollection.Contains(li))
-                        {
-                            continue;
-                        }
+                    libraryItems.AddRange(largerCollection.FindAll(x => !smallerCollection.Contains(x)));
 
-                        libraryItems.Add(li);
-                    }
-
-                    foreach (LibraryItem li in smallerCollection)
-                    {
-                        if (largerCollection.Contains(li))
-                        {
-                            continue;
-                        }
-
-                        libraryItems.Add(li);
-                    }
+                    libraryItems.AddRange(smallerCollection.FindAll(x => !largerCollection.Contains(x)));
 
                     _fullOutersection = new Library(libraryItems);
                 }
@@ -125,21 +82,9 @@ namespace MetalArchivesLibraryDiffTool
             {
                 if (_intersection == null)
                 {
-                    var libaryItems = new List<LibraryItem>();
-
                     var largerCollection = Left.Collection.Count > Right.Collection.Count ? Left.Collection : Right.Collection;
 
-                    for (var i = 0; i < largerCollection.Count; i++)
-                    {
-                        var itemFromLargerCollection = largerCollection[i];
-
-                        if (Left.Collection.Contains(itemFromLargerCollection) && Right.Collection.Contains(itemFromLargerCollection))
-                        {
-                            libaryItems.Add(itemFromLargerCollection);
-                        }
-                    }
-
-                    _intersection = new Library(libaryItems);
+                    _intersection = new Library(largerCollection.FindAll(x => Left.Collection.Contains(x) && Right.Collection.Contains(x)));
                 }
 
                 return _intersection;
