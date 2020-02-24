@@ -1,7 +1,7 @@
-﻿using MetalArchivesLibraryDiffTool;
+﻿using MusicLibraryCompareTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MetalArchivesLibraryDiffTests
+namespace MusicLibraryCompareToolTests
 {
     [TestClass]
     public class MetalArchivesRequestTests

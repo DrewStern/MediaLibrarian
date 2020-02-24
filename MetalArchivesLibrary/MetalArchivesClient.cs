@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace MetalArchivesLibraryDiffTool
+namespace MusicLibraryCompareTool
 {
     public class MetalArchivesClient
     {

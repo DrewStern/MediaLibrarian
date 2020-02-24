@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MetalArchivesLibraryDiffTool
+namespace MusicLibraryCompareTool
 {
     public class LibraryItemEqualityComparer : IEqualityComparer<LibraryItem>
     {

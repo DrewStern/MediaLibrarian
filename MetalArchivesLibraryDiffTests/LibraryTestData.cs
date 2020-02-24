@@ -1,7 +1,7 @@
-﻿using MetalArchivesLibraryDiffTool;
+﻿using MusicLibraryCompareTool;
 using System.Collections.Generic;
 
-namespace MetalArchivesLibraryDiffTests
+namespace MusicLibraryCompareToolTests
 {
     public static class LibraryTestData
     {

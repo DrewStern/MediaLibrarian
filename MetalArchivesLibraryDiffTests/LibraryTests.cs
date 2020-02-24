@@ -1,10 +1,10 @@
-﻿using MetalArchivesLibraryDiffTool;
+﻿using MusicLibraryCompareTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace MetalArchivesLibraryDiffTests
+namespace MusicLibraryCompareToolTests
 {
     [TestClass]
     public class LibraryTests
@@ -24,6 +24,7 @@ namespace MetalArchivesLibraryDiffTests
             // use a new directory on disk that has no content
             DirectoryInfo libraryPath = new DirectoryInfo("C:\\iExistButAmEmpty");
 
+            // TODO: I guess this could fail if the folder already exists on disk...
             libraryPath.Create();
 
             Library l = new Library(libraryPath);
@@ -39,6 +40,7 @@ namespace MetalArchivesLibraryDiffTests
         [TestMethod]
         public void ConstructFromDisk()
         {
+            // TODO: I guess this could fail if the folders already exist on disk...
             DirectoryInfo rootPath = new DirectoryInfo("C:\\iExist");
             rootPath.Create();
 
@@ -62,7 +64,7 @@ namespace MetalArchivesLibraryDiffTests
             Assert.AreEqual(l.Artists.Count, 2);
             Assert.AreEqual(l.Releases.Count, 4);
 
-            // TODO: I guess this could leave the folder on disk if the Assert above fails...
+            // TODO: I guess this could leave the folders on disk if the Assert above fails...
             a1r1path.Delete();
             a1r2path.Delete();
             a2r1path.Delete();

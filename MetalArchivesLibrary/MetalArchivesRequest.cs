@@ -1,4 +1,4 @@
-﻿namespace MetalArchivesLibraryDiffTool
+﻿namespace MusicLibraryCompareTool
 {
     public class MetalArchivesRequest
     {

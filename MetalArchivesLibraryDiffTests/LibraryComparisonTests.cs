@@ -1,18 +1,18 @@
-﻿using MetalArchivesLibraryDiffTool;
+﻿using MusicLibraryCompareTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace MetalArchivesLibraryDiffTests
+namespace MusicLibraryCompareToolTests
 {
     [TestClass]
-    public class LibraryDiffTests
+    public class LibraryComparisonTests
     {
         [TestMethod]
         public void TestIntersection_EmptyLibraryAndEmptyLibrary()
         {
             var l1 = new Library(new List<LibraryItem>());
             var l2 = new Library(new List<LibraryItem>());
-            var ld = new LibraryDiff(l1, l2);
+            var ld = new LibraryComparison(l1, l2);
 
             var expected = new Library(new List<LibraryItem>());
             var actual = ld.Intersection;
@@ -35,7 +35,7 @@ namespace MetalArchivesLibraryDiffTests
                 new LibraryItem("artistName2", "releaseName2"),
             });
 
-            var ld = new LibraryDiff(l1, l2);
+            var ld = new LibraryComparison(l1, l2);
 
             var expected = new Library(new List<LibraryItem>
             {
@@ -62,7 +62,7 @@ namespace MetalArchivesLibraryDiffTests
                 new LibraryItem("artistName7", "releaseName7"),
             });
 
-            var ld = new LibraryDiff(l1, l2);
+            var ld = new LibraryComparison(l1, l2);
 
             var expected = new Library(new List<LibraryItem>
             {
@@ -78,7 +78,7 @@ namespace MetalArchivesLibraryDiffTests
         {
             var l1 = new Library(new List<LibraryItem>());
             var l2 = new Library(new List<LibraryItem>());
-            var ld = new LibraryDiff(l1, l2);
+            var ld = new LibraryComparison(l1, l2);
 
             var expected = new Library(new List<LibraryItem>());
             var actual = ld.Sum;
@@ -100,7 +100,7 @@ namespace MetalArchivesLibraryDiffTests
                 new LibraryItem("artistName3", "releaseName3"),
                 new LibraryItem("artistName4", "releaseName4"),
             });
-            var ld = new LibraryDiff(l1, l2);
+            var ld = new LibraryComparison(l1, l2);
 
             var expected = new Library(new List<LibraryItem>
             {
@@ -126,7 +126,7 @@ namespace MetalArchivesLibraryDiffTests
                 new LibraryItem("artistName3", "releaseName3"),
                 new LibraryItem("artistName4", "releaseName4"),
             });
-            var ld = new LibraryDiff(l1, l2);
+            var ld = new LibraryComparison(l1, l2);
 
             var expected = new Library(new List<LibraryItem>
             {
@@ -152,7 +152,7 @@ namespace MetalArchivesLibraryDiffTests
                 new LibraryItem("artistName1", "releaseName1"),
                 new LibraryItem("artistName4", "releaseName4"),
             });
-            var ld = new LibraryDiff(l1, l2);
+            var ld = new LibraryComparison(l1, l2);
 
             var expected = new Library(new List<LibraryItem>
             {

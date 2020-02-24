@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace MetalArchivesLibraryDiffTool
+namespace MusicLibraryCompareTool
 {
-    public class LibraryDiff
+    public class LibraryComparison
     {
         private Library _sum;
         private Library _intersection;
@@ -91,7 +91,7 @@ namespace MetalArchivesLibraryDiffTool
             }
         }
 
-        public LibraryDiff(Library l1, Library l2)
+        public LibraryComparison(Library l1, Library l2)
         {
             Left = l1;
             Right = l2;

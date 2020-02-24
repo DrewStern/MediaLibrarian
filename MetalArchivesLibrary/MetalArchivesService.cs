@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Web.Script.Serialization;
 
-namespace MetalArchivesLibraryDiffTool
+namespace MusicLibraryCompareTool
 {
     public class MetalArchivesService
     {

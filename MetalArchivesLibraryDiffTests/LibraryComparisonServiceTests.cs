@@ -1,19 +1,19 @@
-﻿using MetalArchivesLibraryDiffTool;
+﻿using MusicLibraryCompareTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MetalArchivesLibraryDiffTests
+namespace MusicLibraryCompareToolTests
 {
     [TestClass]
-    public class LibraryDiffServiceTests
+    public class LibraryComparisonServiceTests
     {
         private static TestContext _testContext;
-        private static LibraryDiffService _libraryDiffService;
+        private static LibraryComparisonService _libraryDiffService;
 
         [ClassInitialize]
         public static void LibraryDiffServiceClassInitialize(TestContext testContext)
         {
             _testContext = testContext;
-            _libraryDiffService = new LibraryDiffService();
+            _libraryDiffService = new LibraryComparisonService();
         }
 
         [TestMethod]

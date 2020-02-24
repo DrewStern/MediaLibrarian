@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetalArchivesLibraryDiffTool
+namespace MusicLibraryCompareTool
 {
     public class ArtistData
     {
