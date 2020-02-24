@@ -53,11 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtistDataTests.cs" />
-    <Compile Include="LibraryDiffTests.cs" />
+    <Compile Include="LibraryComparisonTests.cs" />
     <Compile Include="LibraryItemTests.cs" />
     <Compile Include="LibraryTests.cs" />
     <Compile Include="LibraryTestData.cs" />
-    <Compile Include="LibraryDiffServiceTests.cs" />
+    <Compile Include="LibraryComparisonServiceTests.cs" />
     <Compile Include="MetalArchivesClientTests.cs" />
     <Compile Include="MetalArchivesRequestTests.cs" />
     <Compile Include="MetalArchivesResponseParserTests.cs" />

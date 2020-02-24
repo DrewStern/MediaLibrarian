@@ -62,11 +62,11 @@
   <ItemGroup>
     <Compile Include="ArtistData.cs" />
     <Compile Include="ArtistDataEqualityComparer.cs" />
-    <Compile Include="LibraryDiff.cs" />
+    <Compile Include="LibraryComparison.cs" />
     <Compile Include="LibraryItem.cs" />
     <Compile Include="LibraryItemEqualityComparer.cs" />
     <Compile Include="Library.cs" />
-    <Compile Include="LibraryDiffService.cs" />
+    <Compile Include="LibraryComparisonService.cs" />
     <Compile Include="MetalArchivesClient.cs" />
     <Compile Include="MetalArchivesRequest.cs" />
     <Compile Include="MetalArchivesResponse.cs" />
