@@ -6,7 +6,7 @@ namespace MediaLibraryCompareTool.UnitTests
     public class MetalArchivesRequestTests
     {
         [TestMethod]
-        public void TestRequestAccountsForSpacesInArtistName()
+        public void GivenAnArtistNameContainingSpaces_WhenCreatingRequest_ThenArtistNameIsWrappedInQuotes()
         {
             var request = new MetalArchivesRequest(new ArtistData("a test artist name"));
 

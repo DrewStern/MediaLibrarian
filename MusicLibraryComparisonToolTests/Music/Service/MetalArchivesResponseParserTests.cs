@@ -15,14 +15,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestUnableToParseNullResponse()
-        {
-            Assert.ThrowsException<ArgumentNullException>(() => _parser.Parse(null));
-        }
-
-
-        [TestMethod]
-        public void TestArtistDataHtmlParsing()
+        public void GivenDataProvidedByMetalArchives_WhenParsingArtistData_ThenDataParsedCorrectly()
         {
             var artistResponseHtml = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
 
@@ -33,7 +26,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestReleaseDataHtmlParsing()
+        public void GivenDataProvidedByMetalArchives_WhenParsingReleaseData_ThenDataParsedCorrectly()
         {
             var releaseResponseHtml = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
             var releaseTypeHtml = "Full-Length";
@@ -44,8 +37,17 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
+        #region Parse tests
+
         [TestMethod]
-        public void TestParse()
+        public void GivenANullResponse_WhenParsed_ThenAnExceptionIsThrown()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => _parser.Parse(null));
+        }
+
+
+        [TestMethod]
+        public void GivenSomeReleaseDataToParse_WhenTheReleaseIsAFullLength_ThenItShouldBeParsed()
         {
             var htmlResponse = new string[3];
             htmlResponse[0] = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
@@ -64,7 +66,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestParseMasksNonFullLengthReleases()
+        public void GivenSomeReleaseDataToParse_WhenTheReleaseIsNotAFullLength_ThenTheReleaseShouldBeDiscarded()
         {
             var htmlResponse = new string[3];
             htmlResponse[0] = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
@@ -81,5 +83,7 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.AreEqual(0, l.Artists.Count);
             Assert.AreEqual(0, l.Releases.Count);
         }
+
+        #endregion
     }
 }

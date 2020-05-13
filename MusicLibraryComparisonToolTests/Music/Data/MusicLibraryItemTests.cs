@@ -62,7 +62,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestNonEquality_ArtistDataNotSpecified()
+        public void GivenLibraryItemWithFaultyArtistData_WhenComparedWithValidLibraryItem_ThenNotEqual()
         {
             var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
@@ -76,7 +76,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestNonEquality_ReleaseDataNotSpecified()
+        public void GivenLibraryItemWithFaultyReleaseData_WhenComparedWithValidLibraryItem_ThenNotEqual()
         {
             var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
@@ -90,7 +90,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestNonEqualityWithDifferentType()
+        public void GivenSomeLibraryItem_WhenComparedWithNullableLibraryItem_ThenNotEqual()
         {
             var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
@@ -102,7 +102,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestLibraryItemToString_FullSpec()
+        public void GivenSomeLibraryItem_WhenPrintedToString_ThenMatchesExpectedFormat()
         {
             var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName", "country"),
@@ -115,7 +115,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestLibraryItemToString_NoReleaseType()
+        public void GivenSomeLibraryItemWhoseReleaseHasNoType_WhenPrintedToString_ThenMatchesExpectedFormat()
         {
             var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName", "country"),
@@ -128,7 +128,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestLibraryItemToString_NoCountry()
+        public void GivenSomeLibraryItemWhoseArtistHasNoCountry_WhenPrintedToString_ThenMatchesExpectedFormat()
         {
             var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName"),
@@ -141,7 +141,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestLibraryItemToString_NoReleaseType_NoCountry()
+        public void GivenSomeLibraryItemWithNoReleaseTypeAndNoArtistCountry_WhenPrintedToString_ThenMatchesExpectedFormat()
         {
             var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName"),

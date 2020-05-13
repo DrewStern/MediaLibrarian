@@ -6,12 +6,12 @@ namespace MediaLibraryCompareTool.UnitTests
     [TestClass]
     public class MetalArchivesServiceProviderTests
     {
-        private MetalArchivesServiceProvider _metalArchivesService = new MetalArchivesServiceProvider();
+        private MetalArchivesServiceProvider _metalArchivesServiceProvider = new MetalArchivesServiceProvider();
 
         [TestMethod]
-        public void TestRequestMayNotBeNull()
+        public void GivenAServiceProvider_WhenNullIsSubmitted_ThenAnExceptionIsThrown()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => _metalArchivesService.Submit(null));
+            Assert.ThrowsException<ArgumentNullException>(() => _metalArchivesServiceProvider.Submit(null));
         }
     }
 }

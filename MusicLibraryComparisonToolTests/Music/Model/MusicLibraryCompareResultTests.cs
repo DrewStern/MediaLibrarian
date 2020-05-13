@@ -7,7 +7,7 @@ namespace MediaLibraryCompareTool.UnitTests
     public class MusicLibraryCompareResultTests
     {
         [TestMethod]
-        public void TestIntersection_EmptyLibraryAndEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenIntersectedWithAnotherEmptyLibrary_ThenResultIsAnEmptyLibrary()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>());
             var l2 = new MusicLibrary(new List<MusicLibraryItem>());
@@ -20,7 +20,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestIntersect_LeftCollectionLargerThanRightCollection()
+        public void GivenSomeLibrary_WhenIntersectedWithAProperSubsetOfItself_ThenResultIsTheSameProperSubset()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -47,7 +47,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestIntersect_RightCollectionLargerThanLeftCollection()
+        public void GivenSomeLibrary_WhenIntersectedWithAnImproperSupersetOfItself_ThenResultIsASubsetOfTheOriginalLibrary()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -73,7 +73,34 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestSum_EmptyLibraryAndEmptyLibrary()
+        public void GivenSomeLibrary_WhenIntersectedWithAProperSupersetOfItself_ThenResultIsTheOriginalLibrary()
+        {
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>
+            {
+                new MusicLibraryItem("artistName5", "releaseName5"),
+                new MusicLibraryItem("artistName6", "releaseName6"),
+            });
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>
+            {
+                new MusicLibraryItem("artistName4", "releaseName4"),
+                new MusicLibraryItem("artistName5", "releaseName5"),
+                new MusicLibraryItem("artistName6", "releaseName6"),
+            });
+
+            var ld = new MusicLibraryCompareResult(l1, l2);
+
+            var expected = new MusicLibrary(new List<MusicLibraryItem>
+            {
+                new MusicLibraryItem("artistName5", "releaseName5"),
+                new MusicLibraryItem("artistName6", "releaseName6"),
+            });
+            var actual = ld.Intersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenAnEmptyLibrary_WhenSummedWithAnotherEmptyLibrary_ThenTheResultIsAnEmptyLibrary()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>());
             var l2 = new MusicLibrary(new List<MusicLibraryItem>());
@@ -86,7 +113,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestLeftOutersection()
+        public void GivenSomeLibrary_WhenLeftOutersectedWithAnImproperSubsetOfItself_ThenResultIsSubsetOfOriginalLibrary()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -112,7 +139,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestRightOutersection()
+        public void GivenSomeLibrary_WhenRightOutersectedWithAnImproperSupersetOfItself_ThenResultIsSubsetOfThatImproperSuperset()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -138,7 +165,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestFullOutersection()
+        public void GivenSomeLibrary_WhenFullOutersectedWithSomeOtherLibrary_ThenTheResultContainsNoElementsFromTheIntersection()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {

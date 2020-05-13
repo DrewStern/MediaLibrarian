@@ -17,7 +17,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestFindByArtistMayNotBeNullOrEmptyOrWhitespace()
+        public void GivenAFaultyArtistName_WhenCreatingRequest_ThenExceptionIsThrown()
         {
             Assert.ThrowsException<ArgumentException>(() => _client.FindByArtist(null));
             Assert.ThrowsException<ArgumentException>(() => _client.FindByArtist(String.Empty));

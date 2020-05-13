@@ -125,7 +125,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestLibraryToString()
+        public void GivenNonEmptyMusicLibrary_WhenPrintedToString_ThenMatchesExpectedFormat()
         {
             MusicLibrary l = _musicLibraryTestData.GetOneArtistToManyReleasesLibrary();
 
@@ -138,7 +138,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void LibraryDoesntHaveDuplicateArtists()
+        public void GivenMusicLibraryWithMultipleReleasesByTheSameArtist_WhenArtistCollectionAccessed_ThenNoDuplicateIsReturned()
         {
             MusicLibrary l = _musicLibraryTestData.GetOneArtistToManyReleasesLibrary();
             Assert.AreEqual(l.Collection.Count, 2);
