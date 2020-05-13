@@ -4,23 +4,23 @@ namespace MusicLibraryCompareTool
 {
     public class LibraryComparison
     {
-        private Library _sum;
-        private Library _intersection;
-        private Library _leftOutersection;
-        private Library _rightOutersection;
-        private Library _fullOutersection;
+        private MusicLibrary _sum;
+        private MusicLibrary _intersection;
+        private MusicLibrary _leftOutersection;
+        private MusicLibrary _rightOutersection;
+        private MusicLibrary _fullOutersection;
 
-        public Library Left { get; }
+        public MusicLibrary Left { get; }
 
-        public Library Right { get; }
+        public MusicLibrary Right { get; }
 
-        public Library Sum
+        public MusicLibrary Sum
         {
             get
             {
                 if (_sum == null)
                 {
-                    _sum = new Library(Left.Collection);
+                    _sum = new MusicLibrary(Left.Collection);
                     _sum.AddToCollection(Right);
                 }
 
@@ -28,39 +28,39 @@ namespace MusicLibraryCompareTool
             }
         }
 
-        public Library LeftOutersection
+        public MusicLibrary LeftOutersection
         {
             get
             {
                 if (_leftOutersection == null)
                 {
-                    _leftOutersection = new Library(Left.Collection.FindAll(x => !Right.Collection.Contains(x)));
+                    _leftOutersection = new MusicLibrary(Left.Collection.FindAll(x => !Right.Collection.Contains(x)));
                 }
 
                 return _leftOutersection;
             }
         }
 
-        public Library RightOutersection
+        public MusicLibrary RightOutersection
         {
             get
             {
                 if (_rightOutersection == null)
                 {
-                    _rightOutersection = new Library(Right.Collection.FindAll(x => !Left.Collection.Contains(x)));
+                    _rightOutersection = new MusicLibrary(Right.Collection.FindAll(x => !Left.Collection.Contains(x)));
                 }
 
                 return _rightOutersection;
             }
         }
 
-        public Library FullOutersection
+        public MusicLibrary FullOutersection
         {
             get
             {
                 if (_fullOutersection == null)
                 {
-                    var libraryItems = new List<LibraryItem>();
+                    var libraryItems = new List<MusicLibraryItem>();
 
                     var largerCollection = Left.Collection.Count > Right.Collection.Count ? Left.Collection : Right.Collection;
                     var smallerCollection = Left.Collection.Count > Right.Collection.Count ? Right.Collection : Left.Collection;
@@ -69,14 +69,14 @@ namespace MusicLibraryCompareTool
 
                     libraryItems.AddRange(smallerCollection.FindAll(x => !largerCollection.Contains(x)));
 
-                    _fullOutersection = new Library(libraryItems);
+                    _fullOutersection = new MusicLibrary(libraryItems);
                 }
 
                 return _fullOutersection;
             }
         }
 
-        public Library Intersection
+        public MusicLibrary Intersection
         {
             get
             {
@@ -84,14 +84,14 @@ namespace MusicLibraryCompareTool
                 {
                     var largerCollection = Left.Collection.Count > Right.Collection.Count ? Left.Collection : Right.Collection;
 
-                    _intersection = new Library(largerCollection.FindAll(x => Left.Collection.Contains(x) && Right.Collection.Contains(x)));
+                    _intersection = new MusicLibrary(largerCollection.FindAll(x => Left.Collection.Contains(x) && Right.Collection.Contains(x)));
                 }
 
                 return _intersection;
             }
         }
 
-        public LibraryComparison(Library l1, Library l2)
+        public LibraryComparison(MusicLibrary l1, MusicLibrary l2)
         {
             Left = l1;
             Right = l2;

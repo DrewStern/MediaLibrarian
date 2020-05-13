@@ -25,9 +25,9 @@ namespace MusicLibraryCompareTool
 
         private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
 
-        private static Library MyLibraryData { get; set; }
+        private static MusicLibrary MyMusicLibraryData { get; set; }
 
-        private static Library TheirLibraryData { get; set; }
+        private static MusicLibrary TheirMusicLibraryData { get; set; }
 
         private static LibraryComparisonService LibraryDiffService
         {
@@ -64,14 +64,14 @@ namespace MusicLibraryCompareTool
             {
                 ParseArgs(args);
 
-                MyLibraryData = new Library(LibraryLocation);
-                TheirLibraryData = new Library(new List<LibraryItem>());
+                MyMusicLibraryData = new MusicLibrary(LibraryLocation);
+                TheirMusicLibraryData = new MusicLibrary(new List<MusicLibraryItem>());
 
-                Console.WriteLine($"Discovered {MyLibraryData.Collection.Count} items on disk");
+                Console.WriteLine($"Discovered {MyMusicLibraryData.Collection.Count} items on disk");
 
-                foreach (ArtistData artist in MyLibraryData.Artists)
+                foreach (ArtistData artist in MyMusicLibraryData.Artists)
                 {
-                    TheirLibraryData.AddToCollection(MetalArchivesClient.FindByArtist(artist.ArtistName));
+                    TheirMusicLibraryData.AddToCollection(MetalArchivesClient.FindByArtist(artist.ArtistName));
                     Console.WriteLine($"Added {artist.ArtistName} to library");
                     Thread.Sleep(3000);
                 }
@@ -112,7 +112,7 @@ namespace MusicLibraryCompareTool
         private static void WriteResults()
         { 
             string[] text = new string[1];
-            text[0] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyLibraryData, TheirLibraryData));
+            text[0] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyMusicLibraryData, TheirMusicLibraryData));
 
             File.WriteAllLines(LibraryDiffOutputLocation.FullName, text);
         }

@@ -21,7 +21,7 @@ namespace MusicLibraryCompareTool
 
         #region Methods
 
-        public Library FindByArtist(string artistName)
+        public MusicLibrary FindByArtist(string artistName)
         {
             if (String.IsNullOrWhiteSpace(artistName))
             {
@@ -35,7 +35,7 @@ namespace MusicLibraryCompareTool
             var parsedResponse = _parser.Parse(response);
 
             // TODO: I don't like doing this filtration here.
-            return new Library(parsedResponse.Collection.Where(x => x.ArtistData.ArtistName.StartsWith(artistName)).ToList());
+            return new MusicLibrary(parsedResponse.Collection.Where(x => x.ArtistData.ArtistName.StartsWith(artistName)).ToList());
         }
 
         // TODO: may want to implement FindByArtistAndCountry, FindBetweenReleaseDates, FindNewerThan, FindOlderThan

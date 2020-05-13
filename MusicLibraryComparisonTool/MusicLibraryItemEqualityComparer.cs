@@ -2,16 +2,16 @@
 
 namespace MusicLibraryCompareTool
 {
-    public class LibraryItemEqualityComparer : IEqualityComparer<LibraryItem>
+    public class MusicLibraryItemEqualityComparer : IEqualityComparer<MusicLibraryItem>
     {
-        public bool Equals(LibraryItem x, LibraryItem y)
+        public bool Equals(MusicLibraryItem x, MusicLibraryItem y)
         {
             return
                 x.ArtistData.Equals(y.ArtistData) &&
                 x.ReleaseData.Equals(y.ReleaseData);
         }
 
-        public int GetHashCode(LibraryItem ard)
+        public int GetHashCode(MusicLibraryItem ard)
         {
             return base.GetHashCode();
         }

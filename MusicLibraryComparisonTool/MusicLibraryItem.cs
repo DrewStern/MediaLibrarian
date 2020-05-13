@@ -1,35 +1,36 @@
-﻿using System;
+﻿using MusicLibraryCompareTool.Interfaces;
+using System;
 
 namespace MusicLibraryCompareTool
 {
     /// <summary>
     /// Represents a release from an artist.
     /// </summary>
-    public struct LibraryItem
+    public struct MusicLibraryItem : ILibraryItem
     {
         public ArtistData ArtistData { get; }
 
         public ReleaseData ReleaseData { get; }
 
-        public LibraryItem(ArtistData ad, ReleaseData rd)
+        public MusicLibraryItem(ArtistData ad, ReleaseData rd)
         {
             ArtistData = ad;
             ReleaseData = rd;
         }
 
-        public LibraryItem(string artistName, string releaseName)
+        public MusicLibraryItem(string artistName, string releaseName)
             : this(artistName, String.Empty, releaseName)
         {
             // intentionally empty
         }
 
-        public LibraryItem(string artistName, string country, string releaseName)
+        public MusicLibraryItem(string artistName, string country, string releaseName)
             : this(artistName, country, releaseName, "Full-Length")
         {
             // intentionally empty
         }
 
-        public LibraryItem(string artistName, string country, string releaseName, string releaseType)
+        public MusicLibraryItem(string artistName, string country, string releaseName, string releaseType)
         {
             ArtistData = new ArtistData(artistName, country);
             ReleaseData = new ReleaseData(releaseName, releaseType);
@@ -37,12 +38,12 @@ namespace MusicLibraryCompareTool
 
         public override bool Equals(object obj)
         {
-            if (!(obj is LibraryItem))
+            if (!(obj is MusicLibraryItem))
             {
                 return false;
             }
 
-            LibraryItem other = (LibraryItem)obj;
+            MusicLibraryItem other = (MusicLibraryItem)obj;
 
             return
                 this.ArtistData.Equals(other.ArtistData) &&

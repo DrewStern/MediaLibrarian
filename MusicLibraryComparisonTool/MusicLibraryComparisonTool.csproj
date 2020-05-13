@@ -7,11 +7,13 @@
     <ProjectGuid>{F6351515-C63F-4DF8-97E8-B7D5E8FE949A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MetalArchivesLibraryDiffTool</RootNamespace>
-    <AssemblyName>MetalArchivesLibraryDiffTool</AssemblyName>
+    <RootNamespace>MusicLibraryComparisonTool</RootNamespace>
+    <AssemblyName>MusicLibraryComparisonTool</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,10 +26,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,7 +48,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MusicLibraryCompareTool.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MetalArchivesLibraryDiffTool">
+      <HintPath>..\MusicLibraryComparisonToolTests\bin\Release\MetalArchivesLibraryDiffTool.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Extensions" />
@@ -62,10 +68,14 @@
   <ItemGroup>
     <Compile Include="ArtistData.cs" />
     <Compile Include="ArtistDataEqualityComparer.cs" />
+    <Compile Include="BaseLibrary.cs" />
+    <Compile Include="Interfaces\ILibrary.cs" />
+    <Compile Include="Interfaces\ILibraryItem.cs" />
+    <Compile Include="Interfaces\IMusicLibraryItem.cs" />
     <Compile Include="LibraryComparison.cs" />
-    <Compile Include="LibraryItem.cs" />
-    <Compile Include="LibraryItemEqualityComparer.cs" />
-    <Compile Include="Library.cs" />
+    <Compile Include="MusicLibraryItem.cs" />
+    <Compile Include="MusicLibraryItemEqualityComparer.cs" />
+    <Compile Include="MusicLibrary.cs" />
     <Compile Include="LibraryComparisonService.cs" />
     <Compile Include="MetalArchivesClient.cs" />
     <Compile Include="MetalArchivesRequest.cs" />

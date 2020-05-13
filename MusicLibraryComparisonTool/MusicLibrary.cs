@@ -5,20 +5,20 @@ using System.Linq;
 
 namespace MusicLibraryCompareTool
 {
-    public class Library
+    public class MusicLibrary : BaseLibrary
     {
-        private List<LibraryItem> _collection;
-        private LibraryItemEqualityComparer _libraryItemEqualityComparer;
+        private List<MusicLibraryItem> _collection;
+        private MusicLibraryItemEqualityComparer _libraryItemEqualityComparer;
         private ArtistDataEqualityComparer _artistDataEqualityComparer;
 
-        public List<LibraryItem> Collection
+        public List<MusicLibraryItem> Collection
         {
-            get { return _collection ?? (_collection = new List<LibraryItem>()); }
+            get { return _collection ?? (_collection = new List<MusicLibraryItem>()); }
         }
 
         public List<ArtistData> Artists
         {
-            get{ return Collection.Select(x => x.ArtistData).Distinct(ArtistDataEqualityComparer).ToList(); }
+            get { return Collection.Select(x => x.ArtistData).Distinct(ArtistDataEqualityComparer).ToList(); }
         }
 
         public List<ReleaseData> Releases
@@ -26,9 +26,9 @@ namespace MusicLibraryCompareTool
             get { return Collection.Select(x => x.ReleaseData).Distinct(/*ReleaseDataEqualityComparer not necessary yet*/).ToList(); }
         }
 
-        private LibraryItemEqualityComparer LibraryItemEqualityComparer
+        private MusicLibraryItemEqualityComparer LibraryItemEqualityComparer
         {
-            get { return _libraryItemEqualityComparer ?? (_libraryItemEqualityComparer = new LibraryItemEqualityComparer()); }
+            get { return _libraryItemEqualityComparer ?? (_libraryItemEqualityComparer = new MusicLibraryItemEqualityComparer()); }
         }
 
         private ArtistDataEqualityComparer ArtistDataEqualityComparer
@@ -36,12 +36,12 @@ namespace MusicLibraryCompareTool
             get { return _artistDataEqualityComparer ?? (_artistDataEqualityComparer = new ArtistDataEqualityComparer()); }
         }
 
-        public Library(List<LibraryItem> items)
+        public MusicLibrary(List<MusicLibraryItem> items)
         {
             Collection.AddRange(items.Distinct(LibraryItemEqualityComparer));
         }
 
-        public Library(DirectoryInfo fromPath)
+        public MusicLibrary(DirectoryInfo fromPath)
         {
             if (!fromPath.Exists)
             {
@@ -52,40 +52,40 @@ namespace MusicLibraryCompareTool
             {
                 foreach (DirectoryInfo albumLayer in artistLayer.GetDirectories())
                 {
-                    Collection.Add(new LibraryItem(artistLayer.Name, albumLayer.Name));
+                    Collection.Add(new MusicLibraryItem(artistLayer.Name, albumLayer.Name));
                 }
             }
         }
 
-        public void AddToCollection(Library l)
+        public void AddToCollection(MusicLibrary l)
         {
             AddToCollection(l.Collection);
         }
 
-        public void AddToCollection(List<LibraryItem> lli)
+        public void AddToCollection(List<MusicLibraryItem> lli)
         {
             lli.ForEach(x => AddToCollection(x));
         }
 
-        public void AddToCollection(LibraryItem li)
+        public void AddToCollection(MusicLibraryItem li)
         {
             Collection.Add(li);
         }
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Library))
+            if (!(obj is MusicLibrary))
             {
                 return false;
             }
 
-            Library other = (Library)obj;
+            MusicLibrary other = (MusicLibrary)obj;
 
             // loop over the larger collection to ensure that we can differentiate between it and any strict subsets of it
             var largerCollection = this.Collection.Count > other.Collection.Count ? this.Collection : other.Collection;
             var smallerCollection = this.Collection.Count > other.Collection.Count ? other.Collection : this.Collection;
 
-            foreach (LibraryItem li in largerCollection)
+            foreach (MusicLibraryItem li in largerCollection)
             {
                 if (!smallerCollection.Contains(li))
                 {

@@ -5,14 +5,14 @@ namespace MusicLibraryCompareTool
 {
     public class MetalArchivesResponseParser
     {
-        public Library Parse(MetalArchivesResponse response)
+        public MusicLibrary Parse(MetalArchivesResponse response)
         {
             if (response == null)
             {
                 throw new ArgumentNullException($"{nameof(response)} may not be null");
             }
 
-            var libraryItems = new List<LibraryItem>();
+            var libraryItems = new List<MusicLibraryItem>();
 
             // Each entry has three components - the first represents the band name, the second the album name, and third the release type. Example:
             // [0] == <a href="https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265" title="!T.O.O.H.! (CZ)">!T.O.O.H.!</a>
@@ -23,7 +23,7 @@ namespace MusicLibraryCompareTool
                 ArtistData artistData = ExtractArtistData(entry[0]);
                 ReleaseData releaseData = ExtractReleaseData(entry[1], entry[2]);
 
-                LibraryItem data = new LibraryItem(artistData, releaseData);
+                MusicLibraryItem data = new MusicLibraryItem(artistData, releaseData);
 
                 // only care about full-lengths for now
                 if (!data.ReleaseData.IsFullLength)
@@ -34,7 +34,7 @@ namespace MusicLibraryCompareTool
                 libraryItems.Add(data);
             }
 
-            return new Library(libraryItems);
+            return new MusicLibrary(libraryItems);
         }
 
         public ArtistData ExtractArtistData(string htmlArtistData)
