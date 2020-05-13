@@ -7,7 +7,7 @@ namespace MusicLibraryCompareTool.UnitTests
     public class MusicLibraryItemTests
     {
         [TestMethod]
-        public void TestEquality()
+        public void GivenTwoIdenticalMusicLibraryItems_WhenCompared_ThenTheyAreEqual()
         {
             var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName"),
@@ -21,7 +21,7 @@ namespace MusicLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void TestNonEquality_BothArtistsAndReleasesDiff()
+        public void GivenTwoMusicLibraryItemsWithDifferentArtistNameButSameReleaseName_WhenCompared_ThenTheyAreNotEqual()
         {
             var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
@@ -29,13 +29,27 @@ namespace MusicLibraryCompareTool.UnitTests
 
             var libraryItem2 = new MusicLibraryItem(
                 new ArtistData("artistName2"),
+                new ReleaseData("releaseName1"));
+
+            Assert.IsFalse(libraryItem1.Equals(libraryItem2));
+        }
+
+        [TestMethod]
+        public void GivenTwoMusicLibraryItemsWithSameArtistNameButDifferentReleaseName_WhenCompared_ThenTheyAreNotEqual()
+        {
+            var libraryItem1 = new MusicLibraryItem(
+                new ArtistData("artistName1"),
+                new ReleaseData("releaseName1"));
+
+            var libraryItem2 = new MusicLibraryItem(
+                new ArtistData("artistName1"),
                 new ReleaseData("releaseName2"));
 
             Assert.IsFalse(libraryItem1.Equals(libraryItem2));
         }
 
         [TestMethod]
-        public void TestNonEquality_ArtistsDiffOnly()
+        public void GivenTwoMusicLibraryItemsWithDifferentArtistNameAndDifferentReleaseName_WhenCompared_ThenTheyAreNotEqual()
         {
             var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
@@ -43,20 +57,6 @@ namespace MusicLibraryCompareTool.UnitTests
 
             var libraryItem2 = new MusicLibraryItem(
                 new ArtistData("artistName2"),
-                new ReleaseData("releaseName1"));
-
-            Assert.IsFalse(libraryItem1.Equals(libraryItem2));
-        }
-
-        [TestMethod]
-        public void TestNonEquality_ReleasesDiffOnly()
-        {
-            var libraryItem1 = new MusicLibraryItem(
-                new ArtistData("artistName1"),
-                new ReleaseData("releaseName1"));
-
-            var libraryItem2 = new MusicLibraryItem(
-                new ArtistData("artistName1"),
                 new ReleaseData("releaseName2"));
 
             Assert.IsFalse(libraryItem1.Equals(libraryItem2));
