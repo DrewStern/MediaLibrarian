@@ -12,22 +12,22 @@ namespace MusicLibraryCompareTool
             return sum;
         }
 
-        public MusicLibrary GetLeftOutersection(MusicLibrary l1, MusicLibrary l2)
+        public MusicLibrary GetLeftOutersection(MusicLibrary left, MusicLibrary right)
         {
-            return new MusicLibrary(l1.Collection.FindAll(x => !l2.Collection.Contains(x)));
+            return new MusicLibrary(left.Collection.FindAll(x => !right.Collection.Contains(x)));
         }
 
-        public MusicLibrary GetRightOutersection(MusicLibrary l1, MusicLibrary l2)
+        public MusicLibrary GetRightOutersection(MusicLibrary left, MusicLibrary right)
         {
-            return new MusicLibrary(l2.Collection.FindAll(x => !l1.Collection.Contains(x)));
+            return new MusicLibrary(right.Collection.FindAll(x => !left.Collection.Contains(x)));
         }
 
-        public MusicLibrary GetFullOutersection(MusicLibrary l1, MusicLibrary l2)
+        public MusicLibrary GetFullOutersection(MusicLibrary left, MusicLibrary right)
         {
             var libraryItems = new List<MusicLibraryItem>();
 
-            var largerCollection = l1.Collection.Count > l2.Collection.Count ? l1.Collection : l2.Collection;
-            var smallerCollection = l1.Collection.Count > l2.Collection.Count ? l2.Collection : l1.Collection;
+            var largerCollection = left.Collection.Count > right.Collection.Count ? left.Collection : right.Collection;
+            var smallerCollection = left.Collection.Count > right.Collection.Count ? right.Collection : left.Collection;
 
             libraryItems.AddRange(largerCollection.FindAll(x => !smallerCollection.Contains(x)));
 
@@ -36,26 +36,20 @@ namespace MusicLibraryCompareTool
             return new MusicLibrary(libraryItems);
         }
 
-        public MusicLibrary GetIntersection(MusicLibrary l1, MusicLibrary l2)
+        public MusicLibrary GetIntersection(MusicLibrary left, MusicLibrary right)
         {
-            var largerCollection = l1.Collection.Count > l2.Collection.Count ? l1.Collection : l2.Collection;
+            var largerCollection = left.Collection.Count > right.Collection.Count ? left.Collection : right.Collection;
 
-            return  new MusicLibrary(largerCollection.FindAll(x => l1.Collection.Contains(x) && l2.Collection.Contains(x)));
+            return  new MusicLibrary(largerCollection.FindAll(x => left.Collection.Contains(x) && right.Collection.Contains(x)));
         }
 
-        /// <summary>
-        /// Represents l1 - l2 (i.e., anything in the intersection of l1 and l2 is not included in the return value).
-        /// </summary>
-        /// <param name="l1"></param>
-        /// <param name="l2"></param>
-        /// <returns></returns>
-        public List<ArtistData> GetArtistDiffs(MusicLibrary l1, MusicLibrary l2)
+        public List<ArtistData> GetArtistDiffs(MusicLibrary left, MusicLibrary right)
         {
             var artistDataDiff = new List<ArtistData>();
 
-            foreach (ArtistData artist in l1.Artists)
+            foreach (ArtistData artist in left.Artists)
             {
-                if (!l2.Artists.Contains(artist))
+                if (!right.Artists.Contains(artist))
                 {
                     artistDataDiff.Add(artist);
                 }
