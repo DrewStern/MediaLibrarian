@@ -17,8 +17,8 @@ namespace MusicLibraryCompareTool
     class Program
     {
         private static MusicLibraryCompareService _musicLibraryCompareService;
-        private static MetalArchivesClient _metalArchivesClient;
-        private static MetalArchivesService _metalArchivesService;
+        private static MetalArchivesServiceClient _metalArchivesClient;
+        private static MetalArchivesServiceProvider _metalArchivesService;
         private static MetalArchivesResponseParser _metalArchivesResponseParser;
 
         private static DirectoryInfo LibraryLocation { get; set; }
@@ -34,9 +34,9 @@ namespace MusicLibraryCompareTool
             get { return _musicLibraryCompareService ?? (_musicLibraryCompareService = new MusicLibraryCompareService()); }
         }
 
-        private static MetalArchivesService MetalArchivesService
+        private static MetalArchivesServiceProvider MetalArchivesService
         {
-            get { return _metalArchivesService ?? (_metalArchivesService = new MetalArchivesService()); }
+            get { return _metalArchivesService ?? (_metalArchivesService = new MetalArchivesServiceProvider()); }
         }
 
         private static MetalArchivesResponseParser MetalArchivesResponseParser
@@ -44,9 +44,9 @@ namespace MusicLibraryCompareTool
             get { return _metalArchivesResponseParser ?? (_metalArchivesResponseParser = new MetalArchivesResponseParser()); }
         }
 
-        private static MetalArchivesClient MetalArchivesClient
+        private static MetalArchivesServiceClient MetalArchivesClient
         {
-            get { return _metalArchivesClient ?? (_metalArchivesClient = new MetalArchivesClient(MetalArchivesService, MetalArchivesResponseParser)); }
+            get { return _metalArchivesClient ?? (_metalArchivesClient = new MetalArchivesServiceClient(MetalArchivesService, MetalArchivesResponseParser)); }
         }
 
         /// <summary>

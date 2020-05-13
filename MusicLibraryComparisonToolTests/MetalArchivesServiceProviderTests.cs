@@ -4,9 +4,9 @@ using System;
 namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
-    public class MetalArchivesServiceTests
+    public class MetalArchivesServiceProviderTests
     {
-        private MetalArchivesService _metalArchivesService = new MetalArchivesService();
+        private MetalArchivesServiceProvider _metalArchivesService = new MetalArchivesServiceProvider();
 
         [TestMethod]
         public void TestRequestMayNotBeNull()

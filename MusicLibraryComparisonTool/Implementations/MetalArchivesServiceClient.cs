@@ -3,15 +3,15 @@ using System.Linq;
 
 namespace MusicLibraryCompareTool
 {
-    public class MetalArchivesClient
+    public class MetalArchivesServiceClient
     {
-        private MetalArchivesService _service { get; }
+        private MetalArchivesServiceProvider _service { get; }
 
         private MetalArchivesResponseParser _parser { get; }
 
         #region Constructors
 
-        public MetalArchivesClient(MetalArchivesService service, MetalArchivesResponseParser parser)
+        public MetalArchivesServiceClient(MetalArchivesServiceProvider service, MetalArchivesResponseParser parser)
         {
             _service = service;
             _parser = parser;

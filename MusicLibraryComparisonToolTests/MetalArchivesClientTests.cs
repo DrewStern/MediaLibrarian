@@ -6,14 +6,14 @@ namespace MusicLibraryCompareTool.UnitTests
     [TestClass]
     public class MetalArchivesClientTests
     {
-        private MetalArchivesClient _client;
+        private MetalArchivesServiceClient _client;
 
         [TestInitialize]
         public void OnInitialize()
         {
-            var maService = new MetalArchivesService();
+            var maService = new MetalArchivesServiceProvider();
             var maResponseParser = new MetalArchivesResponseParser();
-            _client = new MetalArchivesClient(maService, maResponseParser);
+            _client = new MetalArchivesServiceClient(maService, maResponseParser);
         }
 
         [TestMethod]

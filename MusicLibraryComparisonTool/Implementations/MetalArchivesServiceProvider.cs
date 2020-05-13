@@ -5,7 +5,7 @@ using System.Web.Script.Serialization;
 
 namespace MusicLibraryCompareTool
 {
-    public class MetalArchivesService
+    public class MetalArchivesServiceProvider
     {
         private static int _retryLimit = 5;
         private static int _retryCount = 0;
@@ -21,7 +21,7 @@ namespace MusicLibraryCompareTool
 
         private HttpClient _metalArchivesService { get; }
 
-        public MetalArchivesService()
+        public MetalArchivesServiceProvider()
         {
             _metalArchivesService = new HttpClient { BaseAddress = new Uri(_queryEndpoint) };
         }

@@ -52,17 +52,18 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArtistDataTests.cs" />
-    <Compile Include="Data\MusicLibraryItemTestData.cs" />
-    <Compile Include="MusicLibraryCompareTests.cs" />
-    <Compile Include="MusicLibraryItemTests.cs" />
+    <Compile Include="Data\ArtistDataTests.cs" />
+    <Compile Include="MetalArchivesServiceClientTests.cs" />
+    <Compile Include="FakeTestData\MusicLibraryItemTestData.cs" />
+    <Compile Include="MusicLibraryCompareResultTests.cs" />
+    <Compile Include="Data\MusicLibraryItemTests.cs" />
     <Compile Include="MusicLibraryTests.cs" />
-    <Compile Include="Data\MusicLibraryTestData.cs" />
+    <Compile Include="FakeTestData\MusicLibraryTestData.cs" />
     <Compile Include="MusicLibraryCompareServiceTests.cs" />
     <Compile Include="MetalArchivesClientTests.cs" />
     <Compile Include="MetalArchivesRequestTests.cs" />
     <Compile Include="MetalArchivesResponseParserTests.cs" />
-    <Compile Include="MetalArchivesServiceTests.cs" />
+    <Compile Include="MetalArchivesServiceProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

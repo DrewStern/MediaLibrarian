@@ -1,11 +1,10 @@
-﻿using MusicLibraryCompareTool;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
 namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
-    public class MusicLibraryCompareTests
+    public class MusicLibraryCompareResultTests
     {
         [TestMethod]
         public void TestIntersection_EmptyLibraryAndEmptyLibrary()
