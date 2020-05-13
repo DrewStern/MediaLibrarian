@@ -1,7 +1,7 @@
 ﻿using MusicLibraryCompareTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MusicLibraryCompareToolTests
+namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
     public class LibraryComparisonServiceTests
@@ -17,35 +17,35 @@ namespace MusicLibraryCompareToolTests
         }
 
         [TestMethod]
-        public void EmptyLibraryShouldHaveNoArtists()
+        public void GivenTwoEmptyLibraries_WhenCompared_ThenShouldFindNoDifferentArtists()
         {
             var artistDiffs = _libraryDiffService.GetArtistDiffs(LibraryTestData.EmptyLibrary, LibraryTestData.EmptyLibrary);
             Assert.AreEqual(artistDiffs.Count, 0);
         }
 
         [TestMethod]
-        public void EmptyLibraryShouldHaveNoReleases()
+        public void GivenTwoEmptyLibraries_WhenCompared_ThenShouldFindNoDifferentReleases()
         {
             var releaseDiffs = _libraryDiffService.GetReleaseDiffs(LibraryTestData.EmptyLibrary, LibraryTestData.EmptyLibrary);
             Assert.AreEqual(releaseDiffs.Count, 0);
         }
 
         [TestMethod]
-        public void SameLibraryShouldHaveNoDiffArtists()
+        public void GivenTwoIdenticalLibraries_WhenCompared_ThenShouldFindNoDifferentArtists()
         {
             var artistDiffs = _libraryDiffService.GetArtistDiffs(LibraryTestData.ManyArtistsToManyRelasesLibrary, LibraryTestData.ManyArtistsToManyRelasesLibrary);
             Assert.AreEqual(artistDiffs.Count, 0);
         }
 
         [TestMethod]
-        public void SameLibraryShouldHaveNoDiffReleases()
+        public void GivenTwoIdenticalLibraries_WhenCompared_ThenShouldFindNoDifferentReleases()
         {
             var releaseDiffs = _libraryDiffService.GetReleaseDiffs(LibraryTestData.ManyArtistsToManyRelasesLibrary, LibraryTestData.ManyArtistsToManyRelasesLibrary);
             Assert.AreEqual(releaseDiffs.Count, 0);
         }
 
         [TestMethod]
-        public void DifferentLibrariesShouldHaveDiffs()
+        public void GivenTwoDifferentLibraries_WhenCompared_ShouldFindDifferences()
         {
             var artistDiffs = _libraryDiffService.GetArtistDiffs(LibraryTestData.ManyArtistsToManyRelasesLibrary, LibraryTestData.DisjointSimpleLibrary);
             var releaseDiffs = _libraryDiffService.GetReleaseDiffs(LibraryTestData.ManyArtistsToManyRelasesLibrary, LibraryTestData.DisjointSimpleLibrary);
@@ -55,7 +55,7 @@ namespace MusicLibraryCompareToolTests
         }
 
         [TestMethod]
-        public void TwoArtistsWithSameNameDifferentCountryShouldDiff()
+        public void GivenTwoArtistsWithSameNameButDifferentCountries_WhenCompared_ShouldFindDifferences()
         {
             var artistDiffs1 = _libraryDiffService.GetArtistDiffs(LibraryTestData.MultipleArtistsWithSameNameDifferentCountry1Library, LibraryTestData.MultipleArtistsWithSameNameDifferentCountry2Library);
             var artistDiffs2 = _libraryDiffService.GetArtistDiffs(LibraryTestData.MultipleArtistsWithSameNameDifferentCountry2Library, LibraryTestData.MultipleArtistsWithSameNameDifferentCountry1Library);

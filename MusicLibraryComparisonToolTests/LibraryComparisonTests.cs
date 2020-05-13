@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace MusicLibraryCompareToolTests
+namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
     public class LibraryComparisonTests

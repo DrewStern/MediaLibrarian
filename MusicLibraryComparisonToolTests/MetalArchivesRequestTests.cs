@@ -1,7 +1,7 @@
 ﻿using MusicLibraryCompareTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MusicLibraryCompareToolTests
+namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
     public class MetalArchivesRequestTests

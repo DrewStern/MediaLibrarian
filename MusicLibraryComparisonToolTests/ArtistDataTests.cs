@@ -1,13 +1,13 @@
 ﻿using MusicLibraryCompareTool;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MusicLibraryCompareToolTests
+namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
     public class ArtistDataTests
     {
         [TestMethod]
-        public void TestArtists_SameName_DiffCountry_AreNotEqual()
+        public void GivenTwoArtistsWithSameNameButDifferentCountries_WhenCompared_ThenAreNotEqual()
         {
             ArtistData ad1 = new ArtistData("artistName", "country1");
             ArtistData ad2 = new ArtistData("artistName", "country2");

@@ -66,25 +66,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArtistData.cs" />
-    <Compile Include="ArtistDataEqualityComparer.cs" />
-    <Compile Include="BaseLibrary.cs" />
+    <Compile Include="Implementations\Data\ArtistData.cs" />
+    <Compile Include="Implementations\ArtistDataEqualityComparer.cs" />
+    <Compile Include="Implementations\BaseLibrary.cs" />
     <Compile Include="Interfaces\ILibrary.cs" />
     <Compile Include="Interfaces\ILibraryItem.cs" />
     <Compile Include="Interfaces\IMusicLibraryItem.cs" />
-    <Compile Include="LibraryComparison.cs" />
-    <Compile Include="MusicLibraryItem.cs" />
-    <Compile Include="MusicLibraryItemEqualityComparer.cs" />
-    <Compile Include="MusicLibrary.cs" />
-    <Compile Include="LibraryComparisonService.cs" />
-    <Compile Include="MetalArchivesClient.cs" />
-    <Compile Include="MetalArchivesRequest.cs" />
-    <Compile Include="MetalArchivesResponse.cs" />
-    <Compile Include="MetalArchivesResponseParser.cs" />
-    <Compile Include="MetalArchivesService.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Implementations\LibraryComparison.cs" />
+    <Compile Include="Implementations\MusicLibraryItem.cs" />
+    <Compile Include="Implementations\MusicLibraryItemEqualityComparer.cs" />
+    <Compile Include="Implementations\MusicLibrary.cs" />
+    <Compile Include="Implementations\LibraryComparisonService.cs" />
+    <Compile Include="Implementations\MetalArchivesClient.cs" />
+    <Compile Include="Implementations\MetalArchivesRequest.cs" />
+    <Compile Include="Implementations\MetalArchivesResponse.cs" />
+    <Compile Include="Implementations\MetalArchivesResponseParser.cs" />
+    <Compile Include="Implementations\MetalArchivesService.cs" />
+    <Compile Include="Implementations\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReleaseData.cs" />
+    <Compile Include="Implementations\Data\ReleaseData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -103,6 +103,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

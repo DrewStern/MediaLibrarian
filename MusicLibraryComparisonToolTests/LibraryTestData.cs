@@ -1,7 +1,7 @@
 ﻿using MusicLibraryCompareTool;
 using System.Collections.Generic;
 
-namespace MusicLibraryCompareToolTests
+namespace MusicLibraryCompareTool.UnitTests
 {
     public static class LibraryTestData
     {

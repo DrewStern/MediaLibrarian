@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace MusicLibraryCompareToolTests
+namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
     public class LibraryTests
     {
+        // TODO: Turn this into an integration test
         [TestMethod]
         public void CanOnlyLoadDataFromExistantDiskLocations()
         {
@@ -18,6 +19,7 @@ namespace MusicLibraryCompareToolTests
             Assert.ThrowsException<ArgumentException>(() => new Library(libraryPath));
         }
 
+        // TODO: Turn this into an integration test
         [TestMethod]
         public void EmptyLibraryShouldHaveNothing()
         {
@@ -37,6 +39,7 @@ namespace MusicLibraryCompareToolTests
             libraryPath.Delete();
         }
 
+        // TODO: Turn this into an integration test
         [TestMethod]
         public void ConstructFromDisk()
         {
