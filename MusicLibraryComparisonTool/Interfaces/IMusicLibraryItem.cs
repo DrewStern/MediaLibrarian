@@ -1,4 +1,4 @@
-﻿namespace MusicLibraryCompareTool.Interfaces
+﻿namespace MediaLibraryCompareTool.Interfaces
 {
     public interface IMusicLibraryItem : ILibraryItem
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MusicLibraryCompareTool.Interfaces
+namespace MediaLibraryCompareTool.Interfaces
 {
     public interface ILibrary
     {

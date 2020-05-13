@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using MusicLibraryCompareTool.Interfaces;
+using MediaLibraryCompareTool.Interfaces;
 
-namespace MusicLibraryCompareTool
+namespace MediaLibraryCompareTool
 {
     public class BaseLibrary : ILibrary
     {

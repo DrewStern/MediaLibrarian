@@ -1,6 +1,6 @@
-﻿using MusicLibraryCompareTool.Interfaces;
+﻿using MediaLibraryCompareTool.Interfaces;
 
-namespace MusicLibraryCompareTool
+namespace MediaLibraryCompareTool
 {
     public class BaseLibraryItem : ILibraryItem
     {
