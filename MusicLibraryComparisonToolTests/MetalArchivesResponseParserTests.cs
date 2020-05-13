@@ -57,7 +57,7 @@ namespace MusicLibraryCompareTool.UnitTests
             maResponse.aaData = new string[1][];
             maResponse.aaData[0] = htmlResponse;
 
-            Library l = _parser.Parse(maResponse);
+            MusicLibrary l = _parser.Parse(maResponse);
 
             Assert.AreEqual(1, l.Collection.Count);
             Assert.AreEqual(1, l.Artists.Count);
@@ -76,7 +76,7 @@ namespace MusicLibraryCompareTool.UnitTests
             maHttpResponse.aaData = new string[1][];
             maHttpResponse.aaData[0] = htmlResponse;
 
-            Library l = _parser.Parse(maHttpResponse);
+            MusicLibrary l = _parser.Parse(maHttpResponse);
 
             Assert.AreEqual(0, l.Collection.Count);
             Assert.AreEqual(0, l.Artists.Count);

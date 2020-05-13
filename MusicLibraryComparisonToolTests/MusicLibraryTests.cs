@@ -16,7 +16,7 @@ namespace MusicLibraryCompareTool.UnitTests
             // use a new directory on disk that has no content
             DirectoryInfo libraryPath = new DirectoryInfo("C:\\iDontExist");
 
-            Assert.ThrowsException<ArgumentException>(() => new Library(libraryPath));
+            Assert.ThrowsException<ArgumentException>(() => new MusicLibrary(libraryPath));
         }
 
         // TODO: Turn this into an integration test
@@ -29,7 +29,7 @@ namespace MusicLibraryCompareTool.UnitTests
             // TODO: I guess this could fail if the folder already exists on disk...
             libraryPath.Create();
 
-            Library l = new Library(libraryPath);
+            MusicLibrary l = new MusicLibrary(libraryPath);
 
             Assert.AreEqual(l.Collection.Count, 0);
             Assert.AreEqual(l.Artists.Count, 0);
@@ -61,7 +61,7 @@ namespace MusicLibraryCompareTool.UnitTests
             DirectoryInfo a2r2path = new DirectoryInfo(a2path + "\\release2");
             a2r2path.Create();
 
-            Library l = new Library(rootPath);
+            MusicLibrary l = new MusicLibrary(rootPath);
 
             Assert.AreEqual(l.Collection.Count, 4);
             Assert.AreEqual(l.Artists.Count, 2);
@@ -80,7 +80,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void LibraryNotEqualWithNonLibrary()
         {
-            Library l = new Library(new List<LibraryItem>());
+            MusicLibrary l = new MusicLibrary(new List<MusicLibraryItem>());
 
             var expected = false;
             var actual = l.Equals(null);
@@ -91,8 +91,8 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestEmptyLibraryNotEqualWithNonEmptyLibrary()
         {
-            Library l1 = LibraryTestData.EmptyLibrary;
-            Library l2 = LibraryTestData.OneArtistToManyReleasesLibrary;
+            MusicLibrary l1 = LibraryTestData.EmptyLibrary;
+            MusicLibrary l2 = LibraryTestData.OneArtistToManyReleasesLibrary;
 
             var expected = false;
             var actual = l1.Equals(l2);
@@ -106,8 +106,8 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestNonEmptyLibraryNotEqualWithEmptyLibrary()
         {
-            Library l1 = LibraryTestData.OneArtistToManyReleasesLibrary;
-            Library l2 = LibraryTestData.EmptyLibrary;
+            MusicLibrary l1 = LibraryTestData.OneArtistToManyReleasesLibrary;
+            MusicLibrary l2 = LibraryTestData.EmptyLibrary;
 
             var expected = false;
             var actual = l1.Equals(l2);
@@ -118,7 +118,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestLibraryToString()
         {
-            Library l = LibraryTestData.OneArtistToManyReleasesLibrary;
+            MusicLibrary l = LibraryTestData.OneArtistToManyReleasesLibrary;
 
             var expected =
                 "artist1 - release1" + Environment.NewLine +
@@ -131,7 +131,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void LibraryDoesntHaveDuplicateArtists()
         {
-            Library l = LibraryTestData.OneArtistToManyReleasesLibrary;
+            MusicLibrary l = LibraryTestData.OneArtistToManyReleasesLibrary;
             Assert.AreEqual(l.Collection.Count, 2);
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 2);
@@ -140,7 +140,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void LibraryDoesntHaveDuplicateItems()
         {
-            Library l = LibraryTestData.DuplicatedDataLibrary;
+            MusicLibrary l = LibraryTestData.DuplicatedDataLibrary;
             Assert.AreEqual(l.Collection.Count, 1);
             Assert.AreEqual(l.Artists.Count, 1);
             Assert.AreEqual(l.Releases.Count, 1);
@@ -149,7 +149,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestEmptyLibraryPlusNonEmptyLibraryEqualsNonEmptyLibrary()
         {
-            Library empty = LibraryTestData.EmptyLibrary;
+            MusicLibrary empty = LibraryTestData.EmptyLibrary;
             empty.AddToCollection(LibraryTestData.OneArtistToManyReleasesLibrary);
             Assert.AreEqual(empty.Collection.Count, 2);
             Assert.AreEqual(empty.Artists.Count, 1);

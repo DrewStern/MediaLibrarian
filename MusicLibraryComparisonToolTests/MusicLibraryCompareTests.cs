@@ -10,11 +10,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestIntersection_EmptyLibraryAndEmptyLibrary()
         {
-            var l1 = new Library(new List<LibraryItem>());
-            var l2 = new Library(new List<LibraryItem>());
-            var ld = new LibraryComparison(l1, l2);
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>());
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>());
+            var ld = new MusicLibraryCompareResult(l1, l2);
 
-            var expected = new Library(new List<LibraryItem>());
+            var expected = new MusicLibrary(new List<MusicLibraryItem>());
             var actual = ld.Intersection;
 
             Assert.AreEqual(expected, actual);
@@ -23,24 +23,24 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestIntersect_LeftCollectionLargerThanRightCollection()
         {
-            var l1 = new Library(new List<LibraryItem>
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName2", "releaseName2"),
-                new LibraryItem("artistName3", "releaseName3"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName3", "releaseName3"),
             });
-            var l2 = new Library(new List<LibraryItem>
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
             });
 
-            var ld = new LibraryComparison(l1, l2);
+            var ld = new MusicLibraryCompareResult(l1, l2);
 
-            var expected = new Library(new List<LibraryItem>
+            var expected = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
             });
             var actual = ld.Intersection;
 
@@ -50,23 +50,23 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestIntersect_RightCollectionLargerThanLeftCollection()
         {
-            var l1 = new Library(new List<LibraryItem>
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName5", "releaseName5"),
-                new LibraryItem("artistName6", "releaseName6"),
+                new MusicLibraryItem("artistName5", "releaseName5"),
+                new MusicLibraryItem("artistName6", "releaseName6"),
             });
-            var l2 = new Library(new List<LibraryItem>
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName4", "releaseName4"),
-                new LibraryItem("artistName5", "releaseName5"),
-                new LibraryItem("artistName7", "releaseName7"),
+                new MusicLibraryItem("artistName4", "releaseName4"),
+                new MusicLibraryItem("artistName5", "releaseName5"),
+                new MusicLibraryItem("artistName7", "releaseName7"),
             });
 
-            var ld = new LibraryComparison(l1, l2);
+            var ld = new MusicLibraryCompareResult(l1, l2);
 
-            var expected = new Library(new List<LibraryItem>
+            var expected = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName5", "releaseName5"),
+                new MusicLibraryItem("artistName5", "releaseName5"),
             });
             var actual = ld.Intersection;
 
@@ -76,11 +76,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestSum_EmptyLibraryAndEmptyLibrary()
         {
-            var l1 = new Library(new List<LibraryItem>());
-            var l2 = new Library(new List<LibraryItem>());
-            var ld = new LibraryComparison(l1, l2);
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>());
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>());
+            var ld = new MusicLibraryCompareResult(l1, l2);
 
-            var expected = new Library(new List<LibraryItem>());
+            var expected = new MusicLibrary(new List<MusicLibraryItem>());
             var actual = ld.Sum;
 
             Assert.AreEqual(expected, actual);
@@ -89,23 +89,23 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestLeftOutersection()
         {
-            var l1 = new Library(new List<LibraryItem>
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName2", "releaseName2"),
-                new LibraryItem("artistName3", "releaseName3"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName3", "releaseName3"),
             });
-            var l2 = new Library(new List<LibraryItem>
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName3", "releaseName3"),
-                new LibraryItem("artistName4", "releaseName4"),
+                new MusicLibraryItem("artistName3", "releaseName3"),
+                new MusicLibraryItem("artistName4", "releaseName4"),
             });
-            var ld = new LibraryComparison(l1, l2);
+            var ld = new MusicLibraryCompareResult(l1, l2);
 
-            var expected = new Library(new List<LibraryItem>
+            var expected = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
             });
             var actual = ld.LeftOutersection;
 
@@ -115,23 +115,23 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestRightOutersection()
         {
-            var l1 = new Library(new List<LibraryItem>
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
             });
-            var l2 = new Library(new List<LibraryItem>
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName2", "releaseName2"),
-                new LibraryItem("artistName3", "releaseName3"),
-                new LibraryItem("artistName4", "releaseName4"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName3", "releaseName3"),
+                new MusicLibraryItem("artistName4", "releaseName4"),
             });
-            var ld = new LibraryComparison(l1, l2);
+            var ld = new MusicLibraryCompareResult(l1, l2);
 
-            var expected = new Library(new List<LibraryItem>
+            var expected = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName3", "releaseName3"),
-                new LibraryItem("artistName4", "releaseName4"),
+                new MusicLibraryItem("artistName3", "releaseName3"),
+                new MusicLibraryItem("artistName4", "releaseName4"),
             });
             var actual = ld.RightOutersection;
 
@@ -141,24 +141,24 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestFullOutersection()
         {
-            var l1 = new Library(new List<LibraryItem>
+            var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName2", "releaseName2"),
-                new LibraryItem("artistName3", "releaseName3"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName3", "releaseName3"),
             });
-            var l2 = new Library(new List<LibraryItem>
+            var l2 = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName1", "releaseName1"),
-                new LibraryItem("artistName4", "releaseName4"),
+                new MusicLibraryItem("artistName1", "releaseName1"),
+                new MusicLibraryItem("artistName4", "releaseName4"),
             });
-            var ld = new LibraryComparison(l1, l2);
+            var ld = new MusicLibraryCompareResult(l1, l2);
 
-            var expected = new Library(new List<LibraryItem>
+            var expected = new MusicLibrary(new List<MusicLibraryItem>
             {
-                new LibraryItem("artistName2", "releaseName2"),
-                new LibraryItem("artistName3", "releaseName3"),
-                new LibraryItem("artistName4", "releaseName4"),
+                new MusicLibraryItem("artistName2", "releaseName2"),
+                new MusicLibraryItem("artistName3", "releaseName3"),
+                new MusicLibraryItem("artistName4", "releaseName4"),
             });
             var actual = ld.FullOutersection;
 

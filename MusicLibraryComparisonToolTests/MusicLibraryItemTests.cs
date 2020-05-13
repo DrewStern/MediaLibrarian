@@ -9,11 +9,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestEquality()
         {
-            var libraryItem1 = new LibraryItem(
+            var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName"),
                 new ReleaseData("releaseName"));
 
-            var libraryItem2 = new LibraryItem(
+            var libraryItem2 = new MusicLibraryItem(
                 new ArtistData("artistName"),
                 new ReleaseData("releaseName"));
 
@@ -23,11 +23,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestNonEquality_BothArtistsAndReleasesDiff()
         {
-            var libraryItem1 = new LibraryItem(
+            var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName1"));
 
-            var libraryItem2 = new LibraryItem(
+            var libraryItem2 = new MusicLibraryItem(
                 new ArtistData("artistName2"),
                 new ReleaseData("releaseName2"));
 
@@ -37,11 +37,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestNonEquality_ArtistsDiffOnly()
         {
-            var libraryItem1 = new LibraryItem(
+            var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName1"));
 
-            var libraryItem2 = new LibraryItem(
+            var libraryItem2 = new MusicLibraryItem(
                 new ArtistData("artistName2"),
                 new ReleaseData("releaseName1"));
 
@@ -51,11 +51,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestNonEquality_ReleasesDiffOnly()
         {
-            var libraryItem1 = new LibraryItem(
+            var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName1"));
 
-            var libraryItem2 = new LibraryItem(
+            var libraryItem2 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName2"));
 
@@ -65,11 +65,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestNonEquality_ArtistDataNotSpecified()
         {
-            var libraryItem1 = new LibraryItem(
+            var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName1"));
 
-            var libraryItem2 = new LibraryItem(
+            var libraryItem2 = new MusicLibraryItem(
                 null,
                 new ReleaseData("releaseName1"));
 
@@ -79,11 +79,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestNonEquality_ReleaseDataNotSpecified()
         {
-            var libraryItem1 = new LibraryItem(
+            var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName1"));
 
-            var libraryItem2 = new LibraryItem(
+            var libraryItem2 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 null);
 
@@ -93,11 +93,11 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestNonEqualityWithDifferentType()
         {
-            var libraryItem1 = new LibraryItem(
+            var libraryItem1 = new MusicLibraryItem(
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName1"));
 
-            var libraryItem2 = new LibraryItem? { };
+            var libraryItem2 = new MusicLibraryItem? { };
 
             Assert.IsFalse(libraryItem1.Equals(libraryItem2));
         }
@@ -105,7 +105,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestLibraryItemToString_FullSpec()
         {
-            var libraryItem = new LibraryItem(
+            var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName", "country"),
                 new ReleaseData("releaseName", "demo"));
 
@@ -118,7 +118,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestLibraryItemToString_NoReleaseType()
         {
-            var libraryItem = new LibraryItem(
+            var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName", "country"),
                 new ReleaseData("releaseName"));
 
@@ -131,7 +131,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestLibraryItemToString_NoCountry()
         {
-            var libraryItem = new LibraryItem(
+            var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName"),
                 new ReleaseData("releaseName", "split"));
 
@@ -144,7 +144,7 @@ namespace MusicLibraryCompareTool.UnitTests
         [TestMethod]
         public void TestLibraryItemToString_NoReleaseType_NoCountry()
         {
-            var libraryItem = new LibraryItem(
+            var libraryItem = new MusicLibraryItem(
                 new ArtistData("artistName"),
                 new ReleaseData("releaseName"));
 
