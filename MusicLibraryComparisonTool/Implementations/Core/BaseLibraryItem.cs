@@ -2,7 +2,7 @@
 
 namespace MediaLibraryCompareTool
 {
-    public class BaseLibraryItem : ILibraryItem
+    public abstract class BaseLibraryItem : ILibraryItem
     {
         
     }

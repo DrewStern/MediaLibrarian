@@ -15,7 +15,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenDataProvidedByMetalArchives_WhenParsingArtistData_ThenDataParsedCorrectly()
+        public void GivenDataProvidedByMetalArchives_WhenParsingArtistDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
         {
             var artistResponseHtml = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
 
@@ -26,7 +26,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenDataProvidedByMetalArchives_WhenParsingReleaseData_ThenDataParsedCorrectly()
+        public void GivenDataProvidedByMetalArchives_WhenParsingReleaseDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
         {
             var releaseResponseHtml = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
             var releaseTypeHtml = "Full-Length";

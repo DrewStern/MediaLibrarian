@@ -20,7 +20,7 @@ namespace MediaLibraryCompareTool.UnitTests
 
         // TODO: Turn this into an integration test
         [TestMethod]
-        public void CanOnlyLoadDataFromExistantDiskLocations()
+        public void GivenALocationOnDiskWhichDoesNotExist_WhenAttemptToParseIntoMusicLibrary_ThenExceptionIsThrown()
         {
             // use a new directory on disk that has no content
             DirectoryInfo libraryPath = new DirectoryInfo("C:\\iDontExist");
@@ -30,7 +30,7 @@ namespace MediaLibraryCompareTool.UnitTests
 
         // TODO: Turn this into an integration test
         [TestMethod]
-        public void EmptyLibraryShouldHaveNothing()
+        public void GivenAnEmptyDirectoryOnDisk_WhenParsedIntoAMusicLibrary_ThenMusicLibraryShouldBeEmpty()
         {
             // use a new directory on disk that has no content
             DirectoryInfo libraryPath = new DirectoryInfo("C:\\iExistButAmEmpty");
@@ -50,7 +50,7 @@ namespace MediaLibraryCompareTool.UnitTests
 
         // TODO: Turn this into an integration test
         [TestMethod]
-        public void ConstructFromDisk()
+        public void GivenANonEmptyDirectoryOnDisk_WhenParsedIntoAMusicLibrary_ThenMusicLibraryShouldBePopulated()
         {
             // TODO: I guess this could fail if the folders already exist on disk...
             DirectoryInfo rootPath = new DirectoryInfo("C:\\iExist");

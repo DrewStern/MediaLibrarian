@@ -3,7 +3,7 @@ using MediaLibraryCompareTool.Interfaces;
 
 namespace MediaLibraryCompareTool
 {
-    public class BaseLibrary : ILibrary
+    public abstract class BaseLibrary : ILibrary
     {
         public virtual List<ILibraryItem> Collection { get; }
     }
