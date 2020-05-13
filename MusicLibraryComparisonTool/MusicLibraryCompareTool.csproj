@@ -7,8 +7,8 @@
     <ProjectGuid>{F6351515-C63F-4DF8-97E8-B7D5E8FE949A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MusicLibraryComparisonTool</RootNamespace>
-    <AssemblyName>MusicLibraryComparisonTool</AssemblyName>
+    <RootNamespace>MusicLibraryCompareTool</RootNamespace>
+    <AssemblyName>MusicLibraryCompareTool</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
