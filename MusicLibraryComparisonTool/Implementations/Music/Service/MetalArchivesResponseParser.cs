@@ -5,6 +5,8 @@ namespace MediaLibraryCompareTool
 {
     public class MetalArchivesResponseParser
     {
+        #region Public methods
+
         public MusicLibrary Parse(MetalArchivesResponse response)
         {
             if (response == null)
@@ -20,67 +22,70 @@ namespace MediaLibraryCompareTool
             // [2] == Full-length
             foreach (string[] entry in response.aaData)
             {
-                ArtistData artistData = ExtractArtistData(entry[0]);
-                ReleaseData releaseData = ExtractReleaseData(entry[1], entry[2]);
-
-                MusicLibraryItem data = new MusicLibraryItem(artistData, releaseData);
-
-                // only care about full-lengths for now
-                if (!data.ReleaseData.IsFullLength)
-                {
-                    continue;
-                }
-
-                libraryItems.Add(data);
+                ArtistData artistData = GetArtistData(entry[0]);
+                ReleaseData releaseData = GetReleaseData(entry[1], entry[2]);
+                MusicLibraryItem musicLibraryItem = new MusicLibraryItem(artistData, releaseData);
+                libraryItems.Add(musicLibraryItem);
             }
 
             return new MusicLibrary(libraryItems);
         }
 
-        public ArtistData ExtractArtistData(string htmlArtistData)
+        #endregion
+
+        #region Internal methods
+
+        /// <remarks>Marked as internal to allow for testing.</remarks>
+        internal ArtistData GetArtistData(string htmlArtistData)
         {
-            var artistName = ExtractArtistName(htmlArtistData);
-            var country = ExtractCountry(htmlArtistData);
+            var artistData = StripArtistDataOutHtml(htmlArtistData);
+            var artistName = ExtractArtistName(artistData);
+            var country = ExtractCountry(artistData);
             return new ArtistData(artistName, country);
         }
 
-        public ReleaseData ExtractReleaseData(string htmlReleaseName, string htmlReleaseType)
+        /// <remarks>Marked as internal to allow for testing.</remarks>
+        internal ReleaseData GetReleaseData(string htmlReleaseData, string htmlReleaseType)
         {
-            var artistName = ExtractReleaseName(htmlReleaseName);
             var releaseType = htmlReleaseType;
+            var artistName = StripReleaseType(ExtractReleaseData(htmlReleaseData), releaseType);
             return new ReleaseData(artistName, releaseType);
         }
 
-        /// <remarks>
-        /// There might be two bands with the same name, but from different countries. 
-        /// This is used to differentiate in those cases.
-        /// </remarks>
-        public string ExtractArtistName(string htmlArtistData)
+        #endregion
+
+        #region Private methods
+
+        private string ExtractArtistName(string combinedArtistData)
         {
-            string artistData = StripOutHtml(htmlArtistData);
-
-            // strip out the country identifier 
-            // TODO: just determine the country at this point and simplify all calls made to this class?
-            string artistName = artistData.Replace("(" + ExtractCountry(artistData) + ")", string.Empty).Trim();
-
-            return artistName;
+            return combinedArtistData.Substring(0, combinedArtistData.IndexOf("(")).Trim();
         }
 
-        public string ExtractCountry(string artistNameWithCountry)
+        private string ExtractCountry(string combinedArtistData)
         {
             const string startOfCountryId = "(";
             const string endOfCountryId = ")";
 
-            int startOfCountryIndex = artistNameWithCountry.IndexOf(startOfCountryId);
-            int endOfCountryIndex = artistNameWithCountry.IndexOf(endOfCountryId);
+            int startOfCountryIndex = combinedArtistData.IndexOf(startOfCountryId);
+            int endOfCountryIndex = combinedArtistData.IndexOf(endOfCountryId);
 
-            return artistNameWithCountry.Substring(startOfCountryIndex + startOfCountryId.Length, endOfCountryIndex - startOfCountryIndex - startOfCountryId.Length);
+            return combinedArtistData.Substring(startOfCountryIndex + startOfCountryId.Length, endOfCountryIndex - startOfCountryIndex - startOfCountryId.Length);
         }
 
-        /// <remarks>
-        /// The http response wraps the release name in html. This function strips the html away.
-        /// </remarks>
-        public string ExtractReleaseName(string dirtiedReleaseName)
+        private string StripArtistDataOutHtml(string htmlArtistData)
+        {
+            const string startOfTitleAttribute = " title=\"";
+            const string endOfTitleAttribute = "\">";
+
+            int startOfTitleAttributeIndex = htmlArtistData.IndexOf(startOfTitleAttribute);
+            int endOfTitleAttributeIndex = htmlArtistData.IndexOf(endOfTitleAttribute);
+
+            return htmlArtistData.Substring(
+                startOfTitleAttributeIndex + startOfTitleAttribute.Length,
+                endOfTitleAttributeIndex - startOfTitleAttributeIndex - startOfTitleAttribute.Length);
+        }
+
+        private string ExtractReleaseData(string dirtiedReleaseName)
         {
             // we use these to determine the begin/end of the html wrapping the album name
             const string endOfOpenHtmlTag = "\">";
@@ -94,17 +99,11 @@ namespace MediaLibraryCompareTool
             return dirtiedReleaseName.Substring(endOfOpenHtmlIndex + endOfOpenHtmlTag.Length, startOfCloseHtmlIndex - endOfOpenHtmlIndex - endOfOpenHtmlTag.Length);
         }
 
-        private string StripOutHtml(string htmlArtistData)
+        private string StripReleaseType(string releaseData, string releaseType)
         {
-            const string startOfTitleAttribute = " title=\"";
-            const string endOfTitleAttribute = "\">";
-
-            int startOfTitleAttributeIndex = htmlArtistData.IndexOf(startOfTitleAttribute);
-            int endOfTitleAttributeIndex = htmlArtistData.IndexOf(endOfTitleAttribute);
-
-            return htmlArtistData.Substring(
-                startOfTitleAttributeIndex + startOfTitleAttribute.Length,
-                endOfTitleAttributeIndex - startOfTitleAttributeIndex - startOfTitleAttribute.Length);
+            return releaseData.Replace("(" + releaseType + ")", String.Empty).Trim();
         }
+
+        #endregion
     }
 }

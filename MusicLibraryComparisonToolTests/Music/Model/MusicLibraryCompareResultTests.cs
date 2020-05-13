@@ -20,7 +20,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenSomeLibrary_WhenIntersectedWithAProperSubsetOfItself_ThenResultIsTheSameProperSubset()
+        public void GivenALibrary_WhenIntersectedWithAProperSubsetOfItself_ThenResultIsTheSameProperSubset()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -47,7 +47,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenSomeLibrary_WhenIntersectedWithAnImproperSupersetOfItself_ThenResultIsASubsetOfTheOriginalLibrary()
+        public void GivenALibrary_WhenIntersectedWithAnImproperSupersetOfItself_ThenResultIsASubsetOfTheOriginalLibrary()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -73,7 +73,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenSomeLibrary_WhenIntersectedWithAProperSupersetOfItself_ThenResultIsTheOriginalLibrary()
+        public void GivenALibrary_WhenIntersectedWithAProperSupersetOfItself_ThenResultIsTheOriginalLibrary()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -113,7 +113,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenSomeLibrary_WhenLeftOutersectedWithAnImproperSubsetOfItself_ThenResultIsSubsetOfOriginalLibrary()
+        public void GivenALibrary_WhenLeftOutersectedWithAnImproperSubsetOfItself_ThenResultIsSubsetOfOriginalLibrary()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -139,7 +139,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenSomeLibrary_WhenRightOutersectedWithAnImproperSupersetOfItself_ThenResultIsSubsetOfThatImproperSuperset()
+        public void GivenALibrary_WhenRightOutersectedWithAnImproperSupersetOfItself_ThenResultIsSubsetOfThatImproperSuperset()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -165,7 +165,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenSomeLibrary_WhenFullOutersectedWithSomeOtherLibrary_ThenTheResultContainsNoElementsFromTheIntersection()
+        public void GivenALibrary_WhenFullOutersectedWithSomeOtherLibrary_ThenTheResultContainsNoElementsFromTheIntersection()
         {
             var l1 = new MusicLibrary(new List<MusicLibraryItem>
             {

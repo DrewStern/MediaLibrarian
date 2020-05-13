@@ -35,7 +35,12 @@ namespace MediaLibraryCompareTool
             var parsedResponse = _parser.Parse(response);
 
             // TODO: I don't like doing this filtration here.
-            return new MusicLibrary(parsedResponse.Collection.Where(x => x.ArtistData.ArtistName.StartsWith(artistName)).ToList());
+            // TODO: Deprecate these terrible variable names in favor of a singular LINQ filtration chain.
+            var parsedResponseFilteredByDesiredArtist = parsedResponse.Collection.Where(x => x.ArtistData.ArtistName.StartsWith(artistName)).ToList();
+
+            var parsedResponseFilteredByDesiredArtistFilterToOnlyFullLengths = parsedResponseFilteredByDesiredArtist.FindAll(x => x.ReleaseData.IsFullLength);
+
+            return new MusicLibrary(parsedResponseFilteredByDesiredArtistFilterToOnlyFullLengths);
         }
 
         // TODO: may want to implement FindByArtistAndCountry, FindBetweenReleaseDates, FindNewerThan, FindOlderThan

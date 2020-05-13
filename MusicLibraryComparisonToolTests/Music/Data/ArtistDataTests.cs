@@ -6,7 +6,7 @@ namespace MediaLibraryCompareTool.UnitTests
     public class ArtistDataTests
     {
         [TestMethod]
-        public void GivenTwoArtistsWithSameNameButDifferentCountries_WhenCompared_ThenAreNotEqual()
+        public void GivenAnArtist_WhenComparedToAnArtistWithTheSameNameButDifferentCountry_ThenTheyAreNotEqual()
         {
             ArtistData ad1 = new ArtistData("artistName", "country1");
             ArtistData ad2 = new ArtistData("artistName", "country2");
@@ -17,7 +17,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenTwoArtistsWithDifferentNameButSameCountries_WhenCompared_ThenAreNotEqual()
+        public void GivenAnArtist_WhenComparedToAnArtistWithDifferentNameButSameCountry_ThenTheyAreNotEqual()
         {
             ArtistData ad1 = new ArtistData("artistName1", "country");
             ArtistData ad2 = new ArtistData("artistName2", "country");

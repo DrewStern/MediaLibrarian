@@ -40,7 +40,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenTwoDifferentLibraries_WhenArtistsCompared_ShouldFindDifferences()
+        public void GivenTwoDifferentLibraries_WhenArtistsCompared_ThenShouldFindDifferences()
         {
             var artistDiffs = _musicLibraryCompareService.GetArtistDiffs(
                 _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary(),
@@ -50,7 +50,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenTwoArtistsWithSameNameButDifferentCountries_WhenCompared_ShouldFindDifferences()
+        public void GivenTwoArtistsWithSameNameButDifferentCountries_WhenCompared_ThenShouldFindDifferences()
         {
             var artistDiffs1 = _musicLibraryCompareService.GetArtistDiffs(
                 _musicLibraryTestData.GetMultipleArtistsWithSameNameDifferentCountry1Library(),
@@ -89,7 +89,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenTwoDifferentLibraries_WhenReleasesCompared_ShouldFindDifferences()
+        public void GivenTwoDifferentLibraries_WhenReleasesCompared_ThenShouldFindDifferences()
         {
             var releaseDiffs = _musicLibraryCompareService.GetReleaseDiffs(
                 _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary(),
@@ -103,7 +103,7 @@ namespace MediaLibraryCompareTool.UnitTests
         #region GetSum tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenSummedWithANonEmptyLibrary_ShouldResultInTheSameNonEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenSummedWithANonEmptyLibrary_ThenResultsInTheSameNonEmptyLibrary()
         {
             var expected = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
 
@@ -117,7 +117,7 @@ namespace MediaLibraryCompareTool.UnitTests
         #region GetLeftOutersection tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenLeftOutersectedWithANonEmptyLibrary_ShouldResultInAnEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenLeftOutersectedWithANonEmptyLibrary_ThenResultsInAnEmptyLibrary()
         {
             var expected = _musicLibraryTestData.GetEmptyLibrary();
 
@@ -127,7 +127,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenANonEmptyLibrary_WhenLeftOutersectedWithAnEmptyLibrary_ShouldResultInTheOriginalNonEmptyLibrary()
+        public void GivenANonEmptyLibrary_WhenLeftOutersectedWithAnEmptyLibrary_ThenResultsInTheOriginalNonEmptyLibrary()
         {
             var expected = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
 
@@ -141,7 +141,7 @@ namespace MediaLibraryCompareTool.UnitTests
         #region GetRightOutersection tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenRightOutersectedWithANonEmptyLibrary_ShouldResultInTheSameNonEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenRightOutersectedWithANonEmptyLibrary_ThenResultsInTheSameNonEmptyLibrary()
         {
             var expected = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
 
@@ -151,7 +151,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenANonEmptyLibrary_WhenRightOutersectedWithAnEmptyLibrary_ShouldResultInAnEmptyLibrary()
+        public void GivenANonEmptyLibrary_WhenRightOutersectedWithAnEmptyLibrary_ThenResultsInAnEmptyLibrary()
         {
             var expected = _musicLibraryTestData.GetEmptyLibrary();
 

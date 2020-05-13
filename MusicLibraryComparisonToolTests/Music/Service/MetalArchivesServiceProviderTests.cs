@@ -9,7 +9,7 @@ namespace MediaLibraryCompareTool.UnitTests
         private MetalArchivesServiceProvider _metalArchivesServiceProvider = new MetalArchivesServiceProvider();
 
         [TestMethod]
-        public void GivenAServiceProvider_WhenNullIsSubmitted_ThenAnExceptionIsThrown()
+        public void GivenAServiceProvider_WhenFaultyRequestIsSubmitted_ThenAnExceptionIsThrown()
         {
             Assert.ThrowsException<ArgumentNullException>(() => _metalArchivesServiceProvider.Submit(null));
         }
