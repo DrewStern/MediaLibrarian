@@ -7,7 +7,7 @@ using System.IO;
 namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
-    public class LibraryTests
+    public class MusicLibraryTests
     {
         // TODO: Turn this into an integration test
         [TestMethod]

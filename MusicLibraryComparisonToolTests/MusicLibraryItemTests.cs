@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
-    public class LibraryItemTests
+    public class MusicLibraryItemTests
     {
         [TestMethod]
         public void TestEquality()

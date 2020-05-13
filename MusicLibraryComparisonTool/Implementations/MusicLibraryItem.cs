@@ -6,7 +6,7 @@ namespace MusicLibraryCompareTool
     /// <summary>
     /// Represents a release from an artist.
     /// </summary>
-    public struct MusicLibraryItem : ILibraryItem
+    public struct MusicLibraryItem : IMusicLibraryItem
     {
         public ArtistData ArtistData { get; }
 

@@ -2,7 +2,7 @@
 
 namespace MusicLibraryCompareTool
 {
-    public class LibraryComparison
+    public class MusicLibraryCompareResult
     {
         private MusicLibrary _sum;
         private MusicLibrary _intersection;
@@ -91,7 +91,7 @@ namespace MusicLibraryCompareTool
             }
         }
 
-        public LibraryComparison(MusicLibrary l1, MusicLibrary l2)
+        public MusicLibraryCompareResult(MusicLibrary l1, MusicLibrary l2)
         {
             Left = l1;
             Right = l2;

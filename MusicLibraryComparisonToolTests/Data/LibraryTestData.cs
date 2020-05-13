@@ -102,7 +102,7 @@ namespace MusicLibraryCompareTool.UnitTests
             }
         }
 
-        public static Library ManyArtistsToManyRelasesLibrary
+        public static Library ManyArtistsToManyReleasesLibrary
         {
             get
             {

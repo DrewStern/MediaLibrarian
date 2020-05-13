@@ -1,6 +1,4 @@
-﻿using MusicLibraryCompareTool.Interfaces;
-
-namespace MusicLibraryComparisonTool.Interfaces
+﻿namespace MusicLibraryCompareTool.Interfaces
 {
     public interface IMusicLibraryItem : ILibraryItem
     {

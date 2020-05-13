@@ -66,17 +66,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\BaseLibraryItem.cs" />
     <Compile Include="Implementations\Data\ArtistData.cs" />
     <Compile Include="Implementations\ArtistDataEqualityComparer.cs" />
     <Compile Include="Implementations\BaseLibrary.cs" />
     <Compile Include="Interfaces\ILibrary.cs" />
     <Compile Include="Interfaces\ILibraryItem.cs" />
     <Compile Include="Interfaces\IMusicLibraryItem.cs" />
-    <Compile Include="Implementations\LibraryComparison.cs" />
+    <Compile Include="Implementations\MusicLibraryCompareResult.cs" />
     <Compile Include="Implementations\MusicLibraryItem.cs" />
     <Compile Include="Implementations\MusicLibraryItemEqualityComparer.cs" />
     <Compile Include="Implementations\MusicLibrary.cs" />
-    <Compile Include="Implementations\LibraryComparisonService.cs" />
+    <Compile Include="Implementations\MusicLibraryCompareService.cs" />
     <Compile Include="Implementations\MetalArchivesClient.cs" />
     <Compile Include="Implementations\MetalArchivesRequest.cs" />
     <Compile Include="Implementations\MetalArchivesResponse.cs" />

@@ -53,11 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtistDataTests.cs" />
-    <Compile Include="LibraryComparisonTests.cs" />
-    <Compile Include="LibraryItemTests.cs" />
-    <Compile Include="LibraryTests.cs" />
-    <Compile Include="LibraryTestData.cs" />
-    <Compile Include="LibraryComparisonServiceTests.cs" />
+    <Compile Include="MusicLibraryCompareTests.cs" />
+    <Compile Include="MusicLibraryItemTests.cs" />
+    <Compile Include="MusicLibraryTests.cs" />
+    <Compile Include="Data\LibraryTestData.cs" />
+    <Compile Include="MusicLibraryCompareServiceTests.cs" />
     <Compile Include="MetalArchivesClientTests.cs" />
     <Compile Include="MetalArchivesRequestTests.cs" />
     <Compile Include="MetalArchivesResponseParserTests.cs" />

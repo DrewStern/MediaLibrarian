@@ -1,7 +1,6 @@
-﻿using MusicLibraryCompareTool.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace MusicLibraryComparisonTool.Interfaces
+namespace MusicLibraryCompareTool.Interfaces
 {
     public interface ILibrary
     {

@@ -16,7 +16,7 @@ namespace MusicLibraryCompareTool
     [ExcludeFromCodeCoverage]
     class Program
     {
-        private static LibraryComparisonService _libraryDiffService;
+        private static MusicLibraryCompareService _musicLibraryCompareService;
         private static MetalArchivesClient _metalArchivesClient;
         private static MetalArchivesService _metalArchivesService;
         private static MetalArchivesResponseParser _metalArchivesResponseParser;
@@ -29,9 +29,9 @@ namespace MusicLibraryCompareTool
 
         private static MusicLibrary TheirMusicLibraryData { get; set; }
 
-        private static LibraryComparisonService LibraryDiffService
+        private static MusicLibraryCompareService MusicLibraryCompareService
         {
-            get { return _libraryDiffService ?? (_libraryDiffService = new LibraryComparisonService()); }
+            get { return _musicLibraryCompareService ?? (_musicLibraryCompareService = new MusicLibraryCompareService()); }
         }
 
         private static MetalArchivesService MetalArchivesService
@@ -112,9 +112,15 @@ namespace MusicLibraryCompareTool
         private static void WriteResults()
         { 
             string[] text = new string[1];
-            text[0] = String.Join(Environment.NewLine, LibraryDiffService.GetReleaseDiffs(MyMusicLibraryData, TheirMusicLibraryData));
+            text[0] = String.Join(Environment.NewLine, MusicLibraryCompareService.GetReleaseDiffs(MyMusicLibraryData, TheirMusicLibraryData));
 
-            File.WriteAllLines(LibraryDiffOutputLocation.FullName, text);
+            if (!Directory.Exists(LibraryDiffOutputLocation.FullName))
+            {
+                Directory.CreateDirectory(LibraryDiffOutputLocation.FullName);
+            }
+
+            string timestampedFileName = LibraryDiffOutputLocation.FullName + "_" + DateTime.Now.ToString();
+            File.WriteAllLines(timestampedFileName, text);
         }
     }
 }

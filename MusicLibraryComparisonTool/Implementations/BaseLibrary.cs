@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using MusicLibraryCompareTool.Interfaces;
-using MusicLibraryComparisonTool.Interfaces;
 
 namespace MusicLibraryCompareTool
 {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace MusicLibraryCompareTool.UnitTests
 {
     [TestClass]
-    public class LibraryComparisonTests
+    public class MusicLibraryCompareTests
     {
         [TestMethod]
         public void TestIntersection_EmptyLibraryAndEmptyLibrary()

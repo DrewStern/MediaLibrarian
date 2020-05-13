@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace MusicLibraryCompareTool
 {
-    public class LibraryComparisonService
+    public class MusicLibraryCompareService
     {
         public MusicLibrary GetSum(MusicLibrary l1, MusicLibrary l2)
         {
