@@ -22,9 +22,9 @@ namespace MediaLibraryCompareTool
             // [2] == Full-length
             foreach (string[] entry in response.aaData)
             {
-                ArtistData artistData = GetArtistData(entry[0]);
-                ReleaseData releaseData = GetReleaseData(entry[1], entry[2]);
-                MusicLibraryItem musicLibraryItem = new MusicLibraryItem(artistData, releaseData);
+                var artistData = GetArtistData(entry[0]);
+                var releaseData = GetReleaseData(entry[1], entry[2]);
+                var musicLibraryItem = new MusicLibraryItem(artistData, releaseData);
                 libraryItems.Add(musicLibraryItem);
             }
 

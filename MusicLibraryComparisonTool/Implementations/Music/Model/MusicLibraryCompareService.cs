@@ -43,22 +43,7 @@ namespace MediaLibraryCompareTool
             return  new MusicLibrary(largerCollection.FindAll(x => left.Collection.Contains(x) && right.Collection.Contains(x)));
         }
 
-        public List<ArtistData> GetArtistDiffs(MusicLibrary left, MusicLibrary right)
-        {
-            var artistDataDiff = new List<ArtistData>();
-
-            foreach (ArtistData artist in left.Artists)
-            {
-                if (!right.Artists.Contains(artist))
-                {
-                    artistDataDiff.Add(artist);
-                }
-            }
-
-            return artistDataDiff;
-        }
-
-        public List<MusicLibraryItem> GetReleaseDiffs(MusicLibrary ld1, MusicLibrary ld2)
+        public MusicLibrary GetReleaseDiffs(MusicLibrary ld1, MusicLibrary ld2)
         {
             var artistReleaseDiffs = new List<MusicLibraryItem>();
 
@@ -70,7 +55,7 @@ namespace MediaLibraryCompareTool
                 }
             }
 
-            return artistReleaseDiffs;
+            return new MusicLibrary(artistReleaseDiffs);
         }
     }
 }

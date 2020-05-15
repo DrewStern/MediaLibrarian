@@ -17,55 +17,6 @@ namespace MediaLibraryCompareTool.UnitTests
             _musicLibraryCompareService = new MusicLibraryCompareService();
         }
 
-        #region GetArtistDiffs tests
-
-        [TestMethod]
-        public void GivenAnEmptyLibrary_WhenComparedWithAnEmptyLibrary_ThenShouldFindNoDifferentArtists()
-        {
-            var artistDiffs = _musicLibraryCompareService.GetArtistDiffs(
-                _musicLibraryTestData.GetEmptyLibrary(), 
-                _musicLibraryTestData.GetEmptyLibrary());
-
-            Assert.AreEqual(artistDiffs.Count, 0);
-        }
-
-        [TestMethod]
-        public void GivenSomeLibrary_WhenComparedWithAnIdenticalLibrary_ThenShouldFindNoDifferentArtists()
-        {
-            var artistDiffs = _musicLibraryCompareService.GetArtistDiffs(
-                _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary(),
-                _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary());
-
-            Assert.AreEqual(artistDiffs.Count, 0);
-        }
-
-        [TestMethod]
-        public void GivenTwoDifferentLibraries_WhenArtistsCompared_ThenShouldFindDifferences()
-        {
-            var artistDiffs = _musicLibraryCompareService.GetArtistDiffs(
-                _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary(),
-                _musicLibraryTestData.GetDisjointSimpleLibrary());
-
-            Assert.AreEqual(artistDiffs.Count, 3);
-        }
-
-        [TestMethod]
-        public void GivenTwoArtistsWithSameNameButDifferentCountries_WhenCompared_ThenShouldFindDifferences()
-        {
-            var artistDiffs1 = _musicLibraryCompareService.GetArtistDiffs(
-                _musicLibraryTestData.GetMultipleArtistsWithSameNameDifferentCountry1Library(),
-                _musicLibraryTestData.GetMultipleArtistsWithSameNameDifferentCountry2Library());
-
-            var artistDiffs2 = _musicLibraryCompareService.GetArtistDiffs(
-                _musicLibraryTestData.GetMultipleArtistsWithSameNameDifferentCountry2Library(),
-                _musicLibraryTestData.GetMultipleArtistsWithSameNameDifferentCountry1Library());
-
-            Assert.AreEqual(artistDiffs1.Count, 2);
-            Assert.AreEqual(artistDiffs2.Count, 2);
-        }
-
-        #endregion
-
         #region GetReleaseDiffs tests
 
         [TestMethod]
@@ -74,7 +25,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
 
             var expected = 0;
-            var actual = _musicLibraryCompareService.GetReleaseDiffs(emptyLibrary, emptyLibrary).Count;
+            var actual = _musicLibraryCompareService.GetReleaseDiffs(emptyLibrary, emptyLibrary).Collection.Count;
 
             Assert.AreEqual(expected, actual);
         }
@@ -85,7 +36,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrary = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
 
             var expected = 0;
-            var actual = _musicLibraryCompareService.GetReleaseDiffs(nonEmptyLibrary, nonEmptyLibrary).Count;
+            var actual = _musicLibraryCompareService.GetReleaseDiffs(nonEmptyLibrary, nonEmptyLibrary).Collection.Count;
 
             Assert.AreEqual(expected, actual);
         }
@@ -97,7 +48,7 @@ namespace MediaLibraryCompareTool.UnitTests
                 _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary(),
                 _musicLibraryTestData.GetDisjointSimpleLibrary());
 
-            Assert.AreEqual(releaseDiffs.Count, 3);
+            Assert.AreEqual(releaseDiffs.Collection.Count, 3);
         }
 
         #endregion
@@ -177,16 +128,11 @@ namespace MediaLibraryCompareTool.UnitTests
         [TestMethod]
         public void WriteLibraryDiff()
         {
-            var artistDiffs = _musicLibraryCompareService.GetArtistDiffs(
-                _musicLibraryTestData.GetRandomLibraryOne(), 
-                _musicLibraryTestData.GetRandomLibraryTwo());
-
             var releaseDiffs = _musicLibraryCompareService.GetReleaseDiffs(
                 _musicLibraryTestData.GetRandomLibraryOne(), 
                 _musicLibraryTestData.GetRandomLibraryTwo());
 
-            Assert.AreEqual(artistDiffs.Count, 0);
-            Assert.AreEqual(releaseDiffs.Count, _musicLibraryTestData.GetRandomLibraryOneSubtractTwo().Releases.Count);
+            Assert.AreEqual(releaseDiffs.Collection.Count, _musicLibraryTestData.GetRandomLibraryOneSubtractTwo().Releases.Count);
         }
     }
 }

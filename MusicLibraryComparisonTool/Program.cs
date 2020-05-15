@@ -25,9 +25,9 @@ namespace MediaLibraryCompareTool
 
         private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
 
-        private static MusicLibrary MyMusicLibraryData { get; set; }
+        private static MusicLibrary LocalMusicLibraryData { get; set; }
 
-        private static MusicLibrary TheirMusicLibraryData { get; set; }
+        private static MusicLibrary RemoteMusicLibraryData { get; set; }
 
         private static MusicLibraryCompareService MusicLibraryCompareService
         {
@@ -60,21 +60,15 @@ namespace MediaLibraryCompareTool
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            var differences = new List<MusicLibraryItem>();
+
             try
             {
                 ParseArgs(args);
 
-                MyMusicLibraryData = new MusicLibrary(LibraryLocation);
-                TheirMusicLibraryData = new MusicLibrary(new List<MusicLibraryItem>());
-
-                Console.WriteLine($"Discovered {MyMusicLibraryData.Collection.Count} items on disk");
-
-                foreach (ArtistData artist in MyMusicLibraryData.Artists)
-                {
-                    TheirMusicLibraryData.AddToCollection(MetalArchivesClient.FindByArtist(artist.ArtistName));
-                    Console.WriteLine($"Added {artist.ArtistName} to library");
-                    Thread.Sleep(3000);
-                }
+                var localMusicLibrary = GetLocalMusicLibrary();
+                var remoteMusicLibrary = GetRemoteMusicLibrary();
+                differences = CompareLibraries(localMusicLibrary, remoteMusicLibrary).Collection;
             }
             catch (Exception exc)
             {
@@ -82,7 +76,7 @@ namespace MediaLibraryCompareTool
             }
             finally
             {
-                WriteResults();
+                WriteResults(differences);
             }
         }
 
@@ -109,17 +103,47 @@ namespace MediaLibraryCompareTool
             }
         }
 
-        private static void WriteResults()
-        { 
-            string[] text = new string[1];
-            text[0] = String.Join(Environment.NewLine, MusicLibraryCompareService.GetReleaseDiffs(MyMusicLibraryData, TheirMusicLibraryData));
+        private static MusicLibrary CompareLibraries(MusicLibrary local, MusicLibrary remote)
+        {
+            return MusicLibraryCompareService.GetReleaseDiffs(local, remote);
+        }
 
-            if (!Directory.Exists(LibraryDiffOutputLocation.FullName))
+        private static MusicLibrary GetLocalMusicLibrary()
+        {
+            var localMusicLibrary = new MusicLibrary(LibraryLocation);
+            Console.WriteLine($"Discovered {localMusicLibrary.Collection.Count} items on disk");
+            return localMusicLibrary;
+        }
+
+        private static MusicLibrary GetRemoteMusicLibrary()
+        {
+            var remoteMusicLibrary = new MusicLibrary(new List<MusicLibraryItem>());
+
+            foreach (ArtistData artist in LocalMusicLibraryData.Artists)
             {
-                Directory.CreateDirectory(LibraryDiffOutputLocation.FullName);
+                RemoteMusicLibraryData.AddToCollection(MetalArchivesClient.FindByArtist(artist.ArtistName));
+                Console.WriteLine($"Added {artist.ArtistName} to library");
+                Thread.Sleep(3000);
             }
 
-            string timestampedFileName = LibraryDiffOutputLocation.FullName + "_" + DateTime.Now.ToString();
+            return remoteMusicLibrary;
+        }
+
+        private static void WriteResults(List<MusicLibraryItem> differences)
+        { 
+            string[] text = new string[1];
+            text[0] = String.Join(Environment.NewLine, differences);
+
+            if (!Directory.Exists(LibraryDiffOutputLocation.Parent.FullName))
+            {
+                Directory.CreateDirectory(LibraryDiffOutputLocation.Parent.FullName);
+            }
+
+            string timestampedFileName = 
+                LibraryDiffOutputLocation.FullName.Replace(LibraryDiffOutputLocation.Extension, "") + 
+                "_" + DateTime.Now.ToLongTimeString().Replace(":", "_").Replace(" ", "_") +
+                LibraryDiffOutputLocation.Extension;
+
             File.WriteAllLines(timestampedFileName, text);
         }
     }
