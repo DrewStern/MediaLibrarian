@@ -1,12 +1,11 @@
-﻿using MediaLibraryCompareTool.Interfaces;
-using System;
+﻿using System;
 
 namespace MediaLibraryCompareTool
 {
     /// <summary>
     /// Represents a release from an artist.
     /// </summary>
-    public struct MusicLibraryItem : IMusicLibraryItem
+    public class MusicLibraryItem : BaseLibraryItem
     {
         public ArtistData ArtistData { get; }
 

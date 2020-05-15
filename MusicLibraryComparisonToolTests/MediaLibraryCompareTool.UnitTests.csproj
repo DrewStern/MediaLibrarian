@@ -55,7 +55,6 @@
     <Compile Include="Music\Data\ArtistDataTests.cs" />
     <Compile Include="Music\Data\ReleaseDataTests.cs" />
     <Compile Include="Music\FakeTestData\MusicLibraryItemTestData.cs" />
-    <Compile Include="Music\Model\MusicLibraryCompareResultTests.cs" />
     <Compile Include="Music\Data\MusicLibraryItemTests.cs" />
     <Compile Include="Music\Model\MusicLibraryTests.cs" />
     <Compile Include="Music\FakeTestData\MusicLibraryTestData.cs" />

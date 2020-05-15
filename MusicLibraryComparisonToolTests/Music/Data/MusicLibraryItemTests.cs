@@ -96,7 +96,7 @@ namespace MediaLibraryCompareTool.UnitTests
                 new ArtistData("artistName1"),
                 new ReleaseData("releaseName1"));
 
-            var libraryItem2 = new MusicLibraryItem? { };
+            MusicLibraryItem libraryItem2 = null;
 
             Assert.IsFalse(libraryItem1.Equals(libraryItem2));
         }

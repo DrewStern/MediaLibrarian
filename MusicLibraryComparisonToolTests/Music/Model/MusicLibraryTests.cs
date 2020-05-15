@@ -141,18 +141,18 @@ namespace MediaLibraryCompareTool.UnitTests
         public void GivenMusicLibraryWithMultipleReleasesByTheSameArtist_WhenArtistCollectionAccessed_ThenNoDuplicateIsReturned()
         {
             var l = _musicLibraryTestData.GetOneArtistToManyReleasesLibrary();
-            Assert.AreEqual(l.Collection.Count, 2);
-            Assert.AreEqual(l.Artists.Count, 1);
-            Assert.AreEqual(l.Releases.Count, 2);
+            Assert.AreEqual(2, l.Collection.Count);
+            Assert.AreEqual(1, l.Artists.Count);
+            Assert.AreEqual(2, l.Releases.Count);
         }
 
         [TestMethod]
         public void GivenMusicLibraryWithDuplicateItems_WhenAccessed_ThenDuplicateItemsIgnored()
         {
             var l = _musicLibraryTestData.GetDuplicatedDataLibrary();
-            Assert.AreEqual(l.Collection.Count, 1);
-            Assert.AreEqual(l.Artists.Count, 1);
-            Assert.AreEqual(l.Releases.Count, 1);
+            Assert.AreEqual(1, l.Collection.Count);
+            Assert.AreEqual(1, l.Artists.Count);
+            Assert.AreEqual(1, l.Releases.Count);
         }
 
         [TestMethod]
@@ -160,9 +160,11 @@ namespace MediaLibraryCompareTool.UnitTests
         {
             var empty = _musicLibraryTestData.GetEmptyLibrary();
             empty.AddToCollection(_musicLibraryTestData.GetOneArtistToManyReleasesLibrary());
-            Assert.AreEqual(empty.Collection.Count, 2);
-            Assert.AreEqual(empty.Artists.Count, 1);
-            Assert.AreEqual(empty.Releases.Count, 2);
+
+            var nonEmptyNow = empty;
+            Assert.AreEqual(2, nonEmptyNow.Collection.Count);
+            Assert.AreEqual(1, nonEmptyNow.Artists.Count);
+            Assert.AreEqual(2, nonEmptyNow.Releases.Count);
         }
     }
 }

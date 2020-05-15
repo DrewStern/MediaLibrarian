@@ -5,13 +5,19 @@ using System.Linq;
 
 namespace MediaLibraryCompareTool
 {
-    public class MusicLibrary : BaseLibrary
+    public class MusicLibrary : BaseLibrary<MusicLibraryItem>
     {
+        #region Fields
+
         private List<MusicLibraryItem> _collection;
         private MusicLibraryItemEqualityComparer _libraryItemEqualityComparer;
         private ArtistDataEqualityComparer _artistDataEqualityComparer;
 
-        public List<MusicLibraryItem> Collection
+        #endregion
+
+        #region Properties
+
+        public override List<MusicLibraryItem> Collection
         {
             get { return _collection ?? (_collection = new List<MusicLibraryItem>()); }
         }
@@ -23,7 +29,7 @@ namespace MediaLibraryCompareTool
 
         public List<ReleaseData> Releases
         {
-            get { return Collection.Select(x => x.ReleaseData).Distinct(/*ReleaseDataEqualityComparer not necessary yet*/).ToList(); }
+            get { return Collection.Select(x => x.ReleaseData).Distinct().ToList(); }
         }
 
         private MusicLibraryItemEqualityComparer LibraryItemEqualityComparer
@@ -35,6 +41,10 @@ namespace MediaLibraryCompareTool
         {
             get { return _artistDataEqualityComparer ?? (_artistDataEqualityComparer = new ArtistDataEqualityComparer()); }
         }
+
+        #endregion
+
+        #region Constructor(s)
 
         public MusicLibrary(List<MusicLibraryItem> items)
         {
@@ -56,6 +66,10 @@ namespace MediaLibraryCompareTool
                 }
             }
         }
+
+        #endregion
+
+        #region TODO: add all of the below to BaseLibrary
 
         public void AddToCollection(MusicLibrary l)
         {
@@ -101,4 +115,6 @@ namespace MediaLibraryCompareTool
             return String.Join(Environment.NewLine, Collection);
         }
     }
+
+    #endregion
 }

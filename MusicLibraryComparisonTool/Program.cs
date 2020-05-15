@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace MediaLibraryCompareTool
@@ -17,26 +18,26 @@ namespace MediaLibraryCompareTool
     class Program
     {
         private static MusicLibraryCompareService _musicLibraryCompareService;
-        private static MetalArchivesServiceClient _metalArchivesClient;
-        private static MetalArchivesServiceProvider _metalArchivesService;
+        private static MetalArchivesServiceClient _metalArchivesServiceClient;
+        private static MetalArchivesServiceProvider _metalArchivesServiceProvider;
         private static MetalArchivesResponseParser _metalArchivesResponseParser;
 
         private static DirectoryInfo LibraryLocation { get; set; }
 
         private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
 
-        private static MusicLibrary LocalMusicLibraryData { get; set; }
+        private static MusicLibrary LocalMusicLibrary { get; set; }
 
-        private static MusicLibrary RemoteMusicLibraryData { get; set; }
+        private static MusicLibrary RemoteMusicLibrary { get; set; }
 
         private static MusicLibraryCompareService MusicLibraryCompareService
         {
             get { return _musicLibraryCompareService ?? (_musicLibraryCompareService = new MusicLibraryCompareService()); }
         }
 
-        private static MetalArchivesServiceProvider MetalArchivesService
+        private static MetalArchivesServiceProvider MetalArchivesServiceProvider
         {
-            get { return _metalArchivesService ?? (_metalArchivesService = new MetalArchivesServiceProvider()); }
+            get { return _metalArchivesServiceProvider ?? (_metalArchivesServiceProvider = new MetalArchivesServiceProvider()); }
         }
 
         private static MetalArchivesResponseParser MetalArchivesResponseParser
@@ -44,9 +45,9 @@ namespace MediaLibraryCompareTool
             get { return _metalArchivesResponseParser ?? (_metalArchivesResponseParser = new MetalArchivesResponseParser()); }
         }
 
-        private static MetalArchivesServiceClient MetalArchivesClient
+        private static MetalArchivesServiceClient MetalArchivesServiceClient
         {
-            get { return _metalArchivesClient ?? (_metalArchivesClient = new MetalArchivesServiceClient(MetalArchivesService, MetalArchivesResponseParser)); }
+            get { return _metalArchivesServiceClient ?? (_metalArchivesServiceClient = new MetalArchivesServiceClient(MetalArchivesServiceProvider, MetalArchivesResponseParser)); }
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace MediaLibraryCompareTool
 
         private static MusicLibrary CompareLibraries(MusicLibrary local, MusicLibrary remote)
         {
-            return MusicLibraryCompareService.GetReleaseDiffs(local, remote);
+            return MusicLibraryCompareService.GetCompareResult(local, remote).RightOutersection;
         }
 
         private static MusicLibrary GetLocalMusicLibrary()
@@ -119,9 +120,9 @@ namespace MediaLibraryCompareTool
         {
             var remoteMusicLibrary = new MusicLibrary(new List<MusicLibraryItem>());
 
-            foreach (ArtistData artist in LocalMusicLibraryData.Artists)
+            foreach (ArtistData artist in LocalMusicLibrary.Collection.Select(mli => mli.ArtistData).Distinct())
             {
-                RemoteMusicLibraryData.AddToCollection(MetalArchivesClient.FindByArtist(artist.ArtistName));
+                RemoteMusicLibrary.AddToCollection(MetalArchivesServiceClient.FindByArtist(artist.ArtistName));
                 Console.WriteLine($"Added {artist.ArtistName} to library");
                 Thread.Sleep(3000);
             }
@@ -131,20 +132,19 @@ namespace MediaLibraryCompareTool
 
         private static void WriteResults(List<MusicLibraryItem> differences)
         { 
-            string[] text = new string[1];
-            text[0] = String.Join(Environment.NewLine, differences);
-
             if (!Directory.Exists(LibraryDiffOutputLocation.Parent.FullName))
             {
                 Directory.CreateDirectory(LibraryDiffOutputLocation.Parent.FullName);
             }
 
+            // TODO: cleanup
             string timestampedFileName = 
                 LibraryDiffOutputLocation.FullName.Replace(LibraryDiffOutputLocation.Extension, "") + 
                 "_" + DateTime.Now.ToLongTimeString().Replace(":", "_").Replace(" ", "_") +
                 LibraryDiffOutputLocation.Extension;
 
-            File.WriteAllLines(timestampedFileName, text);
+            string text = String.Join(Environment.NewLine, differences);
+            File.WriteAllText(timestampedFileName, text);
         }
     }
 }

@@ -50,7 +50,7 @@ namespace MediaLibraryCompareTool.UnitTests
             });
         }
 
-        public MusicLibrary GetManyArtistsToManyReleasesLibrary()
+        public MusicLibrary GetManyToManyLibrary()
         {
             return new MusicLibrary(new List<MusicLibraryItem>
             {
@@ -70,6 +70,25 @@ namespace MediaLibraryCompareTool.UnitTests
         {
             return new MusicLibrary(new List<MusicLibraryItem>
             {
+                new MusicLibraryItem("artist4", "release4"),
+                new MusicLibraryItem("artist5", "release5"),
+                new MusicLibraryItem("artist6", "release6")
+            });
+        }
+
+        public MusicLibrary GetSumOf_ManyToManyLibrary_AndDisjointSimpleLibrary()
+        {
+            return new MusicLibrary(new List<MusicLibraryItem>
+            {
+                new MusicLibraryItem("artist1", "release1"),
+                new MusicLibraryItem("artist1", "release2"),
+                new MusicLibraryItem("artist1", "release3"),
+                new MusicLibraryItem("artist2", "release1"),
+                new MusicLibraryItem("artist2", "release2"),
+                new MusicLibraryItem("artist2", "release3"),
+                new MusicLibraryItem("artist3", "release1"),
+                new MusicLibraryItem("artist3", "release2"),
+                new MusicLibraryItem("artist3", "release3"),
                 new MusicLibraryItem("artist4", "release4"),
                 new MusicLibraryItem("artist5", "release5"),
                 new MusicLibraryItem("artist6", "release6")

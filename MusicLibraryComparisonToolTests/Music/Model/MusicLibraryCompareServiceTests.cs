@@ -17,68 +17,70 @@ namespace MediaLibraryCompareTool.UnitTests
             _musicLibraryCompareService = new MusicLibraryCompareService();
         }
 
-        #region GetReleaseDiffs tests
+        #region Sum tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenComparedWithAnEmptyLibrary_ThenShouldFindNoDifferentReleases()
+        public void GivenAnEmptyLibrary_WhenSummedWithAnEmptyLibrary_ThenResultsInAnEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
 
-            var expected = 0;
-            var actual = _musicLibraryCompareService.GetReleaseDiffs(emptyLibrary, emptyLibrary).Collection.Count;
+            var expected = emptyLibrary;
+            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, emptyLibrary).Sum;
 
             Assert.AreEqual(expected, actual);
         }
-
-        [TestMethod]
-        public void GivenSomeLibrary_WhenComparedWithAnIdenticalLibrary_ThenShouldFindNoDifferentReleases()
-        {
-            var nonEmptyLibrary = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
-
-            var expected = 0;
-            var actual = _musicLibraryCompareService.GetReleaseDiffs(nonEmptyLibrary, nonEmptyLibrary).Collection.Count;
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void GivenTwoDifferentLibraries_WhenReleasesCompared_ThenShouldFindDifferences()
-        {
-            var releaseDiffs = _musicLibraryCompareService.GetReleaseDiffs(
-                _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary(),
-                _musicLibraryTestData.GetDisjointSimpleLibrary());
-
-            Assert.AreEqual(releaseDiffs.Collection.Count, 3);
-        }
-
-        #endregion
-
-        #region GetSum tests
 
         [TestMethod]
         public void GivenAnEmptyLibrary_WhenSummedWithANonEmptyLibrary_ThenResultsInTheSameNonEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
-            var nonEmptyLibrary = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = nonEmptyLibrary;
-            var actual = _musicLibraryCompareService.GetSum(emptyLibrary, nonEmptyLibrary);
+            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, nonEmptyLibrary).Sum;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenANonEmptyLibrary_WhenSummedWithAProperSubsetOfItself_ThenResultsInTheOriginalNonEmptyLibrary()
+        {
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
+            var nonEmptyLibrarySubset = _musicLibraryTestData.GetRandomLibraryTwo();
+
+            var expected = nonEmptyLibrary;
+            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, nonEmptyLibrarySubset).Sum;
 
             Assert.AreEqual(expected, actual);
         }
 
         #endregion
 
-        #region GetLeftOutersection tests
+        #region Intersection tests
+
+        [TestMethod]
+        public void GivenAnEmptyLibrary_WhenIntersectedWithAnEmptyLibrary_ThenTheResultIsAnEmptyLibrary()
+        {
+            var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
+
+            var expected = emptyLibrary;
+            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, emptyLibrary).Intersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion 
+
+        #region LeftOutersection tests
 
         [TestMethod]
         public void GivenAnEmptyLibrary_WhenLeftOutersectedWithANonEmptyLibrary_ThenResultsInAnEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
-            var nonEmptyLibrary = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = emptyLibrary;
-            var actual = _musicLibraryCompareService.GetLeftOutersection(emptyLibrary, nonEmptyLibrary);
+            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, nonEmptyLibrary).LeftOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -87,26 +89,26 @@ namespace MediaLibraryCompareTool.UnitTests
         public void GivenANonEmptyLibrary_WhenLeftOutersectedWithAnEmptyLibrary_ThenResultsInTheOriginalNonEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
-            var nonEmptyLibrary = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = nonEmptyLibrary;
-            var actual = _musicLibraryCompareService.GetLeftOutersection(nonEmptyLibrary, emptyLibrary);
+            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, emptyLibrary).LeftOutersection;
 
             Assert.AreEqual(expected, actual);
         }
 
         #endregion
 
-        #region GetRightOutersection tests
+        #region RightOutersection tests
 
         [TestMethod]
         public void GivenAnEmptyLibrary_WhenRightOutersectedWithANonEmptyLibrary_ThenResultsInTheSameNonEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
-            var nonEmptyLibrary = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = nonEmptyLibrary;
-            var actual = _musicLibraryCompareService.GetRightOutersection(emptyLibrary, nonEmptyLibrary);
+            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, nonEmptyLibrary).RightOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -115,10 +117,48 @@ namespace MediaLibraryCompareTool.UnitTests
         public void GivenANonEmptyLibrary_WhenRightOutersectedWithAnEmptyLibrary_ThenResultsInAnEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
-            var nonEmptyLibrary = _musicLibraryTestData.GetManyArtistsToManyReleasesLibrary();
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = emptyLibrary;
-            var actual = _musicLibraryCompareService.GetRightOutersection(nonEmptyLibrary, emptyLibrary);
+            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, emptyLibrary).RightOutersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region FullOutersection tests
+
+        [TestMethod]
+        public void GivenAnEmptyLibrary_WhenFullOutersectedWithAnEmptyLibrary_ThenShouldFindNoDifferences()
+        {
+            var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
+
+            var expected = emptyLibrary;
+            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, emptyLibrary).FullOutersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenSomeLibrary_WhenFullOutersectedWithAnIdenticalLibrary_ThenShouldFindNoDifferences()
+        {
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
+
+            var expected = _musicLibraryTestData.GetEmptyLibrary();
+            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, nonEmptyLibrary).FullOutersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenTwoDisjointLibraries_WhenFullOutersected_ThenResultShouldEqualTheirSum()
+        {
+            var library1 = _musicLibraryTestData.GetManyToManyLibrary();
+            var library2 = _musicLibraryTestData.GetDisjointSimpleLibrary();
+
+            var expected = _musicLibraryTestData.GetSumOf_ManyToManyLibrary_AndDisjointSimpleLibrary();
+            var actual = _musicLibraryCompareService.GetCompareResult(library1, library2).FullOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -128,11 +168,11 @@ namespace MediaLibraryCompareTool.UnitTests
         [TestMethod]
         public void WriteLibraryDiff()
         {
-            var releaseDiffs = _musicLibraryCompareService.GetReleaseDiffs(
+            var releaseDiffs = _musicLibraryCompareService.GetCompareResult(
                 _musicLibraryTestData.GetRandomLibraryOne(), 
                 _musicLibraryTestData.GetRandomLibraryTwo());
 
-            Assert.AreEqual(releaseDiffs.Collection.Count, _musicLibraryTestData.GetRandomLibraryOneSubtractTwo().Releases.Count);
+            Assert.AreEqual(releaseDiffs.FullOutersection.Collection.Count, _musicLibraryTestData.GetRandomLibraryOneSubtractTwo().Releases.Count);
         }
     }
 }
