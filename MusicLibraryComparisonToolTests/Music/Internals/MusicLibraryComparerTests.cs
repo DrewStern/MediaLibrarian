@@ -20,7 +20,7 @@ namespace MediaLibraryCompareTool.UnitTests
         #region Sum tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenSummedWithAnEmptyLibrary_ThenResultsInAnEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenSummedWithAnEmptyLibrary_ThenResultIsAnEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
 
@@ -31,7 +31,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenSummedWithANonEmptyLibrary_ThenResultsInTheSameNonEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenSummedWithANonEmptyLibrary_ThenResultIsTheSameNonEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
@@ -43,7 +43,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenANonEmptyLibrary_WhenSummedWithAProperSubsetOfItself_ThenResultsInTheOriginalNonEmptyLibrary()
+        public void GivenANonEmptyLibrary_WhenSummedWithAProperSubsetOfItself_ThenResultIsTheOriginalNonEmptyLibrary()
         {
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
             var nonEmptyLibrarySubset = _musicLibraryTestData.GetRandomLibraryTwo();
@@ -54,12 +54,24 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void GivenANonEmptyLibrary_WhenSummedWithAProperSupersetOfItself_ThenResultIsTheSameSuperset()
+        {
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
+            var nonEmptyLibrarySuperset = _musicLibraryTestData.GetSumOf_ManyToManyLibrary_AndDisjointSimpleLibrary();
+
+            var expected = nonEmptyLibrarySuperset;
+            var actual = _musicLibraryCompareService.Compare(nonEmptyLibrary, nonEmptyLibrarySuperset).Sum;
+
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
 
         #region Intersection tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenIntersectedWithAnEmptyLibrary_ThenTheResultIsAnEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenIntersectedWithAnEmptyLibrary_ThenResultIsAnEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
 
@@ -69,12 +81,48 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void GivenAnEmptyLibrary_WhenIntersectedWithANonEmptyLibrary_ThenResultIsAnEmptyLibrary()
+        {
+            var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
+
+            var expected = emptyLibrary;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, nonEmptyLibrary).Intersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenANonEmptyLibrary_WhenIntersectedWithAProperSubsetOfItself_ThenResultIsTheSameSubset()
+        {
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
+            var nonEmptyLibrarySubset = _musicLibraryTestData.GetRandomLibraryTwo();
+
+            var expected = nonEmptyLibrarySubset;
+            var actual = _musicLibraryCompareService.Compare(nonEmptyLibrary, nonEmptyLibrarySubset).Intersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenANonEmptyLibrary_WhenIntersectedWithAProperSupersetOfItself_ThenResultIsTheOriginalNonEmptyLibrary()
+        {
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
+            var nonEmptyLibrarySuperset = _musicLibraryTestData.GetSumOf_ManyToManyLibrary_AndDisjointSimpleLibrary();
+
+            var expected = nonEmptyLibrary;
+            var actual = _musicLibraryCompareService.Compare(nonEmptyLibrary, nonEmptyLibrarySuperset).Intersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion 
 
         #region LeftOutersection tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenLeftOutersectedWithANonEmptyLibrary_ThenResultsInAnEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenLeftOutersectedWithANonEmptyLibrary_ThenResultIsAnEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
@@ -86,7 +134,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenANonEmptyLibrary_WhenLeftOutersectedWithAnEmptyLibrary_ThenResultsInTheOriginalNonEmptyLibrary()
+        public void GivenANonEmptyLibrary_WhenLeftOutersectedWithAnEmptyLibrary_ThenResultIsTheOriginalNonEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
@@ -97,12 +145,14 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
+        // TODO: create test which does LeftOutersect vs two non-empty datasets
+
         #endregion
 
         #region RightOutersection tests
 
         [TestMethod]
-        public void GivenAnEmptyLibrary_WhenRightOutersectedWithANonEmptyLibrary_ThenResultsInTheSameNonEmptyLibrary()
+        public void GivenAnEmptyLibrary_WhenRightOutersectedWithANonEmptyLibrary_ThenResultIsTheSameNonEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
@@ -114,7 +164,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenANonEmptyLibrary_WhenRightOutersectedWithAnEmptyLibrary_ThenResultsInAnEmptyLibrary()
+        public void GivenANonEmptyLibrary_WhenRightOutersectedWithAnEmptyLibrary_ThenResultIsAnEmptyLibrary()
         {
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
@@ -124,6 +174,8 @@ namespace MediaLibraryCompareTool.UnitTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        // TODO: create test which does RightOutersect vs two non-empty datasets
 
         #endregion
 
@@ -141,7 +193,19 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenSomeLibrary_WhenFullOutersectedWithAnIdenticalLibrary_ThenShouldFindNoDifferences()
+        public void GivenAnEmptyLibrary_WhenFullOutersectedWithANonEmptyLibrary_ThenResultIsTheSameNonEmptyLibrary()
+        {
+            var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
+            var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
+
+            var expected = nonEmptyLibrary;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, nonEmptyLibrary).FullOutersection;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenANonEmptyLibrary_WhenFullOutersectedWithAnIdenticalLibrary_ThenShouldFindNoDifferences()
         {
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
@@ -152,7 +216,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenTwoDisjointLibraries_WhenFullOutersected_ThenResultShouldEqualTheirSum()
+        public void GivenTwoDisjointNonEmptyLibraries_WhenFullOutersected_ThenResultShouldEqualTheirSum()
         {
             var library1 = _musicLibraryTestData.GetManyToManyLibrary();
             var library2 = _musicLibraryTestData.GetDisjointSimpleLibrary();

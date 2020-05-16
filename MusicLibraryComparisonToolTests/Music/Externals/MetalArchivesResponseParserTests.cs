@@ -15,7 +15,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenRawHtmlDataToParse_WhenParsingArtistDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
+        public void GivenResponseToParse_WhenParsingArtistDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
         {
             var artistResponseHtml = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
 
@@ -28,7 +28,7 @@ namespace MediaLibraryCompareTool.UnitTests
         #region ExtractReleaseData tests
 
         [TestMethod]
-        public void GivenRawHtmlDataToParse_WhenParsingReleaseDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
+        public void GivenResponseToParse_WhenParsingReleaseDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
         {
             var releaseResponseHtml = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">Democratic Solution</a> <!-- 7.792132 -->";
             var releaseTypeHtml = "Full-Length";
@@ -40,7 +40,7 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenRawHtmlDataToParse_WhenParsingDemoReleaseDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
+        public void GivenResponseToParse_WhenParsingDemoReleaseDataOutOfHtml_ThenHtmlStrippedOffCorrectly()
         {
             var releaseResponseHtml = "<a href=\"https://www.metal-archives.com/albums/%21T.O.O.H.%21/Democratic_Solution/384622\">some wacky demo name (demo)</a> <!-- 7.792132 -->";
             var releaseTypeHtml = "demo";
@@ -63,7 +63,7 @@ namespace MediaLibraryCompareTool.UnitTests
 
 
         [TestMethod]
-        public void GivenRawHtmlDataToParse_WhenMultipleItemsAreReturned_ThenItShouldBeParsedCorrectly()
+        public void GivenResponseToParse_WhenMultipleItemsAreReturned_ThenTheyShouldBeParsedCorrectly()
         {
             var htmlResponse1 = new string[3];
             htmlResponse1[0] = "<a href=\"https://www.metal-archives.com/bands/%21T.O.O.H.%21/16265\" title=\"!T.O.O.H.! (CZ)\">!T.O.O.H.!</a>";
