@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace MediaLibraryCompareTool
 {
@@ -32,7 +31,6 @@ namespace MediaLibraryCompareTool
         private MusicLibrary GetIntersection(MusicLibrary left, MusicLibrary right)
         {
             var largerCollection = left.Collection.Count > right.Collection.Count ? left.Collection : right.Collection;
-
             return new MusicLibrary(largerCollection.FindAll(x => left.Collection.Contains(x) && right.Collection.Contains(x)));
         }
 

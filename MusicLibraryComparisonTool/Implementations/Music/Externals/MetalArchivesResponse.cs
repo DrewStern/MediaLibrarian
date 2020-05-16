@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the full JSON object body received back from Metal Archives.
     /// </summary>
-    public class MetalArchivesResponse
+    public sealed class MetalArchivesResponse
     {
         public string error { get; set; }
 

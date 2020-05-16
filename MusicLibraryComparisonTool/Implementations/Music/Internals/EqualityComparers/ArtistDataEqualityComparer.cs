@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MediaLibraryCompareTool
 {
@@ -7,8 +8,8 @@ namespace MediaLibraryCompareTool
         public bool Equals(ArtistData ad1, ArtistData ad2)
         {
             return
-                ad1.ArtistName.Equals(ad2.ArtistName) &&
-                ad1.Country.Equals(ad2.Country);
+                ad1.ArtistName.Equals(ad2.ArtistName, StringComparison.InvariantCultureIgnoreCase) &&
+                ad1.Country.Equals(ad2.Country, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public int GetHashCode(ArtistData ad)

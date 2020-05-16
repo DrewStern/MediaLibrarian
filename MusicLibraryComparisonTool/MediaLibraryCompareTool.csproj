@@ -65,25 +65,27 @@
   <ItemGroup>
     <Compile Include="Implementations\Core\BaseLibraryCompareResult.cs" />
     <Compile Include="Implementations\Core\BaseLibraryItem.cs" />
-    <Compile Include="Implementations\Music\Data\ArtistData.cs" />
-    <Compile Include="Implementations\Music\Data\EqualityComparers\ArtistDataEqualityComparer.cs" />
+    <Compile Include="Implementations\Music\Internals\ArtistData.cs" />
+    <Compile Include="Implementations\Music\Internals\EqualityComparers\ArtistDataEqualityComparer.cs" />
     <Compile Include="Implementations\Core\BaseLibrary.cs" />
+    <Compile Include="Implementations\Music\Internals\EqualityComparers\ReleaseDataEqualityComparer.cs" />
     <Compile Include="Interfaces\ILibrary.cs" />
+    <Compile Include="Interfaces\ILibraryComparer.cs" />
     <Compile Include="Interfaces\ILibraryCompareResult.cs" />
     <Compile Include="Interfaces\ILibraryItem.cs" />
-    <Compile Include="Implementations\Music\Model\MusicLibraryCompareResult.cs" />
-    <Compile Include="Implementations\Music\Data\MusicLibraryItem.cs" />
-    <Compile Include="Implementations\Music\Data\EqualityComparers\MusicLibraryItemEqualityComparer.cs" />
-    <Compile Include="Implementations\Music\Model\MusicLibrary.cs" />
-    <Compile Include="Implementations\Music\Model\MusicLibraryCompareService.cs" />
-    <Compile Include="Implementations\Music\Service\MetalArchivesServiceClient.cs" />
-    <Compile Include="Implementations\Music\Service\MetalArchivesRequest.cs" />
-    <Compile Include="Implementations\Music\Service\MetalArchivesResponse.cs" />
-    <Compile Include="Implementations\Music\Service\MetalArchivesResponseParser.cs" />
-    <Compile Include="Implementations\Music\Service\MetalArchivesServiceProvider.cs" />
+    <Compile Include="Implementations\Music\Internals\MusicLibraryCompareResult.cs" />
+    <Compile Include="Implementations\Music\Internals\MusicLibraryItem.cs" />
+    <Compile Include="Implementations\Music\Internals\EqualityComparers\MusicLibraryItemEqualityComparer.cs" />
+    <Compile Include="Implementations\Music\Internals\MusicLibrary.cs" />
+    <Compile Include="Implementations\Music\Internals\MusicLibraryCompareService.cs" />
+    <Compile Include="Implementations\Music\Externals\MetalArchivesServiceClient.cs" />
+    <Compile Include="Implementations\Music\Externals\MetalArchivesRequest.cs" />
+    <Compile Include="Implementations\Music\Externals\MetalArchivesResponse.cs" />
+    <Compile Include="Implementations\Music\Externals\MetalArchivesResponseParser.cs" />
+    <Compile Include="Implementations\Music\Externals\MetalArchivesServiceProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implementations\Music\Data\ReleaseData.cs" />
+    <Compile Include="Implementations\Music\Internals\ReleaseData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

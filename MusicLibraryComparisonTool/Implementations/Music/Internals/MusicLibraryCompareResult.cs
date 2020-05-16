@@ -1,6 +1,4 @@
-﻿using MediaLibraryCompareTool.Interfaces;
-
-namespace MediaLibraryCompareTool
+﻿namespace MediaLibraryCompareTool
 {
     public class MusicLibraryCompareResult : BaseLibraryCompareResult<MusicLibrary, MusicLibraryItem>
     {

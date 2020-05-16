@@ -17,7 +17,6 @@ namespace MediaLibraryCompareTool
     [ExcludeFromCodeCoverage]
     class Program
     {
-        private static MusicLibraryCompareService _musicLibraryCompareService;
         private static MetalArchivesServiceClient _metalArchivesServiceClient;
         private static MetalArchivesServiceProvider _metalArchivesServiceProvider;
         private static MetalArchivesResponseParser _metalArchivesResponseParser;
@@ -25,15 +24,6 @@ namespace MediaLibraryCompareTool
         private static DirectoryInfo LibraryLocation { get; set; }
 
         private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
-
-        private static MusicLibrary LocalMusicLibrary { get; set; }
-
-        private static MusicLibrary RemoteMusicLibrary { get; set; }
-
-        private static MusicLibraryCompareService MusicLibraryCompareService
-        {
-            get { return _musicLibraryCompareService ?? (_musicLibraryCompareService = new MusicLibraryCompareService()); }
-        }
 
         private static MetalArchivesServiceProvider MetalArchivesServiceProvider
         {
@@ -61,15 +51,15 @@ namespace MediaLibraryCompareTool
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            var differences = new List<MusicLibraryItem>();
+            MusicLibrary differences = null;
 
             try
             {
                 ParseArgs(args);
 
                 var localMusicLibrary = GetLocalMusicLibrary();
-                var remoteMusicLibrary = GetRemoteMusicLibrary();
-                differences = CompareLibraries(localMusicLibrary, remoteMusicLibrary).Collection;
+                var remoteMusicLibrary = GetRemoteMusicLibrary(localMusicLibrary);
+                differences = CompareLibraries(localMusicLibrary, remoteMusicLibrary);
             }
             catch (Exception exc)
             {
@@ -106,7 +96,7 @@ namespace MediaLibraryCompareTool
 
         private static MusicLibrary CompareLibraries(MusicLibrary local, MusicLibrary remote)
         {
-            return MusicLibraryCompareService.GetCompareResult(local, remote).RightOutersection;
+            return (new MusicLibraryCompareService()).GetCompareResult(local, remote).RightOutersection;
         }
 
         private static MusicLibrary GetLocalMusicLibrary()
@@ -116,21 +106,21 @@ namespace MediaLibraryCompareTool
             return localMusicLibrary;
         }
 
-        private static MusicLibrary GetRemoteMusicLibrary()
+        private static MusicLibrary GetRemoteMusicLibrary(MusicLibrary musicLibrary)
         {
             var remoteMusicLibrary = new MusicLibrary(new List<MusicLibraryItem>());
 
-            foreach (ArtistData artist in LocalMusicLibrary.Collection.Select(mli => mli.ArtistData).Distinct())
+            foreach (string artistName in musicLibrary.Collection.Select(mli => mli.ArtistData).Select(ad => ad.ArtistName).Distinct())
             {
-                RemoteMusicLibrary.AddToCollection(MetalArchivesServiceClient.FindByArtist(artist.ArtistName));
-                Console.WriteLine($"Added {artist.ArtistName} to library");
+                remoteMusicLibrary.AddToCollection(MetalArchivesServiceClient.FindByArtist(artistName));
+                Console.WriteLine($"Added {artistName} to library");
                 Thread.Sleep(3000);
             }
 
             return remoteMusicLibrary;
         }
 
-        private static void WriteResults(List<MusicLibraryItem> differences)
+        private static void WriteResults(MusicLibrary differences)
         { 
             if (!Directory.Exists(LibraryDiffOutputLocation.Parent.FullName))
             {
@@ -143,7 +133,7 @@ namespace MediaLibraryCompareTool
                 "_" + DateTime.Now.ToLongTimeString().Replace(":", "_").Replace(" ", "_") +
                 LibraryDiffOutputLocation.Extension;
 
-            string text = String.Join(Environment.NewLine, differences);
+            string text = String.Join(Environment.NewLine, differences?.Collection);
             File.WriteAllText(timestampedFileName, text);
         }
     }
