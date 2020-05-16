@@ -29,7 +29,7 @@ namespace MediaLibraryCompareTool
 
         public List<ReleaseData> Releases
         {
-            get { return Collection.Select(x => x.ReleaseData).Distinct().ToList(); }
+            get { return Collection.Select(x => x.ReleaseData).Distinct(/*TODO: create ReleaseDataEqualityComparer? */).ToList(); }
         }
 
         private MusicLibraryItemEqualityComparer LibraryItemEqualityComparer

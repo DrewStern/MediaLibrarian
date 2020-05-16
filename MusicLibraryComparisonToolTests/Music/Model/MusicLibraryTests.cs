@@ -18,7 +18,8 @@ namespace MediaLibraryCompareTool.UnitTests
             _musicLibraryTestData = new MusicLibraryTestData();
         }
 
-        // TODO: Turn this into an integration test
+        #region TODO: turn these into integration tests
+
         [TestMethod]
         public void GivenALocationOnDiskWhichDoesNotExist_WhenAttemptToParseIntoMusicLibrary_ThenExceptionIsThrown()
         {
@@ -28,7 +29,6 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.ThrowsException<ArgumentException>(() => new MusicLibrary(libraryPath));
         }
 
-        // TODO: Turn this into an integration test
         [TestMethod]
         public void GivenAnEmptyDirectoryOnDisk_WhenParsedIntoAMusicLibrary_ThenMusicLibraryShouldBeEmpty()
         {
@@ -48,7 +48,6 @@ namespace MediaLibraryCompareTool.UnitTests
             libraryPath.Delete();
         }
 
-        // TODO: Turn this into an integration test
         [TestMethod]
         public void GivenANonEmptyDirectoryOnDisk_WhenParsedIntoAMusicLibrary_ThenMusicLibraryShouldBePopulated()
         {
@@ -86,10 +85,14 @@ namespace MediaLibraryCompareTool.UnitTests
             rootPath.Delete();
         }
 
+        #endregion
+
+        #region Equals tests
+
         [TestMethod]
         public void GivenSomeMusicLibrary_WhenComparedWithNull_ThenShouldNotBeEqual()
         {
-            var l = new MusicLibrary(new List<MusicLibraryItem>());
+            var l = _musicLibraryTestData.GetEmptyLibrary();
 
             var expected = false;
             var actual = l.Equals(null);
@@ -109,9 +112,6 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.AreEqual(expected, actual);
         }
 
-        /*
-         * This is the reverse of the test above. Perhaps they could be combined?
-         */
         [TestMethod]
         public void GivenNonEmptyMusicLibrary_WhenComparedWithEmptyLibrary_ThenShouldNotBeEqual()
         {
@@ -123,6 +123,10 @@ namespace MediaLibraryCompareTool.UnitTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion
+
+        #region ToString tests
 
         [TestMethod]
         public void GivenNonEmptyMusicLibrary_WhenPrintedToString_ThenMatchesExpectedFormat()
@@ -136,6 +140,8 @@ namespace MediaLibraryCompareTool.UnitTests
 
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion
 
         [TestMethod]
         public void GivenMusicLibraryWithMultipleReleasesByTheSameArtist_WhenArtistCollectionAccessed_ThenNoDuplicateIsReturned()

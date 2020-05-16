@@ -1,15 +1,13 @@
 ﻿namespace MediaLibraryCompareTool.Interfaces
 {
-    public interface ILibraryCompareResult<TLibrary, TLibraryItem> 
-        where TLibraryItem : ILibraryItem
-        where TLibrary : ILibrary<TLibraryItem>
+    public interface ILibraryCompareResult<ILibrary, ILibraryItem> 
     {
-        TLibrary Left { get; }
-        TLibrary Right { get; }
-        TLibrary Sum { get; }
-        TLibrary Intersection { get; }
-        TLibrary LeftOutersection { get; }
-        TLibrary RightOutersection { get; }
-        TLibrary FullOutersection { get; }
+        ILibrary Left { get; }
+        ILibrary Right { get; }
+        ILibrary Sum { get; }
+        ILibrary Intersection { get; }
+        ILibrary LeftOutersection { get; }
+        ILibrary RightOutersection { get; }
+        ILibrary FullOutersection { get; }
     }
 }

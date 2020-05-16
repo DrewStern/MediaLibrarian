@@ -2,9 +2,8 @@
 
 namespace MediaLibraryCompareTool.Interfaces
 {
-    public interface ILibrary<TLibraryItem> 
-        where TLibraryItem : ILibraryItem
+    public interface ILibrary<ILibraryItem> 
     {
-        List<TLibraryItem> Collection { get; }
+        List<ILibraryItem> Collection { get; }
     }
 }

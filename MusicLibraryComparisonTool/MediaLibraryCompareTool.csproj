@@ -71,7 +71,6 @@
     <Compile Include="Interfaces\ILibrary.cs" />
     <Compile Include="Interfaces\ILibraryCompareResult.cs" />
     <Compile Include="Interfaces\ILibraryItem.cs" />
-    <Compile Include="Interfaces\IMusicLibraryItem.cs" />
     <Compile Include="Implementations\Music\Model\MusicLibraryCompareResult.cs" />
     <Compile Include="Implementations\Music\Data\MusicLibraryItem.cs" />
     <Compile Include="Implementations\Music\Data\EqualityComparers\MusicLibraryItemEqualityComparer.cs" />
