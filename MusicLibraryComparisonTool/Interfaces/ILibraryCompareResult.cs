@@ -1,6 +1,6 @@
 ﻿namespace MediaLibraryCompareTool.Interfaces
 {
-    public interface ILibraryCompareResult<ILibrary, ILibraryItem> 
+    public interface ILibraryCompareResult<ILibraryItem, ILibrary> 
     {
         ILibrary Left { get; }
         ILibrary Right { get; }

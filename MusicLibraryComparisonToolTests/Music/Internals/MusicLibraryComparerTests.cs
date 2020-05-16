@@ -3,18 +3,18 @@
 namespace MediaLibraryCompareTool.UnitTests
 {
     [TestClass]
-    public class MusicLibraryCompareServiceTests
+    public class MusicLibraryComparerTests
     {
         private static TestContext _testContext;
         private static MusicLibraryTestData _musicLibraryTestData;
-        private static MusicLibraryCompareService _musicLibraryCompareService;
+        private static MusicLibraryComparer _musicLibraryCompareService;
 
         [ClassInitialize]
         public static void InitializeMusicLibraryCompareServiceTests(TestContext testContext)
         {
             _testContext = testContext;
             _musicLibraryTestData = new MusicLibraryTestData();
-            _musicLibraryCompareService = new MusicLibraryCompareService();
+            _musicLibraryCompareService = new MusicLibraryComparer();
         }
 
         #region Sum tests
@@ -25,7 +25,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
 
             var expected = emptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, emptyLibrary).Sum;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, emptyLibrary).Sum;
 
             Assert.AreEqual(expected, actual);
         }
@@ -37,7 +37,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = nonEmptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, nonEmptyLibrary).Sum;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, nonEmptyLibrary).Sum;
 
             Assert.AreEqual(expected, actual);
         }
@@ -49,7 +49,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrarySubset = _musicLibraryTestData.GetRandomLibraryTwo();
 
             var expected = nonEmptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, nonEmptyLibrarySubset).Sum;
+            var actual = _musicLibraryCompareService.Compare(nonEmptyLibrary, nonEmptyLibrarySubset).Sum;
 
             Assert.AreEqual(expected, actual);
         }
@@ -64,7 +64,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
 
             var expected = emptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, emptyLibrary).Intersection;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, emptyLibrary).Intersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -80,7 +80,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = emptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, nonEmptyLibrary).LeftOutersection;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, nonEmptyLibrary).LeftOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -92,7 +92,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = nonEmptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, emptyLibrary).LeftOutersection;
+            var actual = _musicLibraryCompareService.Compare(nonEmptyLibrary, emptyLibrary).LeftOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -108,7 +108,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = nonEmptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, nonEmptyLibrary).RightOutersection;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, nonEmptyLibrary).RightOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -120,7 +120,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = emptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, emptyLibrary).RightOutersection;
+            var actual = _musicLibraryCompareService.Compare(nonEmptyLibrary, emptyLibrary).RightOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -135,7 +135,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var emptyLibrary = _musicLibraryTestData.GetEmptyLibrary();
 
             var expected = emptyLibrary;
-            var actual = _musicLibraryCompareService.GetCompareResult(emptyLibrary, emptyLibrary).FullOutersection;
+            var actual = _musicLibraryCompareService.Compare(emptyLibrary, emptyLibrary).FullOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -146,7 +146,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var nonEmptyLibrary = _musicLibraryTestData.GetManyToManyLibrary();
 
             var expected = _musicLibraryTestData.GetEmptyLibrary();
-            var actual = _musicLibraryCompareService.GetCompareResult(nonEmptyLibrary, nonEmptyLibrary).FullOutersection;
+            var actual = _musicLibraryCompareService.Compare(nonEmptyLibrary, nonEmptyLibrary).FullOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -158,7 +158,7 @@ namespace MediaLibraryCompareTool.UnitTests
             var library2 = _musicLibraryTestData.GetDisjointSimpleLibrary();
 
             var expected = _musicLibraryTestData.GetSumOf_ManyToManyLibrary_AndDisjointSimpleLibrary();
-            var actual = _musicLibraryCompareService.GetCompareResult(library1, library2).FullOutersection;
+            var actual = _musicLibraryCompareService.Compare(library1, library2).FullOutersection;
 
             Assert.AreEqual(expected, actual);
         }
@@ -168,7 +168,7 @@ namespace MediaLibraryCompareTool.UnitTests
         [TestMethod]
         public void WriteLibraryDiff()
         {
-            var releaseDiffs = _musicLibraryCompareService.GetCompareResult(
+            var releaseDiffs = _musicLibraryCompareService.Compare(
                 _musicLibraryTestData.GetRandomLibraryOne(), 
                 _musicLibraryTestData.GetRandomLibraryTwo());
 

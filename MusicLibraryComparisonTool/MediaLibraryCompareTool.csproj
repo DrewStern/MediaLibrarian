@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementations\Core\BaseLibraryComparer.cs" />
     <Compile Include="Implementations\Core\BaseLibraryCompareResult.cs" />
     <Compile Include="Implementations\Core\BaseLibraryItem.cs" />
     <Compile Include="Implementations\Music\Internals\ArtistData.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="Implementations\Music\Internals\MusicLibraryItem.cs" />
     <Compile Include="Implementations\Music\Internals\EqualityComparers\MusicLibraryItemEqualityComparer.cs" />
     <Compile Include="Implementations\Music\Internals\MusicLibrary.cs" />
-    <Compile Include="Implementations\Music\Internals\MusicLibraryCompareService.cs" />
+    <Compile Include="Implementations\Music\Internals\MusicLibraryComparer.cs" />
     <Compile Include="Implementations\Music\Externals\MetalArchivesServiceClient.cs" />
     <Compile Include="Implementations\Music\Externals\MetalArchivesRequest.cs" />
     <Compile Include="Implementations\Music\Externals\MetalArchivesResponse.cs" />

@@ -2,11 +2,11 @@
 
 namespace MediaLibraryCompareTool
 {
-    public class MusicLibraryCompareService
+    public class MusicLibraryComparer : BaseLibraryComparer<MusicLibraryItem, MusicLibrary, MusicLibraryCompareResult>
     {
         #region Public methods
 
-        public MusicLibraryCompareResult GetCompareResult(MusicLibrary left, MusicLibrary right)
+        public override MusicLibraryCompareResult Compare(MusicLibrary left, MusicLibrary right)
         {
             return new MusicLibraryCompareResult(
                 left, right,

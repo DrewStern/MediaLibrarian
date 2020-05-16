@@ -2,7 +2,8 @@
 
 namespace MediaLibraryCompareTool
 {
-    public abstract class BaseLibraryCompareResult<TLibrary, TLibraryItem> : ILibraryCompareResult<TLibrary, TLibraryItem>
+    public abstract class BaseLibraryCompareResult<TLibraryItem, TLibrary> 
+        : ILibraryCompareResult<TLibraryItem, TLibrary>
         where TLibraryItem : ILibraryItem
         where TLibrary : ILibrary<TLibraryItem>
     {

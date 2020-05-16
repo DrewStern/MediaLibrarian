@@ -1,5 +1,4 @@
-﻿using MediaLibraryCompareTool;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MediaLibraryCompareTool.UnitTests
 {

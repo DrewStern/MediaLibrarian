@@ -58,7 +58,7 @@
     <Compile Include="Music\Internals\MusicLibraryItemTests.cs" />
     <Compile Include="Music\Internals\MusicLibraryTests.cs" />
     <Compile Include="Music\UnitTestData\MusicLibraryTestData.cs" />
-    <Compile Include="Music\Internals\MusicLibraryCompareServiceTests.cs" />
+    <Compile Include="Music\Internals\MusicLibraryComparerTests.cs" />
     <Compile Include="Music\Externals\MetalArchivesServiceClientTests.cs" />
     <Compile Include="Music\Externals\MetalArchivesRequestTests.cs" />
     <Compile Include="Music\Externals\MetalArchivesResponseParserTests.cs" />

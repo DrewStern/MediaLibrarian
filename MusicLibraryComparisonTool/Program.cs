@@ -96,7 +96,7 @@ namespace MediaLibraryCompareTool
 
         private static MusicLibrary CompareLibraries(MusicLibrary local, MusicLibrary remote)
         {
-            return (new MusicLibraryCompareService()).GetCompareResult(local, remote).RightOutersection;
+            return (new MusicLibraryComparer()).Compare(local, remote).RightOutersection;
         }
 
         private static MusicLibrary GetLocalMusicLibrary()

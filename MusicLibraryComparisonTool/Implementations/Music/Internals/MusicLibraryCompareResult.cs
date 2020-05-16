@@ -1,6 +1,6 @@
 ﻿namespace MediaLibraryCompareTool
 {
-    public class MusicLibraryCompareResult : BaseLibraryCompareResult<MusicLibrary, MusicLibraryItem>
+    public class MusicLibraryCompareResult : BaseLibraryCompareResult<MusicLibraryItem, MusicLibrary>
     {
         public override MusicLibrary Left { get; }
 
