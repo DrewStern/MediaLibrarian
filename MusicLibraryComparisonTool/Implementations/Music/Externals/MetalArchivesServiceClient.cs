@@ -29,7 +29,7 @@ namespace MediaLibraryCompareTool
 
             var request = new MetalArchivesRequest(new ArtistData(artistName));
 
-            var response = _service.Submit(request);
+            var response = _service.Process(request);
 
             return new MusicLibrary(_parser.Parse(response).Collection
                 // looks like without the FindAll below, MA is returning any artists whose names even slightly match our request

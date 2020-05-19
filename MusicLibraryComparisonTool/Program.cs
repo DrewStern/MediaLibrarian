@@ -17,13 +17,11 @@ namespace MediaLibraryCompareTool
     [ExcludeFromCodeCoverage]
     class Program
     {
+        #region TODO: inject these
+
         private static MetalArchivesServiceClient _metalArchivesServiceClient;
         private static MetalArchivesServiceProvider _metalArchivesServiceProvider;
         private static MetalArchivesResponseParser _metalArchivesResponseParser;
-
-        private static DirectoryInfo LibraryLocation { get; set; }
-
-        private static DirectoryInfo LibraryDiffOutputLocation { get; set; }
 
         private static MetalArchivesServiceProvider MetalArchivesServiceProvider
         {
@@ -40,6 +38,17 @@ namespace MediaLibraryCompareTool
             get { return _metalArchivesServiceClient ?? (_metalArchivesServiceClient = new MetalArchivesServiceClient(MetalArchivesServiceProvider, MetalArchivesResponseParser)); }
         }
 
+        #endregion
+
+        private static Dictionary<KnownArg, string> _argMap;
+        private static Dictionary<KnownArg, string> ArgMap
+        {
+            get
+            {
+                return _argMap ?? (_argMap = new Dictionary<KnownArg, string>());
+            }
+        }
+
         /// <summary>
         /// Accepts two parameters:
         ///     "in={PathToYourMusicCollection}", 
@@ -51,15 +60,17 @@ namespace MediaLibraryCompareTool
         /// <param name="args"></param>
         static void Main(string[] args)
         {
+            InitializeArgs();
             MusicLibrary differences = null;
 
             try
             {
                 ParseArgs(args);
 
+                // TODO: stop assuming that I'm going to do MusicLibrary comparisons - need to further parse args to see what's being asked for
                 var localMusicLibrary = GetLocalMusicLibrary();
                 var remoteMusicLibrary = GetRemoteMusicLibrary(localMusicLibrary);
-                differences = CompareLibraries(localMusicLibrary, remoteMusicLibrary);
+                differences = FindItemsMissingFromLocal(localMusicLibrary, remoteMusicLibrary);
             }
             catch (Exception exc)
             {
@@ -71,37 +82,51 @@ namespace MediaLibraryCompareTool
             }
         }
 
+        private static void InitializeArgs()
+        {
+            foreach (KnownArg arg in Enum.GetValues(typeof(KnownArg)))
+            {
+                ArgMap.Add(arg, String.Empty);
+            }
+        }
+
         private static void ParseArgs(string[] args)
         {
             foreach (string arg in args)
             {
-                var argKey = arg.Split('=')[0];
-                var argValue = arg.Split('=')[1];
+                var argPair = StripArgPrefix(arg);
 
-                switch (argKey.ToUpperInvariant())
+                var argKey = argPair.Split('=')[0];
+                var argValue = argPair.Split('=')[1];
+
+                if (Enum.TryParse(argKey.ToUpperInvariant(), out KnownArg parsedArg))
                 {
-                    case "IN":
-                    case "/IN":
-                        LibraryLocation = new DirectoryInfo(argValue);
-                        break;
-                    case "OUT":
-                    case "/OUT":
-                        LibraryDiffOutputLocation = new DirectoryInfo(argValue);
-                        break;
-                    default:
-                        break;
+                    ArgMap[parsedArg] = argValue;
+                }
+                else
+                {
+                    Console.WriteLine("Unknown arg key, value ignored: " + argKey);
                 }
             }
         }
 
-        private static MusicLibrary CompareLibraries(MusicLibrary local, MusicLibrary remote)
+        private static string StripArgPrefix(string arg)
+        {
+            return
+                arg.StartsWith("--") ? arg.Replace("--", String.Empty) :
+                arg.StartsWith("-") ? arg.Replace("-", String.Empty) :
+                arg.StartsWith("/") ? arg.Replace("/", String.Empty) : 
+                arg;
+        }
+
+        private static MusicLibrary FindItemsMissingFromLocal(MusicLibrary local, MusicLibrary remote)
         {
             return (new MusicLibraryComparer()).Compare(local, remote).RightOutersection;
         }
 
         private static MusicLibrary GetLocalMusicLibrary()
         {
-            var localMusicLibrary = new MusicLibrary(LibraryLocation);
+            var localMusicLibrary = new MusicLibrary(new DirectoryInfo(ArgMap[KnownArg.INPUT]));
             Console.WriteLine($"Discovered {localMusicLibrary.Collection.Count} items on disk");
             return localMusicLibrary;
         }
@@ -112,7 +137,11 @@ namespace MediaLibraryCompareTool
 
             foreach (string artistName in musicLibrary.Collection.Select(mli => mli.ArtistData).Select(ad => ad.ArtistName).Distinct())
             {
-                remoteMusicLibrary.AddToCollection(MetalArchivesServiceClient.FindByArtist(artistName));
+                // TODO: refactor so that this method is supplied a MetalArchivesRequestBuilder, which then get handed into the client?
+                remoteMusicLibrary.AddToCollection(/*findByCountry ?
+                    MetalArchivesServiceClient.FindByCountry(artistName) :*/
+                    MetalArchivesServiceClient.FindByArtist(artistName));
+
                 Console.WriteLine($"Added {artistName} to library");
                 Thread.Sleep(3000);
             }
@@ -121,17 +150,19 @@ namespace MediaLibraryCompareTool
         }
 
         private static void WriteResults(MusicLibrary differences)
-        { 
-            if (!Directory.Exists(LibraryDiffOutputLocation.Parent.FullName))
+        {
+            DirectoryInfo resultDirectory = new DirectoryInfo(ArgMap[KnownArg.OUTPUT]);
+
+            if (!Directory.Exists(resultDirectory.Parent.FullName))
             {
-                Directory.CreateDirectory(LibraryDiffOutputLocation.Parent.FullName);
+                Directory.CreateDirectory(resultDirectory.Parent.FullName);
             }
 
             // TODO: cleanup
-            string timestampedFileName = 
-                LibraryDiffOutputLocation.FullName.Replace(LibraryDiffOutputLocation.Extension, "") + 
+            string timestampedFileName =
+                resultDirectory.FullName.Replace(resultDirectory.Extension, "") + 
                 "_" + DateTime.Now.ToLongTimeString().Replace(":", "_").Replace(" ", "_") +
-                LibraryDiffOutputLocation.Extension;
+                resultDirectory.Extension;
 
             string text = String.Join(Environment.NewLine, differences?.Collection);
             File.WriteAllText(timestampedFileName, text);

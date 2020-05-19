@@ -26,7 +26,7 @@ namespace MediaLibraryCompareTool
             _metalArchivesServiceProvider = new HttpClient { BaseAddress = new Uri(_queryEndpoint) };
         }
 
-        public MetalArchivesResponse Submit(MetalArchivesRequest request)
+        public MetalArchivesResponse Process(MetalArchivesRequest request)
         {
             if (request == null)
             {
