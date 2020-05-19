@@ -38,7 +38,7 @@ namespace MediaLibraryCompareTool
         /// <remarks>Marked as internal to allow for testing.</remarks>
         internal ArtistData GetArtistData(string htmlArtistData)
         {
-            var artistData = StripArtistDataOutHtml(htmlArtistData);
+            var artistData = StripArtistDataFromHtml(htmlArtistData);
             var artistName = ExtractArtistName(artistData);
             var country = ExtractCountry(artistData);
             return new ArtistData(artistName, country);
@@ -72,7 +72,7 @@ namespace MediaLibraryCompareTool
             return combinedArtistData.Substring(startOfCountryIndex + startOfCountryId.Length, endOfCountryIndex - startOfCountryIndex - startOfCountryId.Length);
         }
 
-        private string StripArtistDataOutHtml(string htmlArtistData)
+        private string StripArtistDataFromHtml(string htmlArtistData)
         {
             const string startOfTitleAttribute = " title=\"";
             const string endOfTitleAttribute = "\">";

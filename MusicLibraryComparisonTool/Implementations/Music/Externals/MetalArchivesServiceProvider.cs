@@ -5,7 +5,7 @@ using System.Web.Script.Serialization;
 
 namespace MediaLibraryCompareTool
 {
-    public class MetalArchivesServiceProvider
+    public sealed class MetalArchivesServiceProvider
     {
         private static int _retryLimit = 5;
         private static int _retryCount = 0;
@@ -19,11 +19,11 @@ namespace MediaLibraryCompareTool
             "bandName={0}&releaseTitle=&releaseYearFrom=&releaseMonthFrom=&releaseYearTo=&releaseMonthTo=&country=&location=&" +
             "releaseLabelName=&releaseCatalogNumber=&releaseIdentifiers=&releaseRecordingInfo=&releaseDescription=&releaseNotes=&genre=#albums";
 
-        private HttpClient _metalArchivesService { get; }
+        private HttpClient _metalArchivesServiceProvider { get; }
 
         public MetalArchivesServiceProvider()
         {
-            _metalArchivesService = new HttpClient { BaseAddress = new Uri(_queryEndpoint) };
+            _metalArchivesServiceProvider = new HttpClient { BaseAddress = new Uri(_queryEndpoint) };
         }
 
         public MetalArchivesResponse Submit(MetalArchivesRequest request)
@@ -43,7 +43,7 @@ namespace MediaLibraryCompareTool
 
             try
             {
-                var response = _metalArchivesService.GetStringAsync(request);
+                var response = _metalArchivesServiceProvider.GetStringAsync(request);
                 return new JavaScriptSerializer().Deserialize<MetalArchivesResponse>(response.Result);
             }
             catch (Exception e)
