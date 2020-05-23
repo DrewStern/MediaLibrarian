@@ -38,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,6 +48,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>MediaLibraryCompareTool.Program</StartupObject>
@@ -66,7 +68,10 @@
     <Compile Include="Implementations\Core\BaseLibraryComparer.cs" />
     <Compile Include="Implementations\Core\BaseLibraryCompareResult.cs" />
     <Compile Include="Implementations\Core\BaseLibraryItem.cs" />
-    <Compile Include="Implementations\KnownArg.cs" />
+    <Compile Include="Implementations\Core\Cli\CliHandler.cs" />
+    <Compile Include="Implementations\Core\Cli\MediaLibraryArgRegistry.cs" />
+    <Compile Include="Implementations\Core\Cli\CliArgRegistrar.cs" />
+    <Compile Include="Implementations\Music\Externals\MetalArchivesRequestBuilder.cs" />
     <Compile Include="Implementations\Music\Internals\ArtistData.cs" />
     <Compile Include="Implementations\Music\Internals\EqualityComparers\ArtistDataEqualityComparer.cs" />
     <Compile Include="Implementations\Core\BaseLibrary.cs" />

@@ -2,7 +2,7 @@
 
 namespace MediaLibraryCompareTool.UnitTests
 {
-    public class MusicLibraryTestData
+    public class MusicLibraryTestDataFactory
     {
         public MusicLibrary GetEmptyLibrary()
         {

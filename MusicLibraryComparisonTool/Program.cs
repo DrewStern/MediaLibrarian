@@ -40,14 +40,12 @@ namespace MediaLibraryCompareTool
 
         #endregion
 
-        private static Dictionary<KnownArg, string> _argMap;
-        private static Dictionary<KnownArg, string> ArgMap
-        {
-            get
-            {
-                return _argMap ?? (_argMap = new Dictionary<KnownArg, string>());
-            }
-        }
+
+        private static ArgRegistrar<MediaLibraryArgRegistry> _argRegistrar;
+
+        private static MediaLibraryCompareToolCliHandler _cliHandler;
+
+        private static Dictionary<MediaLibraryArgRegistry, string> _args;
 
         /// <summary>
         /// Accepts two parameters:
@@ -60,12 +58,13 @@ namespace MediaLibraryCompareTool
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            InitializeArgs();
+            _argRegistrar = new ArgRegistrar<MediaLibraryArgRegistry>();
+            _cliHandler = new MediaLibraryCompareToolCliHandler(_argRegistrar);
             MusicLibrary differences = null;
 
             try
             {
-                ParseArgs(args);
+                _args = _cliHandler.ParseArgs(args);
 
                 // TODO: stop assuming that I'm going to do MusicLibrary comparisons - need to further parse args to see what's being asked for
                 var localMusicLibrary = GetLocalMusicLibrary();
@@ -82,43 +81,6 @@ namespace MediaLibraryCompareTool
             }
         }
 
-        private static void InitializeArgs()
-        {
-            foreach (KnownArg arg in Enum.GetValues(typeof(KnownArg)))
-            {
-                ArgMap.Add(arg, String.Empty);
-            }
-        }
-
-        private static void ParseArgs(string[] args)
-        {
-            foreach (string arg in args)
-            {
-                var argPair = StripArgPrefix(arg);
-
-                var argKey = argPair.Split('=')[0];
-                var argValue = argPair.Split('=')[1];
-
-                if (Enum.TryParse(argKey.ToUpperInvariant(), out KnownArg parsedArg))
-                {
-                    ArgMap[parsedArg] = argValue;
-                }
-                else
-                {
-                    Console.WriteLine("Unknown arg key, value ignored: " + argKey);
-                }
-            }
-        }
-
-        private static string StripArgPrefix(string arg)
-        {
-            return
-                arg.StartsWith("--") ? arg.Replace("--", String.Empty) :
-                arg.StartsWith("-") ? arg.Replace("-", String.Empty) :
-                arg.StartsWith("/") ? arg.Replace("/", String.Empty) : 
-                arg;
-        }
-
         private static MusicLibrary FindItemsMissingFromLocal(MusicLibrary local, MusicLibrary remote)
         {
             return (new MusicLibraryComparer()).Compare(local, remote).RightOutersection;
@@ -126,7 +88,7 @@ namespace MediaLibraryCompareTool
 
         private static MusicLibrary GetLocalMusicLibrary()
         {
-            var localMusicLibrary = new MusicLibrary(new DirectoryInfo(ArgMap[KnownArg.INPUT]));
+            var localMusicLibrary = new MusicLibrary(new DirectoryInfo(_args[MediaLibraryArgRegistry.INPUT]));
             Console.WriteLine($"Discovered {localMusicLibrary.Collection.Count} items on disk");
             return localMusicLibrary;
         }
@@ -137,10 +99,10 @@ namespace MediaLibraryCompareTool
 
             foreach (string artistName in musicLibrary.Collection.Select(mli => mli.ArtistData).Select(ad => ad.ArtistName).Distinct())
             {
+                var request = BuildMetalArchivesRequest(artistName);
+
                 // TODO: refactor so that this method is supplied a MetalArchivesRequestBuilder, which then get handed into the client?
-                remoteMusicLibrary.AddToCollection(/*findByCountry ?
-                    MetalArchivesServiceClient.FindByCountry(artistName) :*/
-                    MetalArchivesServiceClient.FindByArtist(artistName));
+                remoteMusicLibrary.AddToCollection(MetalArchivesServiceClient.Submit(request));
 
                 Console.WriteLine($"Added {artistName} to library");
                 Thread.Sleep(3000);
@@ -149,9 +111,18 @@ namespace MediaLibraryCompareTool
             return remoteMusicLibrary;
         }
 
+        private static MetalArchivesRequest BuildMetalArchivesRequest(string artistName)
+        {
+            return
+                new MetalArchivesRequestBuilder()
+                    .FindByArtist(artistName)
+                    .FindOnlyFullLengths(true)
+                    .Build();
+        }
+
         private static void WriteResults(MusicLibrary differences)
         {
-            DirectoryInfo resultDirectory = new DirectoryInfo(ArgMap[KnownArg.OUTPUT]);
+            DirectoryInfo resultDirectory = new DirectoryInfo(_args[MediaLibraryArgRegistry.OUTPUT]);
 
             if (!Directory.Exists(resultDirectory.Parent.FullName))
             {
@@ -160,7 +131,7 @@ namespace MediaLibraryCompareTool
 
             // TODO: cleanup
             string timestampedFileName =
-                resultDirectory.FullName.Replace(resultDirectory.Extension, "") + 
+                resultDirectory.FullName.Replace(resultDirectory.Extension, "") +
                 "_" + DateTime.Now.ToLongTimeString().Replace(":", "_").Replace(" ", "_") +
                 resultDirectory.Extension;
 

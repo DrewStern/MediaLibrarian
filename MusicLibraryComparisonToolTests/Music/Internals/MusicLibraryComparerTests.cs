@@ -6,14 +6,14 @@ namespace MediaLibraryCompareTool.UnitTests
     public class MusicLibraryComparerTests
     {
         private static TestContext _testContext;
-        private static MusicLibraryTestData _musicLibraryTestData;
+        private static MusicLibraryTestDataFactory _musicLibraryTestData;
         private static MusicLibraryComparer _musicLibraryCompareService;
 
         [ClassInitialize]
         public static void InitializeMusicLibraryCompareServiceTests(TestContext testContext)
         {
             _testContext = testContext;
-            _musicLibraryTestData = new MusicLibraryTestData();
+            _musicLibraryTestData = new MusicLibraryTestDataFactory();
             _musicLibraryCompareService = new MusicLibraryComparer();
         }
 

@@ -29,6 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +38,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MediaLibraryCompareTool">
@@ -52,12 +54,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Cli\CliHandlerTests.cs" />
     <Compile Include="Music\Internals\ArtistDataTests.cs" />
     <Compile Include="Music\Internals\ReleaseDataTests.cs" />
     <Compile Include="Music\UnitTestData\MusicLibraryItemTestData.cs" />
     <Compile Include="Music\Internals\MusicLibraryItemTests.cs" />
     <Compile Include="Music\Internals\MusicLibraryTests.cs" />
-    <Compile Include="Music\UnitTestData\MusicLibraryTestData.cs" />
+    <Compile Include="Music\UnitTestData\MusicLibraryTestDataFactory.cs" />
     <Compile Include="Music\Internals\MusicLibraryComparerTests.cs" />
     <Compile Include="Music\Externals\MetalArchivesServiceClientTests.cs" />
     <Compile Include="Music\Externals\MetalArchivesRequestTests.cs" />

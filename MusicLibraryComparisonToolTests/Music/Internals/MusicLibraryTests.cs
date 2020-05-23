@@ -9,13 +9,13 @@ namespace MediaLibraryCompareTool.UnitTests
     public class MusicLibraryTests
     {
         private static TestContext _testContext;
-        private static MusicLibraryTestData _musicLibraryTestData;
+        private static MusicLibraryTestDataFactory _musicLibraryTestData;
 
         [ClassInitialize]
         public static void InitializeMusicLibraryTests(TestContext testContext)
         {
             _testContext = testContext;
-            _musicLibraryTestData = new MusicLibraryTestData();
+            _musicLibraryTestData = new MusicLibraryTestDataFactory();
         }
 
         #region TODO: turn these into integration tests

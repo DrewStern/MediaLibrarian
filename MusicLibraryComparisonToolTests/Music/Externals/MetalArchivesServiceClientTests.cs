@@ -17,11 +17,9 @@ namespace MediaLibraryCompareTool.UnitTests
         }
 
         [TestMethod]
-        public void GivenAFaultyArtistName_WhenCreatingRequest_ThenExceptionIsThrown()
+        public void GivenAFaultyRequest_WhenSubmitted_ThenExceptionIsThrown()
         {
-            Assert.ThrowsException<ArgumentException>(() => _client.FindByArtist(null));
-            Assert.ThrowsException<ArgumentException>(() => _client.FindByArtist(String.Empty));
-            Assert.ThrowsException<ArgumentException>(() => _client.FindByArtist("        "));
+            Assert.ThrowsException<ArgumentNullException>(() => _client.Submit(null));
         }
     }
 }
