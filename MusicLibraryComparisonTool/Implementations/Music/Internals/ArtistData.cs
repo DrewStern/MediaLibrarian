@@ -9,7 +9,7 @@ namespace MediaLibraryCompareTool
         public string Country { get; }
 
         public ArtistData(string artistName)
-            : this(artistName, String.Empty)
+            : this(artistName, string.Empty)
         {
         }
 
@@ -35,7 +35,7 @@ namespace MediaLibraryCompareTool
 
         public override string ToString()
         {
-            string optionalCountry = String.IsNullOrWhiteSpace(Country) ? String.Empty : $" ({Country})";
+            string optionalCountry = String.IsNullOrWhiteSpace(Country) ? string.Empty : $" ({Country})";
             return $"{ArtistName}{optionalCountry}";
         }
     }

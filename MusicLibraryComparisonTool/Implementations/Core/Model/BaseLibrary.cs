@@ -51,6 +51,11 @@ namespace MediaLibraryCompareTool
             return true;
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public override string ToString()
         {
             return String.Join(Environment.NewLine, Collection);

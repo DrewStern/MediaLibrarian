@@ -49,7 +49,7 @@ namespace MediaLibraryCompareTool
             catch (Exception e)
             {
                 // sleep for a bit so that Metal Archives doesn't get mad that we're sending too many requests, then just retry
-                Console.WriteLine($"Exception: {e.Message + (e.InnerException != null ? " " + e.InnerException.Message : String.Empty)}");
+                Console.WriteLine($"Exception: {e.Message + (e.InnerException != null ? " " + e.InnerException.Message : string.Empty)}");
                 Thread.Sleep(5000);
                 return _retryCount++ < _retryLimit ? GetResponseAsync(request) : null;
             }

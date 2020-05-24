@@ -1,6 +1,6 @@
 ﻿namespace MediaLibraryCompareTool
 {
-    public enum MediaLibraryArgRegistry
+    public enum MediaLibraryCliArgKey
     {
         INPUT,
         OUTPUT,

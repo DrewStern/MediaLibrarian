@@ -41,7 +41,7 @@ namespace MediaLibraryCompareTool
 
         public override string ToString()
         {
-            string optionalReleaseType = IsFullLength ? String.Empty : $" ({ReleaseType})";
+            string optionalReleaseType = IsFullLength ? string.Empty : $" ({ReleaseType})";
             return $"{ReleaseName}{optionalReleaseType}";
         }
     }

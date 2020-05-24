@@ -65,16 +65,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\Core\BaseLibraryComparer.cs" />
-    <Compile Include="Implementations\Core\BaseLibraryCompareResult.cs" />
-    <Compile Include="Implementations\Core\BaseLibraryItem.cs" />
-    <Compile Include="Implementations\Core\Cli\CliHandler.cs" />
-    <Compile Include="Implementations\Core\Cli\MediaLibraryArgRegistry.cs" />
-    <Compile Include="Implementations\Core\Cli\CliArgRegistrar.cs" />
+    <Compile Include="Cli\Implementations\CliHandler.cs" />
+    <Compile Include="Cli\Implementations\CliArgRegistrar.cs" />
+    <Compile Include="Cli\Interfaces\ICliArgRegistrar.cs" />
+    <Compile Include="Cli\Interfaces\ICliHandler.cs" />
+    <Compile Include="Implementations\Core\Model\BaseLibraryComparer.cs" />
+    <Compile Include="Implementations\Core\Model\BaseLibraryCompareResult.cs" />
+    <Compile Include="Implementations\Core\Model\BaseLibraryItem.cs" />
+    <Compile Include="MediaLibraryCliArgKey.cs" />
     <Compile Include="Implementations\Music\Externals\MetalArchivesRequestBuilder.cs" />
     <Compile Include="Implementations\Music\Internals\ArtistData.cs" />
     <Compile Include="Implementations\Music\Internals\EqualityComparers\ArtistDataEqualityComparer.cs" />
-    <Compile Include="Implementations\Core\BaseLibrary.cs" />
+    <Compile Include="Implementations\Core\Model\BaseLibrary.cs" />
     <Compile Include="Implementations\Music\Internals\EqualityComparers\ReleaseDataEqualityComparer.cs" />
     <Compile Include="Interfaces\ILibrary.cs" />
     <Compile Include="Interfaces\ILibraryComparer.cs" />
@@ -111,7 +113,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Implementations\Core\Cli\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

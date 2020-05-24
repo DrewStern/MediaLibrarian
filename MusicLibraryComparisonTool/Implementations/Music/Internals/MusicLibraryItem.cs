@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MediaLibraryCompareTool
+﻿namespace MediaLibraryCompareTool
 {
     /// <summary>
     /// Represents a release from an artist.
@@ -18,7 +16,7 @@ namespace MediaLibraryCompareTool
         }
 
         public MusicLibraryItem(string artistName, string releaseName)
-            : this(artistName, String.Empty, releaseName)
+            : this(artistName, string.Empty, releaseName)
         {
             // intentionally empty
         }

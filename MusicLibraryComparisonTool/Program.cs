@@ -7,13 +7,6 @@ using System.Threading;
 
 namespace MediaLibraryCompareTool
 {
-    /// <summary>
-    /// The purpose of this application is to compare the content of a given library of metal music against a database of known metal releases.
-    /// Primarily to help me find good things I might be missing in my collection. :)
-    /// 
-    /// TODO: provide search results from youtube for missing albums from my list?
-    /// TODO: or bandcamp
-    /// </summary>
     [ExcludeFromCodeCoverage]
     class Program
     {
@@ -40,33 +33,18 @@ namespace MediaLibraryCompareTool
 
         #endregion
 
+        private static CliArgRegistrar<MediaLibraryCliArgKey> _argRegistrar;
 
-        private static ArgRegistrar<MediaLibraryArgRegistry> _argRegistrar;
+        private static CliHandler _cliHandler;
 
-        private static MediaLibraryCompareToolCliHandler _cliHandler;
-
-        private static Dictionary<MediaLibraryArgRegistry, string> _args;
-
-        /// <summary>
-        /// Accepts two parameters:
-        ///     "in={PathToYourMusicCollection}", 
-        ///     "out={PathToLibraryComparisonResult}"
-        /// then writes a text file to the location specified by the out param.
-        /// 
-        /// The music collection is expected to be organized in the form of "{PathToYourMusicCollection}\ArtistName\AlbumName"
-        /// </summary>
-        /// <param name="args"></param>
         static void Main(string[] args)
         {
-            _argRegistrar = new ArgRegistrar<MediaLibraryArgRegistry>();
-            _cliHandler = new MediaLibraryCompareToolCliHandler(_argRegistrar);
+            _cliHandler = new CliHandler();
+            var _argRegistrar = _cliHandler.GetCliArgRegistrar<MediaLibraryCliArgKey>(args);
             MusicLibrary differences = null;
 
             try
             {
-                _args = _cliHandler.ParseArgs(args);
-
-                // TODO: stop assuming that I'm going to do MusicLibrary comparisons - need to further parse args to see what's being asked for
                 var localMusicLibrary = GetLocalMusicLibrary();
                 var remoteMusicLibrary = GetRemoteMusicLibrary(localMusicLibrary);
                 differences = FindItemsMissingFromLocal(localMusicLibrary, remoteMusicLibrary);
@@ -88,7 +66,8 @@ namespace MediaLibraryCompareTool
 
         private static MusicLibrary GetLocalMusicLibrary()
         {
-            var localMusicLibrary = new MusicLibrary(new DirectoryInfo(_args[MediaLibraryArgRegistry.INPUT]));
+            var localLibraryPath = _argRegistrar.Registry[MediaLibraryCliArgKey.INPUT];
+            var localMusicLibrary = new MusicLibrary(new DirectoryInfo(localLibraryPath));
             Console.WriteLine($"Discovered {localMusicLibrary.Collection.Count} items on disk");
             return localMusicLibrary;
         }
@@ -97,11 +76,10 @@ namespace MediaLibraryCompareTool
         {
             var remoteMusicLibrary = new MusicLibrary(new List<MusicLibraryItem>());
 
-            foreach (string artistName in musicLibrary.Collection.Select(mli => mli.ArtistData).Select(ad => ad.ArtistName).Distinct())
+            foreach (string artistName in musicLibrary.Artists.Select(ad => ad.ArtistName))
             {
                 var request = BuildMetalArchivesRequest(artistName);
 
-                // TODO: refactor so that this method is supplied a MetalArchivesRequestBuilder, which then get handed into the client?
                 remoteMusicLibrary.AddToCollection(MetalArchivesServiceClient.Submit(request));
 
                 Console.WriteLine($"Added {artistName} to library");
@@ -110,6 +88,8 @@ namespace MediaLibraryCompareTool
 
             return remoteMusicLibrary;
         }
+
+
 
         private static MetalArchivesRequest BuildMetalArchivesRequest(string artistName)
         {
@@ -122,7 +102,7 @@ namespace MediaLibraryCompareTool
 
         private static void WriteResults(MusicLibrary differences)
         {
-            DirectoryInfo resultDirectory = new DirectoryInfo(_args[MediaLibraryArgRegistry.OUTPUT]);
+            DirectoryInfo resultDirectory = new DirectoryInfo(_argRegistrar.Registry[MediaLibraryCliArgKey.OUTPUT]);
 
             if (!Directory.Exists(resultDirectory.Parent.FullName))
             {

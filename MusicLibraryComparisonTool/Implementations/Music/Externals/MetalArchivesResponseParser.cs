@@ -101,7 +101,7 @@ namespace MediaLibraryCompareTool
 
         private string StripReleaseType(string releaseData, string releaseType)
         {
-            return releaseData.Replace("(" + releaseType + ")", String.Empty).Trim();
+            return releaseData.Replace("(" + releaseType + ")", string.Empty).Trim();
         }
 
         #endregion
