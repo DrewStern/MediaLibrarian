@@ -2,8 +2,6 @@
 {
     public class MusicLibraryComparer : BaseLibraryComparer<MusicLibraryItem, MusicLibrary, MusicLibraryCompareResult>
     {
-        #region Public methods
-
         public override MusicLibraryCompareResult Compare(MusicLibrary left, MusicLibrary right)
         {
             return new MusicLibraryCompareResult(
@@ -14,7 +12,5 @@
                 GetRightOutersection(left, right),
                 GetFullOutersection(left, right));
         }
-
-        #endregion
     }
 }

@@ -10,8 +10,6 @@ namespace MediaLibraryCompareTool
     {
         public abstract List<TLibraryItem> Collection { get; }
 
-        #region TODO: add all of the below to BaseLibrary
-
         public void AddToCollection(ILibrary<TLibraryItem> l)
         {
             AddToCollection(l.Collection);
@@ -61,6 +59,4 @@ namespace MediaLibraryCompareTool
             return String.Join(Environment.NewLine, Collection);
         }
     }
-
-    #endregion
 }

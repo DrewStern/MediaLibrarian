@@ -11,7 +11,7 @@ namespace MediaLibraryCompareTool
 
             foreach (var arg in args)
             {
-                var argPair = SplitArgPair(arg);
+                var argPair = TrySplitArgPair(arg);
 
                 if (argPair == null)
                 {
@@ -38,7 +38,7 @@ namespace MediaLibraryCompareTool
             return registrar;
         }
 
-        private string[] SplitArgPair(string argPair)
+        private string[] TrySplitArgPair(string argPair)
         {
             return
                 StripArgPrefix(argPair).Split('=').Length == 2 ? StripArgPrefix(argPair).Split('=') :

@@ -10,8 +10,6 @@ namespace MediaLibraryCompareTool
     {
         public abstract TLibraryCompareResult Compare(TLibrary left, TLibrary right);
 
-        #region Protected methods
-
         protected TLibrary GetSum(TLibrary l1, TLibrary l2)
         {
             var sum = new TLibrary();
@@ -52,7 +50,5 @@ namespace MediaLibraryCompareTool
             fullOutersection.AddToCollection(rightOutersection);
             return fullOutersection;
         }
-
-        #endregion
     }
 }

@@ -61,7 +61,6 @@ namespace MediaLibraryCompareTool.UnitTests
             Assert.ThrowsException<ArgumentNullException>(() => _parser.Parse(null));
         }
 
-
         [TestMethod]
         public void GivenResponseToParse_WhenMultipleItemsAreReturned_ThenTheyShouldBeParsedCorrectly()
         {
