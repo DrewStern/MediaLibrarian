@@ -69,33 +69,33 @@
     <Compile Include="Cli\Implementations\CliArgRegistrar.cs" />
     <Compile Include="Cli\Interfaces\ICliArgRegistrar.cs" />
     <Compile Include="Cli\Interfaces\ICliHandler.cs" />
-    <Compile Include="Implementations\Core\Model\BaseLibraryComparer.cs" />
-    <Compile Include="Implementations\Core\Model\BaseLibraryCompareResult.cs" />
-    <Compile Include="Implementations\Core\Model\BaseLibraryItem.cs" />
-    <Compile Include="Implementations\Music\Externals\MetalArchivesResponseFilterer.cs" />
+    <Compile Include="Implementations\BaseLibrary\BaseLibraryComparer.cs" />
+    <Compile Include="Implementations\BaseLibrary\BaseLibraryCompareResult.cs" />
+    <Compile Include="Implementations\BaseLibrary\BaseLibraryItem.cs" />
+    <Compile Include="Implementations\MetalArchivesService\MetalArchivesResponseFilterer.cs" />
     <Compile Include="MediaLibraryCliArgKey.cs" />
-    <Compile Include="Implementations\Music\Externals\MetalArchivesRequestBuilder.cs" />
-    <Compile Include="Implementations\Music\Internals\ArtistData.cs" />
-    <Compile Include="Implementations\Music\Internals\EqualityComparers\ArtistDataEqualityComparer.cs" />
-    <Compile Include="Implementations\Core\Model\BaseLibrary.cs" />
-    <Compile Include="Implementations\Music\Internals\EqualityComparers\ReleaseDataEqualityComparer.cs" />
+    <Compile Include="Implementations\MetalArchivesService\MetalArchivesRequestBuilder.cs" />
+    <Compile Include="Implementations\MusicLibrary\Data\ArtistData.cs" />
+    <Compile Include="Implementations\MusicLibrary\EqualityComparers\ArtistDataEqualityComparer.cs" />
+    <Compile Include="Implementations\BaseLibrary\BaseLibrary.cs" />
+    <Compile Include="Implementations\MusicLibrary\EqualityComparers\ReleaseDataEqualityComparer.cs" />
     <Compile Include="Interfaces\ILibrary.cs" />
     <Compile Include="Interfaces\ILibraryComparer.cs" />
     <Compile Include="Interfaces\ILibraryCompareResult.cs" />
     <Compile Include="Interfaces\ILibraryItem.cs" />
-    <Compile Include="Implementations\Music\Internals\MusicLibraryCompareResult.cs" />
-    <Compile Include="Implementations\Music\Internals\MusicLibraryItem.cs" />
-    <Compile Include="Implementations\Music\Internals\EqualityComparers\MusicLibraryItemEqualityComparer.cs" />
-    <Compile Include="Implementations\Music\Internals\MusicLibrary.cs" />
-    <Compile Include="Implementations\Music\Internals\MusicLibraryComparer.cs" />
-    <Compile Include="Implementations\Music\Externals\MetalArchivesServiceClient.cs" />
-    <Compile Include="Implementations\Music\Externals\MetalArchivesRequest.cs" />
-    <Compile Include="Implementations\Music\Externals\MetalArchivesResponse.cs" />
-    <Compile Include="Implementations\Music\Externals\MetalArchivesResponseParser.cs" />
-    <Compile Include="Implementations\Music\Externals\MetalArchivesServiceProvider.cs" />
+    <Compile Include="Implementations\MusicLibrary\MusicLibraryCompareResult.cs" />
+    <Compile Include="Implementations\MusicLibrary\MusicLibraryItem.cs" />
+    <Compile Include="Implementations\MusicLibrary\EqualityComparers\MusicLibraryItemEqualityComparer.cs" />
+    <Compile Include="Implementations\MusicLibrary\MusicLibrary.cs" />
+    <Compile Include="Implementations\MusicLibrary\MusicLibraryComparer.cs" />
+    <Compile Include="Implementations\MetalArchivesService\MetalArchivesServiceClient.cs" />
+    <Compile Include="Implementations\MetalArchivesService\MetalArchivesRequest.cs" />
+    <Compile Include="Implementations\MetalArchivesService\MetalArchivesResponse.cs" />
+    <Compile Include="Implementations\MetalArchivesService\MetalArchivesResponseParser.cs" />
+    <Compile Include="Implementations\MetalArchivesService\MetalArchivesServiceProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implementations\Music\Internals\ReleaseData.cs" />
+    <Compile Include="Implementations\MusicLibrary\Data\ReleaseData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -114,9 +114,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Implementations\Core\Cli\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

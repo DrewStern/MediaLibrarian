@@ -10,11 +10,11 @@ namespace MediaLibrarian
     {
         public abstract TLibraryCompareResult Compare(TLibrary left, TLibrary right);
 
-        protected TLibrary GetSum(TLibrary l1, TLibrary l2)
+        protected TLibrary GetSum(TLibrary left, TLibrary right)
         {
             var sum = new TLibrary();
-            sum.AddToCollection(l1);
-            sum.AddToCollection(l2);
+            sum.AddToCollection(left);
+            sum.AddToCollection(right);
             return sum;
         }
 
