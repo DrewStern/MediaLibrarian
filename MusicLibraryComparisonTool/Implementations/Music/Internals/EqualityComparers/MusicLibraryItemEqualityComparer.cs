@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     public class MusicLibraryItemEqualityComparer : IEqualityComparer<MusicLibraryItem>
     {

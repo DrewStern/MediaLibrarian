@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     public class MusicLibrary : BaseLibrary<MusicLibraryItem>
     {

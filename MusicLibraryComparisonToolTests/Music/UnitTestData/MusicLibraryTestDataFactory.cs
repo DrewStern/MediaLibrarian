@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MediaLibraryCompareTool.UnitTests
+namespace MediaLibrarian.UnitTests
 {
     public class MusicLibraryTestDataFactory
     {
@@ -9,7 +9,7 @@ namespace MediaLibraryCompareTool.UnitTests
             return new MusicLibrary(new List<MusicLibraryItem> { });
         }
 
-        public MusicLibrary GetDuplicatedDataLibrary()
+        public MusicLibrary GetLibraryWithDuplicateData()
         {
             return new MusicLibrary(new List<MusicLibraryItem>
             {

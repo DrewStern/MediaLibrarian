@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 
-namespace MediaLibraryCompareTool.UnitTests
+namespace MediaLibrarian.UnitTests
 {
     [TestClass]
     public class CliHandlerTests

@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace MediaLibraryCompareTool.UnitTests
+namespace MediaLibrarian.UnitTests
 {
     [TestClass]
     public class MetalArchivesRequestTests

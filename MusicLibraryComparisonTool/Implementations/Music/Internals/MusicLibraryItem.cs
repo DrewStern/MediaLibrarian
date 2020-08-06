@@ -1,4 +1,4 @@
-﻿namespace MediaLibraryCompareTool
+﻿namespace MediaLibrarian
 {
     /// <summary>
     /// Represents a release from an artist.

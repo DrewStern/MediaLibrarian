@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     public class ArtistDataEqualityComparer : IEqualityComparer<ArtistData>
     {

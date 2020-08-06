@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace MediaLibraryCompareTool.UnitTests
+namespace MediaLibrarian.UnitTests
 {
     [TestClass]
     public class MetalArchivesClientTests
@@ -13,7 +13,8 @@ namespace MediaLibraryCompareTool.UnitTests
         {
             var maService = new MetalArchivesServiceProvider();
             var maResponseParser = new MetalArchivesResponseParser();
-            _client = new MetalArchivesServiceClient(maService, maResponseParser);
+            var maResponseFilterer = new MetalArchivesResponseFilterer();
+            _client = new MetalArchivesServiceClient(maService, maResponseParser, maResponseFilterer);
         }
 
         [TestMethod]

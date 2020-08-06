@@ -1,9 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.IO;
 
-namespace MediaLibraryCompareTool.UnitTests
+namespace MediaLibrarian.UnitTests
 {
     [TestClass]
     public class MusicLibraryTests
@@ -155,7 +154,7 @@ namespace MediaLibraryCompareTool.UnitTests
         [TestMethod]
         public void GivenLibraryWithDuplicateItems_WhenAccessed_ThenDuplicateItemsIgnored()
         {
-            var l = _musicLibraryTestData.GetDuplicatedDataLibrary();
+            var l = _musicLibraryTestData.GetLibraryWithDuplicateData();
             Assert.AreEqual(1, l.Collection.Count);
             Assert.AreEqual(1, l.Artists.Count);
             Assert.AreEqual(1, l.Releases.Count);

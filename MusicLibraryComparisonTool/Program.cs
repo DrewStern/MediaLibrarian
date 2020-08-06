@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     [ExcludeFromCodeCoverage]
     class Program
@@ -15,6 +15,7 @@ namespace MediaLibraryCompareTool
         private static MetalArchivesServiceClient _metalArchivesServiceClient;
         private static MetalArchivesServiceProvider _metalArchivesServiceProvider;
         private static MetalArchivesResponseParser _metalArchivesResponseParser;
+        private static MetalArchivesResponseFilterer _metalArchivesResponseFilterer;
 
         private static MetalArchivesServiceProvider MetalArchivesServiceProvider
         {
@@ -26,9 +27,14 @@ namespace MediaLibraryCompareTool
             get { return _metalArchivesResponseParser ?? (_metalArchivesResponseParser = new MetalArchivesResponseParser()); }
         }
 
+        private static MetalArchivesResponseFilterer MetalArchivesResponseFilterer
+        {
+            get { return _metalArchivesResponseFilterer ?? (_metalArchivesResponseFilterer = new MetalArchivesResponseFilterer()); }
+        }
+
         private static MetalArchivesServiceClient MetalArchivesServiceClient
         {
-            get { return _metalArchivesServiceClient ?? (_metalArchivesServiceClient = new MetalArchivesServiceClient(MetalArchivesServiceProvider, MetalArchivesResponseParser)); }
+            get { return _metalArchivesServiceClient ?? (_metalArchivesServiceClient = new MetalArchivesServiceClient(MetalArchivesServiceProvider, MetalArchivesResponseParser, MetalArchivesResponseFilterer)); }
         }
 
         #endregion

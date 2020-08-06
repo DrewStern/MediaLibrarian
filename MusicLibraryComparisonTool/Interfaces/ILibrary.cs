@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MediaLibraryCompareTool.Interfaces
+namespace MediaLibrarian.Interfaces
 {
     public interface ILibrary<ILibraryItem> 
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     public class MetalArchivesServiceClient
     {
@@ -8,10 +8,13 @@ namespace MediaLibraryCompareTool
 
         private MetalArchivesResponseParser _parser { get; }
 
-        public MetalArchivesServiceClient(MetalArchivesServiceProvider service, MetalArchivesResponseParser parser)
+        private MetalArchivesResponseFilterer _filterer { get; }
+
+        public MetalArchivesServiceClient(MetalArchivesServiceProvider service, MetalArchivesResponseParser parser, MetalArchivesResponseFilterer filterer)
         {
             _service = service;
             _parser = parser;
+            _filterer = filterer;
         }
 
         public MusicLibrary Submit(MetalArchivesRequest request)
@@ -23,11 +26,9 @@ namespace MediaLibraryCompareTool
 
             var response = _service.Process(request);
 
-            return new MusicLibrary(_parser.Parse(response).Collection
-                // looks like without the FindAll below, MA is returning any artists whose names even slightly match our request
-                // ensuring that the discovered artistname starts the same as the desired artistname helps prevent this
-                .FindAll(x => x.ArtistData.ArtistName.StartsWith(request.ArtistName))
-                .FindAll(x => x.ReleaseData.IsFullLength));
+            var musicLibrary = new MusicLibrary(_parser.Parse(response).Collection);
+
+            return _filterer.Filter(musicLibrary, request);
         }
     }
 }

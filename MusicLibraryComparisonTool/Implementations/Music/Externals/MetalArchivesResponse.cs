@@ -1,4 +1,4 @@
-﻿namespace MediaLibraryCompareTool
+﻿namespace MediaLibrarian
 {
     /// <summary>
     /// Represents the full JSON object body received back from Metal Archives.

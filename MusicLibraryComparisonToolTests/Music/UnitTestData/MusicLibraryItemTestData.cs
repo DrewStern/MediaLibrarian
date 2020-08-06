@@ -1,4 +1,4 @@
-﻿namespace MediaLibraryCompareTool.UnitTests
+﻿namespace MediaLibrarian.UnitTests
 {
     class MusicLibraryItemTestData
     {

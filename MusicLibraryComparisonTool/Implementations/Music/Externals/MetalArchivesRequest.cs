@@ -1,4 +1,4 @@
-﻿namespace MediaLibraryCompareTool
+﻿namespace MediaLibrarian
 {
     public class MetalArchivesRequest
     {

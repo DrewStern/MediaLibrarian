@@ -1,6 +1,6 @@
-﻿using MediaLibraryCompareTool.Interfaces;
+﻿using MediaLibrarian.Interfaces;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     public abstract class BaseLibraryComparer<TLibraryItem, TLibrary, TLibraryCompareResult> 
         : ILibraryComparer<TLibraryItem, TLibrary, TLibraryCompareResult>

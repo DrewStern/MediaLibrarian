@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     public class ReleaseData
     {

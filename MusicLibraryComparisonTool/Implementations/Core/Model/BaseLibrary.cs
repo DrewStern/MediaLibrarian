@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using MediaLibraryCompareTool.Interfaces;
+using MediaLibrarian.Interfaces;
 
-namespace MediaLibraryCompareTool
+namespace MediaLibrarian
 {
     public abstract class BaseLibrary<TLibraryItem> 
         : ILibrary<TLibraryItem>
