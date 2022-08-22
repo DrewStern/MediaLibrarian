@@ -96,14 +96,12 @@ namespace MediaLibrarian
         }
 
 
-
         private static MetalArchivesRequest BuildMetalArchivesRequest(string artistName)
         {
-            return
-                new MetalArchivesRequestBuilder()
-                    .FindByArtist(artistName)
-                    .FindOnlyFullLengths(true)
-                    .Build();
+            return new MetalArchivesRequestBuilder()
+                .FindByArtist(artistName)
+                .FindOnlyFullLengths(true)
+                .Build();
         }
 
         private static void WriteResults(MusicLibrary differences)

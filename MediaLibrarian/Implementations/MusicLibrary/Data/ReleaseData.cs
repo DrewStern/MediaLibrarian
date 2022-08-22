@@ -10,7 +10,7 @@ namespace MediaLibrarian
 
         public bool IsFullLength
         {
-            get { return ReleaseType.ToUpperInvariant().Equals("FULL-LENGTH"); }
+            get { return "FULL-LENGTH".Equals(ReleaseType.ToUpperInvariant()); }
         }
 
         public ReleaseData(string releaseName)
@@ -41,8 +41,8 @@ namespace MediaLibrarian
 
         public override string ToString()
         {
-            string optionalReleaseType = IsFullLength ? string.Empty : $" ({ReleaseType})";
-            return $"{ReleaseName}{optionalReleaseType}";
+            string optionalReleaseType = IsFullLength ? string.Empty : $"({ReleaseType})";
+            return $"{ReleaseName} {optionalReleaseType}";
         }
     }
 }

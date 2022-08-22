@@ -38,7 +38,7 @@ namespace MediaLibrarian
         /// <remarks>Marked as internal to allow for testing.</remarks>
         internal ArtistData GetArtistData(string htmlArtistData)
         {
-            var artistData = StripArtistDataFromHtml(htmlArtistData);
+            var artistData = ExtractArtistData(htmlArtistData);
             var artistName = ExtractArtistName(artistData);
             var country = ExtractCountry(artistData);
             return new ArtistData(artistName, country);
@@ -48,13 +48,26 @@ namespace MediaLibrarian
         internal ReleaseData GetReleaseData(string htmlReleaseData, string htmlReleaseType)
         {
             var releaseType = htmlReleaseType;
-            var artistName = StripReleaseType(ExtractReleaseData(htmlReleaseData), releaseType);
+            var artistName = ExtractReleaseType(ExtractReleaseData(htmlReleaseData), releaseType);
             return new ReleaseData(artistName, releaseType);
         }
 
         #endregion
 
         #region Private methods
+
+        private string ExtractArtistData(string htmlArtistData)
+        {
+            const string startOfTitleAttribute = " title=\"";
+            const string endOfTitleAttribute = "\">";
+
+            int startOfTitleAttributeIndex = htmlArtistData.IndexOf(startOfTitleAttribute);
+            int endOfTitleAttributeIndex = htmlArtistData.IndexOf(endOfTitleAttribute);
+
+            return htmlArtistData.Substring(
+                startOfTitleAttributeIndex + startOfTitleAttribute.Length,
+                endOfTitleAttributeIndex - startOfTitleAttributeIndex - startOfTitleAttribute.Length);
+        }
 
         private string ExtractArtistName(string combinedArtistData)
         {
@@ -72,19 +85,6 @@ namespace MediaLibrarian
             return combinedArtistData.Substring(startOfCountryIndex + startOfCountryId.Length, endOfCountryIndex - startOfCountryIndex - startOfCountryId.Length);
         }
 
-        private string StripArtistDataFromHtml(string htmlArtistData)
-        {
-            const string startOfTitleAttribute = " title=\"";
-            const string endOfTitleAttribute = "\">";
-
-            int startOfTitleAttributeIndex = htmlArtistData.IndexOf(startOfTitleAttribute);
-            int endOfTitleAttributeIndex = htmlArtistData.IndexOf(endOfTitleAttribute);
-
-            return htmlArtistData.Substring(
-                startOfTitleAttributeIndex + startOfTitleAttribute.Length,
-                endOfTitleAttributeIndex - startOfTitleAttributeIndex - startOfTitleAttribute.Length);
-        }
-
         private string ExtractReleaseData(string dirtiedReleaseName)
         {
             // we use these to determine the begin/end of the html wrapping the album name
@@ -99,7 +99,7 @@ namespace MediaLibrarian
             return dirtiedReleaseName.Substring(endOfOpenHtmlIndex + endOfOpenHtmlTag.Length, startOfCloseHtmlIndex - endOfOpenHtmlIndex - endOfOpenHtmlTag.Length);
         }
 
-        private string StripReleaseType(string releaseData, string releaseType)
+        private string ExtractReleaseType(string releaseData, string releaseType)
         {
             return releaseData.Replace("(" + releaseType + ")", string.Empty).Trim();
         }

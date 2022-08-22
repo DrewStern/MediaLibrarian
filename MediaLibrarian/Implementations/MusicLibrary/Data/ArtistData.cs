@@ -35,8 +35,8 @@ namespace MediaLibrarian
 
         public override string ToString()
         {
-            string optionalCountry = String.IsNullOrWhiteSpace(Country) ? string.Empty : $" ({Country})";
-            return $"{ArtistName}{optionalCountry}";
+            string optionalCountry = String.IsNullOrWhiteSpace(Country) ? string.Empty : $"({Country})";
+            return $"{ArtistName} {optionalCountry}";
         }
     }
 }
